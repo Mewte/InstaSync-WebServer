@@ -1,0 +1,143 @@
+<% layout('../layout/template') -%>
+<div class="room-container">
+	<div class='room-header'>
+		<div class="row room-header-row">
+			<div class="col-xs-12">
+				<div style="float:right;">
+					<div><i class="fa fa-eye">1,202,112</i></div>
+					<div><i class="fa fa-eye">43</i></div>
+					<div><i class="fa fa-eye"></i></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row room-component-row">
+		<div class="col-sm-8 col-xs-12 column">
+			<div id="media"></div>
+		</div>
+		<div class="col-sm-4 col-xs-12 column">
+			<div class="chat">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs chat-tabs" role="tablist">
+					<li id="tabs_chat" class="active">
+						<a class='active_tooltip' data-original-title="Chat" href="#tabs_chat_content" data-toggle="tab" rel="tooltip" data-placement="bottom">
+							<i class="fa fa-comments"></i>
+							<span class="badge unread-msg-count"></span>
+						</a>
+					</li>
+					<li>
+						<a class='active_tooltip' data-original-title="Users" href="#tabs_users_content" data-toggle="tab" rel="tooltip" data-placement="bottom">
+							<i class="fa fa-users"></i>
+							<span class="badge user-count"></span>
+						</a>
+					</li>
+					<li>
+						<a class='active_tooltip' id="#tabs_polls" data-original-title="Polls" href="#tabs_polls_content" data-toggle="tab" rel="tooltip" data-placement="bottom">
+							<i class="fa fa-bar-chart"></i>
+						</a>
+					</li>
+					<li>
+						<a class='active_tooltip' data-original-title="Settings" href="#tabs_chat_settings_content" data-toggle="tab" rel="tooltip" data-placement="bottom">
+							<i class="fa fa-cog"></i>
+						</a>
+					</li>
+				</ul>
+				<div class="tab-content chat-tabs-content">
+					<div class="tab-pane active" id='tabs_chat_content'>
+						<div id="chat_messages" class="chat-messages"></div>
+						<div class="input">
+							<input id="cin" type="text" style="display: none;" disabled/>
+							<div id='join' style='display: none;' class="input-group">
+								<input id='join_username' type="text" class="form-control" placeholder='Enter a username'>
+								<span class="input-group-btn">
+									<button id='join_btn' class="btn btn-default" type="button">Join</button>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="tabs_users_content">
+						<div class="here-now">
+							<ol id="user_list" class="user-list"></ol>
+						</div>
+						<div class="recent">
+
+						</div>
+					</div>
+					<div class="tab-pane" id="tabs_polls_content">
+
+					</div>
+					<div class="tab-pane" id="tabs_chat_settings_content"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8 col-xs-12 column">
+			<div class="room-info">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="active">
+						<a class='active_tooltip' data-original-title="Playlist" href="#tabs_playlist" data-toggle="tab" rel="tooltip" data-placement="bottom">
+							<i class="fa fa-list-ul"></i>
+						</a>
+					</li>
+					<li>
+						<a class='active_tooltip' data-original-title="Settings" href="#tabs_playlist_settings" data-toggle="tab" rel="tooltip" data-placement="bottom">
+							<i class="fa fa-cog"></i>
+						</a>
+					</li>
+					<li class="skip-controls">
+						<div class="skip-counter">
+							<div id="skip_button">
+								<i class="fa fa-step-forward active_tooltip" data-original-title="Vote to Skip" data-placement="bottom"></i>
+							</div>
+							<div id="skip_counter">
+								2/10
+							</div>
+						</div>
+					</li>
+					<li class="add-video">
+						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Add Video <strong class="caret"></strong></a>
+						<div class="dropdown-menu dropdown-form">
+							<div class="form">
+								<div id="add_video_error" class="active_tooltip" data-original-title="YouTube, Vimeo, Dailymotion, Twitch.TV URL" data-placement="bottom">
+									<input id="add_video" type="text" class="form-control" placeholder="Source URL">
+								</div>
+								<div id='invalid_login_message' class="text-danger">
+								</div>
+								<button id="add_video_btn" class="btn btn-xs btn-primary btn-block form-submit">Add <span style="padding-left: 5px;" class="glyphicon glyphicon-plus"></span> </button>
+								<div class="supported-media-types">
+
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="tabs_playlist">
+						<ol class="playlist" id="playlist"></ol>
+						<div class="playlist-stats">
+							<div id="playlist_duration"></div>
+							<div id="playlist_count"></div>
+						</div>
+					</div>
+					<div class="tab-pane" id="tabs_playlist_settings">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type='text/javascript'>
+	/*
+	 * initalize some room properties
+	 */
+	var ROOM_NAME = <%- '"' + room.room_name + '"'%>;
+</script>
+<!-- Start with room, each js file is self executing and attachs itself to the global 'room' object -->
+<script type='text/javascript' src="/js/room/room.js"></script>
+<script type='text/javascript' src="/js/room/room_socket.js"></script>
+<script type='text/javascript' src="/js/room/room_bindings.js"></script>
+<script type='text/javascript' src="/js/room/room_playlist.js"></script>
+<script type='text/javascript' src="/js/room/room_userlist.js"></script>
+<script type='text/javascript' src="/js/room/player.js"></script>

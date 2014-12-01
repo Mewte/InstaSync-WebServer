@@ -1,0 +1,44 @@
+<% layout('../layout/template') -%>
+<script type='text/javascript'>
+	//Set class=active for active nav item
+	$("#home_nav_item").addClass("active");
+</script>
+<div class="page-container">
+	<div class="home">
+		<div class="row">
+			<div class="col-sm-6 col-xs-12 section">
+				<h3>What is InstaSync?</h3>
+				<p>
+					InstaSync (Inspired by SynchTube) is a place that allows users to watch synchronized videos with each other and chat in real time, fully synchronized!
+				</p>
+			</div>
+			<div class="col-sm-6 col-xs-12 section">
+				<h3>Awesome! But how do I get started?</h3>
+				<p>
+					Simply visit any room you'd like and you can begin chatting as an unregistered user.
+					If you'd like to have all the features (adding videos, voting, friends list, and profile) you must register.
+				</p>
+			</div>
+			<div class="col-sm-6 col-xs-12 section">
+				<h3>
+					What about my own room?
+				</h3>
+				<p>
+					When you register, you also create a room in your name. To access this room,
+					log in and click My Room from the settings drop down menu (accessed by clicking on your name in the top right corner.)
+				</p>
+			</div>
+			<div class="col-sm-6 col-xs-12 section">
+				<h3>But I need more help than that!</h3>
+				<p>
+					Check out the <a href="/pages/help">Help</a> page!<br />
+					Questions/Comments? Email me at: <strong>admin@instasync.com</strong>
+				</p>
+			</div>
+		</div>
+	</div>
+	<h3>Public Rooms</h3>
+	<div class="row rooms">
+		<%- partial('partials/room', rooms) %>
+	</div>
+</div>

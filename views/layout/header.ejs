@@ -1,0 +1,102 @@
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">InstaSync</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li id="home_nav_item">
+					<a href="/">
+						<span class="glyphicon glyphicon-home"></span> Home
+					</a>
+                </li>
+                <li id="help_nav_item">
+					<a href="/pages/help"><span class=" glyphicon glyphicon-info-sign"></span> Help</a>
+                </li>
+                <li id="about_nav_item" class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">About <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li id="terms_nav_item">
+							<a href="/pages/terms">Terms Of Service</a>
+                        </li>
+                        <li id="privacy_nav_item">
+							<a href="/pages/privacy">Privacy Policy</a>
+                        </li>
+                        <li id="dmca_nav_item">
+							<a href="/pages/dmca">DMCA</a>
+                        </li>
+                        <li>
+							<a href="/pages/contact">Contact</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+				<li id="user_dropdown" class="dropdown" style="display: none;">
+					<a class="dropdown-toggle" href="" data-toggle="dropdown"><span class="fa fa-user"></span> <span id="logged_in_as">Mewte</span> <strong class="caret"></strong></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a id="my_room_link" href=""><span class="glyphicon glyphicon-home"></span> My Room</a>
+						</li>
+						<li>
+							<a href=""><span class="glyphicon glyphicon-cog"></span> Settings</a>
+						</li>
+						<li>
+							<a id="logout" href=""><span class="fa fa-sign-out"></span> Logout</a>
+						</li>
+					</ul>
+				</li>
+				<li id="login_dropdown" class="dropdown" style="display: none;">
+					<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+					<div class="dropdown-menu dropdown-form">
+						<div class="form login-form" role="form">
+							<h4>Sign In</h4>
+							<div id="login_inputs">
+								<input id="login_username" type="text" class="form-control" placeholder="Username" required autofocus>
+								<input id="login_password" type="password" class="form-control" placeholder="Password" required>
+							</div>
+							<div id='invalid_login_message' class="text-danger">
+							</div>
+							<a href='/user/forgotpassword'>Forgot your password?</a>
+							<button id="login" class="btn btn-xs btn-primary btn-block form-submit">Sign in <span style="padding-left: 5px;" class="glyphicon glyphicon-log-in"></span> </button>
+						</div>
+					</div>
+				</li>
+				<li id="register_dropdown" class="dropdown" style="display: none;">
+					<a class="dropdown-toggle" href="#" data-toggle="dropdown">Register <strong class="caret"></strong></a>
+					<div class="dropdown-menu dropdown-form">
+						<div class="form register-form" role="form">
+							<h4>Register</h4>
+							<div id="register_username_box">
+								<input id="register_username" type="text" class="form-control" placeholder="Username" maxlength="15" required autofocus>
+							</div>
+							<div id="register_password_box">
+								<input id="register_password" type="password" class="form-control" placeholder="Password" required>
+							</div>
+							<div id="register_confirm_password_box">
+								<input id="register_confirm_password" type="password" class="form-control" placeholder="Confirm Password" required>
+							</div>
+							<div id="register_email_box">
+								<input id="register_email" class="form-control" placeholder="Email" required maxlength="255">
+								<span data-toggle="tooltip" data-placement="left" title="We do not sell email addresses to third parties. We only use email addresses for password resets and important announcements." class="active_tooltip email-policy glyphicon glyphicon-question-sign"></span>
+							</div>
+							<div class="checkbox">
+								<span class="" style="display: inline-block; padding-top: 3px;">By using this site, you agree to the <a href="/pages/terms" target="_blank">Terms Of Service</a>.</span>
+							</div>
+							<div id='invalid_register_message' class="text-danger">
+							</div>
+							<button id="register" class="btn btn-xs btn-primary btn-block form-submit">Register <span style="padding-left: 5px;" class="glyphicon glyphicon-log-in"></span> </button>
+						</div>
+					</div>
+				</li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</div>

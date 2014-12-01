@@ -1,0 +1,16 @@
+<div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 room">
+	<div class="room-thumbnail">
+		<a href="/r/<%= room.room_name %>">
+			<img class="img-responsive" style="width: 100%; height: 100%;" src="<%= room.thumbnail %>" alt="">
+		</a>
+	</div>
+	<div class="title">
+		<a href="/r/<%= room.room_name %>"><%= room.title.substring(0,64) %></a>
+	</div>
+	<div class="room-name">
+		in <a href="/r/<%= room.room_name %>"><strong><%= room.room_name %></strong></a>
+	</div>
+	<div class="visits">
+		<%= commaSeparateNumber(room.visits) %> visits
+	</div>
+</div>

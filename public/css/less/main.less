@@ -1,0 +1,111 @@
+@logofont: 'Lobster', cursive;
+@fontA: 'Droid Sans', sans-serif;
+html {
+  position: relative;
+  min-height: 100%;
+}
+body{
+	background-image: url('/images/bg2.png');
+	background-repeat: repeat;
+	font-family: @fontA;
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+h3{
+	font-family: 'Dosis', sans-serif;
+	font-weight: 800;
+}
+p{
+    font-size: 14px;
+}
+i{
+	color: rgb(104,104,104);
+	cursor: pointer;
+}
+i:hover{
+	color: rgb(34,34,34);
+}
+.nav-tabs a{
+	outline: 0;
+}
+.nav-tabs .tooltip .tooltip-inner{
+    white-space:pre;
+    max-width:none;
+}
+.no-wrap-ellipsis{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+/* navbar stuff ----------------- */
+/* dropdown menu stuff */
+.dropdown-menu{
+	/* box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.576); */
+}
+.dropdown-menu.dropdown-form {
+  width: 300px;
+}
+.dropdown-menu.dropdown-form{
+	padding: 5px;
+	padding-bottom: 0px;
+}
+.dropdown-menu.dropdown-form .form{
+	margin: 10px;
+	font-size: 11px;
+}
+.dropdown-menu.dropdown-form .form input[type="text"], .dropdown-menu.dropdown-form .form input[type="password"]{
+	margin-bottom: 4px;
+}
+.dropdown-menu.dropdown-form .form .error{
+	font-size: 12px;
+	color: #A94442;
+}
+.dropdown-menu.dropdown-form .form .form-submit{
+	margin-top: 5px;
+}
+.register-form .email-policy{
+	margin: 4px;
+	display: block;
+	font-size: 14px;
+	float: right; cursor:
+	pointer; z-index: 5;
+}
+/*---------------------*/
+.navbar .navbar-brand{
+	font-size: 20px;
+	font-family: @logofont;
+}
+.navbar-collapse.in { /* Fix scrollbar on collapsed nav */
+    overflow-y: visible;
+	max-height: 100%;
+	/*Note: for smaller devices, may need to allow scrollbar so those users can sign in */
+}
+/* --------------------------------------- */
+@media(max-width:767px){
+	.container{
+		margin-left: 0px !important;
+		margin-right: 0px !important;
+		padding-left: 5px !important;
+		padding-right: 5px !important;
+	}
+}
+@media(min-width:768px){
+	.container{
+		padding-left: 0px !important;
+		padding-right: 0px !important;
+	}
+}
+@media(min-width:992px){
+
+}
+@media(min-width:1200px){
+
+}
