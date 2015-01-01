@@ -1,6 +1,6 @@
 <% layout('../layout/template') -%>
 <div class="room-container">
-	<div class='room-header'>
+	<div class='room-header' style="display: none;">
 		<div class="row room-header-row">
 			<div class="col-xs-12">
 				<div style="float:right;">
@@ -98,15 +98,12 @@
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Add Video <strong class="caret"></strong></a>
 						<div class="dropdown-menu dropdown-form">
 							<div class="form">
-								<div id="add_video_error" class="active_tooltip" data-original-title="YouTube, Vimeo, Dailymotion, Twitch.TV URL" data-placement="bottom">
-									<input id="add_video" type="text" class="form-control" placeholder="Source URL">
+								<div>
+									<input id="add_video_url" type="text" class="form-control" placeholder="Source URL">
 								</div>
 								<div id='invalid_login_message' class="text-danger">
 								</div>
-								<button id="add_video_btn" class="btn btn-xs btn-primary btn-block form-submit">Add <span style="padding-left: 5px;" class="glyphicon glyphicon-plus"></span> </button>
-								<div class="supported-media-types">
-
-								</div>
+								<button id="add_video_btn" class="btn btn-xs btn-primary btn-block form-submit active_tooltip" data-original-title="Supports YouTube, Vimeo, Dailymotion, Twitch.TV" data-placement="bottom">Add <span style="padding-left: 5px;" class="glyphicon glyphicon-plus"></span></button>
 							</div>
 						</div>
 					</li>

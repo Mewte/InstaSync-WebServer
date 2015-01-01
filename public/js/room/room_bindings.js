@@ -46,6 +46,15 @@ function onReady(room, socket){
 		if (e.which == 13)
 			join();
 	});
+	$("#add_video_btn").click(function(){
+		var url = $("#add_video_url").val();
+		if (url.trim() != '')
+		{
+			console.log(url);
+			socket.sendcmd('add', {URL: url});
+		}
+		$('#add_video_url').val('');
+	});
 	function join(){
 		var username = $('#join_username').val();
 		if (username != '' && username['match'](/^([A-Za-z0-9]|([-_](?![-_]))){1,16}$/) != null)

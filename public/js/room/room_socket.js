@@ -55,7 +55,7 @@ room.setSocket(new function (room){
 		socket.socket.connect();
 	};
 	socket.on('sys-message', function (data) {
-		//room.addMessage({username: ""}, data.message, 'system');
+		room.addMessage({username: ""}, data.message, 'system');
 	});
 	socket.on('rename', function (data) {
 		room.userlist.renameUser(data.id, data.username);

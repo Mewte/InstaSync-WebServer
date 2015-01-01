@@ -7,6 +7,7 @@ request.defaults({timeout: 6000});
 //set Content type
 router.use(function(req,res,next){
 	res.header("Content-Type", "text/html");
+	res.header("X-Frame-Options","DENY");
 	next();
 });
 router.param('room_name', function(req,res, next, room_name){

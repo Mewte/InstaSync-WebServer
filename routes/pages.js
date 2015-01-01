@@ -9,11 +9,12 @@ var pageTitles = {
 	"help":"Help",
 	"dmca":"DMCA",
 	"privacy":"Privacy Policy",
-	"terms":"Terms Of Service"
+	"settings":"My Settingsss"
 };
 //set Content type
 router.use(function(req,res,next){
 	res.header("Content-Type", "text/html");
+	res.header("X-Frame-Options","DENY");
 	next();
 });
 /* GET home page. */
