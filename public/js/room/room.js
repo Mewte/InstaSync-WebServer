@@ -266,7 +266,7 @@ room = new function(room_name){
 			self.video.seekTo(time);
 	}
 	this.setSkips = function(skips, skipsNeeded) {
-		$('#skip-count').html(skips + '/' + skipsNeeded);
+		$('#skip_counter').text(skips + '/' + skipsNeeded);
 	};
 	this.mute = function(ip){
 		self.mutedIps[ip] = ip;

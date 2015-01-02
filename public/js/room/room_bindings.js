@@ -50,10 +50,15 @@ function onReady(room, socket){
 		var url = $("#add_video_url").val();
 		if (url.trim() != '')
 		{
-			console.log(url);
 			socket.sendcmd('add', {URL: url});
 		}
 		$('#add_video_url').val('');
+	});
+	$("#skip_button").click(function(){
+		if (room.user.userinfo.loggedin)
+			socket.sendcmd('skip', null);
+		else
+			room.addMessage({username: ""},"You must be logged in to vote to skip.","errortext");
 	});
 	function join(){
 		var username = $('#join_username').val();

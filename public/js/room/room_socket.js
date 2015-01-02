@@ -144,7 +144,7 @@ room.setSocket(new function (room){
 		//seekTo(data.time);
 	});
 	socket.on('skips', function (data) {
-		//room.setSkips(data.skips, data.skipsneeded);
+		room.setSkips(data.skips, data.skipsneeded);
 	});
 	socket.on('purge', function (data) {
 		//room.playlist.purge(data.username);
