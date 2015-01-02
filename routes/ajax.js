@@ -189,6 +189,15 @@ router.get('/room/:room_name', function(req,res,next){
 		return next(err);
 	});
 });
+router.get('/mods/:room_name', function(req,res,next){
+	
+});
+router.post('/mods/add', function(req,res,next){
+
+});
+router.post('/mods/remove', function(req,res,next){
+
+});
 router.get('/capcha', function(req,res,next){
 
 });
