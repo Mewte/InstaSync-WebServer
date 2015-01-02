@@ -11,19 +11,36 @@ var moment = require('moment');
 //	res.set('Access-Control-Allow-Credentials', "true");
 //	next();
 //});
-router.use(function(req,res,next){ //set every response to json
+router.use(function (req, res, next) {
 	res.set('Content-Type', 'application/json');
-	next();
-});
-router.use(function (req, res, next) { //check origin (the browser sends an origin if it's a cross domain request, which we are blocking)
-	if (req.headers.origin != undefined){ //cross domain
+	if (req.headers.origin != undefined){  //check origin i.e. cross domain (the browser sends an origin if it's a cross domain request, which we are blocking)
 		var error = new Error("Cross Origin Resource Sharing is not enabled.");
 		error.status = 403;
-		next(error);
+		return next(error);
 	}
-	else
-		next();
+	else{ //check if user is logged in and set a user object (code reuse is good right?)
+		if (!(req.cookies.auth_token && req.cookies.username)){
+			req.user = undefined;
+			return next();
+		}
+		else{
+			var auth_token = req.cookies.auth_token;
+			var username = req.cookies.username;
+			req.db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({cookie: auth_token, username: username}).limit(1).then(function(rows){
+				if (rows.length == 0){
+					req.user = undefined;
+				}
+				else{
+					req.user = rows[0];
+				}
+				return next();
+			}).catch(function(err){
+				return next(err);
+			});
+		}
+	}
 });
+;
 router.post('/login', function(req,res,next){
 	if (!(req.body.username && req.body.password)){
 		var error = new Error("Username and password are both required.");
@@ -129,27 +146,13 @@ router.post('/register', function(req,res,next){
 	});
 });
 router.get('/me/user_info', function(req,res,next){
-	if (!(req.cookies.auth_token && req.cookies.username)){
+	if (!req.user){
 		var error = new Error("You must be logged in to view this resource.");
 		error.status = 403;
 		return next(error);
 	}
-	else{
-		var auth_token = req.cookies.auth_token;
-		var username = req.cookies.username;
-		req.db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({cookie: auth_token, username: username}).limit(1).then(function(rows){
-			if (rows.length == 0){
-				var error = new Error("You must be logged in to view this resource.");
-				error.status = 403;
-				throw error;
-			}
-			else{
-				res.json(rows[0]);
-			}
-		}).catch(function(err){
-			return next(err);
-		});
-	}
+	else
+		res.json(req.user);
 });
 router.post('/me/change_password', function(req,res,next){
 
