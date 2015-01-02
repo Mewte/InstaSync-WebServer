@@ -4,26 +4,26 @@ var bodyParser = require('body-parser');
 var validator = require('validator');
 var crypto = require('crypto');
 var moment = require('moment');
-router.use(function(req,res,next){ //testing only
-	res.set('Access-Control-Allow-Origin',req.headers.origin || req.host);
-	res.set('Access-Control-Allow-Methods','GET, POST, PUT, DELETE, OPTIONS');
-	res.set('Access-Control-Allow-Headers', "Content-Type");
-	res.set('Access-Control-Allow-Credentials', "true");
-	next();
-});
+//router.use(function(req,res,next){ //testing only
+//	res.set('Access-Control-Allow-Origin',req.headers.origin || req.host);
+//	res.set('Access-Control-Allow-Methods','GET, POST, PUT, DELETE, OPTIONS');
+//	res.set('Access-Control-Allow-Headers', "Content-Type");
+//	res.set('Access-Control-Allow-Credentials', "true");
+//	next();
+//});
 router.use(function(req,res,next){ //set every response to json
 	res.set('Content-Type', 'application/json');
 	next();
 });
-//router.use(function (req, res, next) { //check origin
-//	if (req.headers.origin != undefined){ //cross domain
-//		var error = new Error("Cross Origin Resource Sharing is not enabled.");
-//		error.status = 403;
-//		next(error);
-//	}
-//	else
-//		next();
-//});
+router.use(function (req, res, next) { //check origin (the browser sends an origin if it's a cross domain request, which we are blocking)
+	if (req.headers.origin != undefined){ //cross domain
+		var error = new Error("Cross Origin Resource Sharing is not enabled.");
+		error.status = 403;
+		next(error);
+	}
+	else
+		next();
+});
 router.post('/login', function(req,res,next){
 	if (!(req.body.username && req.body.password)){
 		var error = new Error("Username and password are both required.");
