@@ -6,6 +6,18 @@ var queries = function(){
 	this.setDb = function(DB){
 		db = DB;
 	};
+	this.getLoggedInUser = function(auth_token, username){
+			return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({cookie: auth_token, username: username}).limit(1).then(function(rows){
+				if (rows.length == 0){
+					return false;
+				}
+				else{
+					return rows[0];
+				}
+			}).catch(function(err){
+				throw err;
+			});
+	};
 	this.isMod = function(username, room){
 		return db.select().from('mods').where("mods.room_name",room).where("mods.username",username).limit(1)
 		.then(function(result){

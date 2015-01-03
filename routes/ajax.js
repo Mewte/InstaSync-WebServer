@@ -26,15 +26,8 @@ router.use(function (req, res, next) {
 			return next();
 		}
 		else{
-			var auth_token = req.cookies.auth_token;
-			var username = req.cookies.username;
-			req.db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({cookie: auth_token, username: username}).limit(1).then(function(rows){
-				if (rows.length == 0){
-					req.user = undefined;
-				}
-				else{
-					req.user = rows[0];
-				}
+			queries.getLoggedInUser(req.cookies.auth_token,req.cookies.username).then(function(user){
+				req.user = user;
 				return next();
 			}).catch(function(err){
 				return next(err);
