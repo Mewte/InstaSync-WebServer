@@ -212,7 +212,6 @@ router.get('/mods/:room_name', function(req,res,next){
 		});
 	}
 	else{ //everyone else
-		req.db.select().from('mods').where("mods.room_name",room).where("mods.username",user.username).limit(1)
 		queries.isMod(user.username,room)
 		.then(function(isMod){
 			if (!isMod){ //not a mod of this room, so deny this resource
