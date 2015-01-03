@@ -1,6 +1,6 @@
 /* Custom Helpers */
 var config = require('./config');
-var urlFormatter = require('./helpers/url-format');
+var helpers = require('./helpers');
 /* Third party helpers */
 var cloudflare = require('cloudflare-express');
 var express = require('express');
@@ -52,8 +52,8 @@ app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public'), {force: true}));
 app.use(express.static(path.join(__dirname, 'public'), {maxAge: 259200}));
 
-app.use(urlFormatter.removeTrailingSlashes);
-app.use(urlFormatter.noFileExtensions);
+app.use(helpers.url_formater.removeTrailingSlashes);
+app.use(helpers.url_formater.noFileExtensions);
 
 app.use(function(req,res,next){
 	req.db = knex;
