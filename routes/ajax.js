@@ -163,27 +163,24 @@ router.post('/me/user_info', function(req,res,next){
 });
 router.get('/user/:username', function(req,res,next){
 	var username = req.param('username');
-	req.db.select(['username','avatar','bio']).from('users').where({username:username}).limit(1)
-	.then(function(rows){
-		if (rows.length == 0){
+	queries.getUser(username).then(function(user){
+		if (!user){
 			var error = new Error("User not found.");
 			error.status = 404;
 			throw error;
 		}
-		res.json(rows[0]);
-	}).catch(function(err){
-		return next(err);
-	});
+		res.json(user);
+	}).catch(function(err){return next(err);});
 });
 router.get('/room/:room_name', function(req,res,next){
 	var room_name = req.param('room_name');
-	req.db.select().from('rooms').where({room_name:room_name}).limit(1).then(function(rows){
-		if (rows.length == 0){
+	queries.getRoom(room_name).then(function(room){
+		if (!room){
 			var error = new Error("Room not found.");
 			error.status = 404;
 			throw error;
 		}
-		res.json(rows[0]);
+		res.json(room);
 	}).catch(function(err){
 		return next(err);
 	});

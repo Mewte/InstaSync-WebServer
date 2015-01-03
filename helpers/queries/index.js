@@ -7,16 +7,34 @@ var queries = function(){
 		db = DB;
 	};
 	this.getLoggedInUser = function(auth_token, username){
-			return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({cookie: auth_token, username: username}).limit(1).then(function(rows){
-				if (rows.length == 0){
-					return false;
-				}
-				else{
-					return rows[0];
-				}
-			}).catch(function(err){
-				throw err;
-			});
+		return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({cookie: auth_token, username: username}).limit(1).then(function(rows){
+			if (rows.length == 0){
+				return null;
+			}
+			else{
+				return rows[0];
+			}
+		}).catch(function(err){throw err;});
+	};
+	this.getUser = function(username){
+		return db.select(['username','avatar','bio']).from('users').where({username:username}).limit(1)
+		.then(function(results){
+			if (results.length == 0)
+				return null;
+			else
+				return results[0];
+		})
+		.catch(function(err){throw err;});
+	};
+	this.getRoom = function(room){
+		return db.select().from('rooms').where({room_name:room}).limit(1)
+		.then(function(results){
+			if (results.length == 0)
+				return null;
+			else
+				return results[0];
+		})
+		.catch(function(err){throw err;});
 	};
 	this.isMod = function(username, room){
 		return db.select().from('mods').where("mods.room_name",room).where("mods.username",username).limit(1)
@@ -25,9 +43,7 @@ var queries = function(){
 				return false;
 			else
 				return true;
-		}).catch(function(err){
-			throw err;
-		});
+		}).catch(function(err){throw err;});
 	};
 	this.getMods = function(room){
 		return db.select(["users.id as user_id","users.username","users.avatar","users.bio"])
