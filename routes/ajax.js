@@ -193,7 +193,23 @@ router.get('/room/:room_name', function(req,res,next){
 	});
 });
 router.get('/mods/:room_name', function(req,res,next){
-	
+	var user = req.user;
+	var room = req.param("room_name");
+	if (!req.user){
+		var error = new Error("You must be logged in to view this resource.");
+		error.status = 403;
+		return next(error);
+	}
+	if (user.username.toLowerCase() == room.toLowerCase()){ //room owner
+		req.db.select(["users.id as user_id","users.username","users.avatar","users.bio"]).from('users').join('mods','mods.username','users.username').where("mods.room_name",room).then(function(rows){
+			res.json(rows);
+		}).catch(function(err){
+			return next(err);
+		});
+	}
+	else{
+
+	}
 });
 router.post('/mods/add', function(req,res,next){
 
@@ -220,7 +236,7 @@ router.use(function (err, req, res, next) {
 	//error.stack = undefined; //Dont show stack trace, we could for dev, but I'd rather just disable it completely
 	if (error.status == 500){
 		res.status(500).json({message:"The server encountered an error and was forced to abort the request. Please try again later.", status: 500});
-		//console.log(err);
+		console.log(err);
 		//Todo: Log errors to a database and then return the error_id to the user for reporting
 	}
 	else

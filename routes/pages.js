@@ -26,6 +26,7 @@ router.get('/pages/index', function(req, res, next) {
 });
 var room_list_cache = {rooms: [], cached: 0}; //repalces memcache for intensive front page query
 function indexRoute(req,res,next){
+	//WARNING: If you modify this for user allowed inputs: remember to sanitize it!
 	req.db.raw("SELECT room.*, least(room.users, 30) * rand() as result FROM rooms as room where users > 0 and listing = 'public' and title <> 'No Videos' and (NSFW = 0 or NSFW = 1)order by result desc limit 24")
 	.then(function(resp) {
 		var records = resp[0]; //first element of the array is an array of records I guess
