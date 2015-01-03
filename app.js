@@ -26,7 +26,7 @@ var knex = require('knex')({
 		max: 10
 	}
 });
-
+helpers.queries.setDb(knex);
 //Automaticly create styles.css incase it doesnt exist (nessecary for .less parser)
 //because we have it gitignored since its generated at runtime.
 fs.appendFileSync("./public/css/styles.css", "");
@@ -55,7 +55,7 @@ app.use(express.static(path.join(__dirname, 'public'), {maxAge: 259200}));
 app.use(helpers.url_formater.removeTrailingSlashes);
 app.use(helpers.url_formater.noFileExtensions);
 
-app.use(function(req,res,next){
+app.use(function(req,res,next){ //remove after converting to helpers.queries
 	req.db = knex;
 	next();
 });

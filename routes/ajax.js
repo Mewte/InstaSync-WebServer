@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 var validator = require('validator');
 var crypto = require('crypto');
 var moment = require('moment');
+var helpers = require('../helpers');
+var queries = helpers.queries;
 //router.use(function(req,res,next){ //testing only
 //	res.set('Access-Control-Allow-Origin',req.headers.origin || req.host);
 //	res.set('Access-Control-Allow-Methods','GET, POST, PUT, DELETE, OPTIONS');
@@ -202,9 +204,7 @@ router.get('/mods/:room_name', function(req,res,next){
 		return next(error);
 	}
 	if (user.username.toLowerCase() == room.toLowerCase()){ //room owner
-		req.db.select(["users.id as user_id","users.username","users.avatar","users.bio"])
-				.from('users').join('mods','mods.username','users.username')
-				.where("mods.room_name",room)
+		queries.getMods(room)
 		.then(function(rows){
 			res.json(rows);
 		}).catch(function(err){
@@ -213,15 +213,14 @@ router.get('/mods/:room_name', function(req,res,next){
 	}
 	else{ //everyone else
 		req.db.select().from('mods').where("mods.room_name",room).where("mods.username",user.username).limit(1)
-		.then(function(mod){
-			if (mod.length == 0){ //not a mod of this room, so deny this resource
+		queries.isMod(user.username,room)
+		.then(function(isMod){
+			if (!isMod){ //not a mod of this room, so deny this resource
 				var error = new Error("This resource is for moderators only.");
 				error.status = 403;
 				throw error;
 			}
-			return req.db.select(["users.id as user_id","users.username","users.avatar","users.bio"])
-			.from('users').join('mods','mods.username','users.username')
-			.where("mods.room_name",room);
+			return queries.getMods(room);
 		})
 		.then(function(mods){
 			res.json(mods);
