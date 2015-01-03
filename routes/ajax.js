@@ -35,7 +35,6 @@ router.use(function (req, res, next) {
 		}
 	}
 });
-;
 router.post('/login', function(req,res,next){
 	if (!(req.body.username && req.body.password)){
 		var error = new Error("Username and password are both required.");
@@ -43,24 +42,18 @@ router.post('/login', function(req,res,next){
 		return next(error);
 	}
 	var username = req.body.username;
-	var password = crypto.createHash('sha1').update(req.body.password).digest('hex');
-	//Note for below: .bind({}) forces 'this' to be shared among each promise resolution. Handy for passing data between promises
-	req.db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({username:username, hashpw: password}).limit(1).bind({}).then(function(rows){
-		if (rows.length == 0){
+	var password = req.body.password;
+	queries.login(username, password).then(function(user){
+		if (!user){
 			var error = new Error("Invalid username or password.");
 			error.status = 403;
 			throw error;
 		}
 		else{ //success
-			this.user = rows[0];
-			this.username = username; //pass the exact case username user supplied
-			this.auth_token = crypto.pseudoRandomBytes(20).toString('hex');
-			return req.db('users').update({cookie: this.auth_token, last_login: moment().format("YYYY-MM-DD HH:mm:ss")}).where({id: this.user.user_id});
+			res.cookie('auth_token', this.user.auth_token, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
+			res.cookie('username', username, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
+			res.json(user);
 		}
-	}).then(function(){
-		res.cookie('auth_token', this.auth_token, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
-		res.cookie('username', this.username, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
-		res.json(this.user);
 	}).catch(function(err){
 		 return next(err);
 	});
