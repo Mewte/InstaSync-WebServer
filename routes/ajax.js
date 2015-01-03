@@ -168,7 +168,8 @@ router.post('/me/user_info', function(req,res,next){
 });
 router.get('/user/:username', function(req,res,next){
 	var username = req.param('username');
-	req.db.select(['username','avatar','bio']).from('users').where({username:username}).limit(1).then(function(rows){
+	req.db.select(['username','avatar','bio']).from('users').where({username:username}).limit(1)
+	.then(function(rows){
 		if (rows.length == 0){
 			var error = new Error("User not found.");
 			error.status = 404;
@@ -201,14 +202,33 @@ router.get('/mods/:room_name', function(req,res,next){
 		return next(error);
 	}
 	if (user.username.toLowerCase() == room.toLowerCase()){ //room owner
-		req.db.select(["users.id as user_id","users.username","users.avatar","users.bio"]).from('users').join('mods','mods.username','users.username').where("mods.room_name",room).then(function(rows){
+		req.db.select(["users.id as user_id","users.username","users.avatar","users.bio"])
+				.from('users').join('mods','mods.username','users.username')
+				.where("mods.room_name",room)
+		.then(function(rows){
 			res.json(rows);
 		}).catch(function(err){
 			return next(err);
 		});
 	}
-	else{
-
+	else{ //everyone else
+		req.db.select().from('mods').where("mods.room_name",room).where("mods.username",user.username).limit(1)
+		.then(function(mod){
+			if (mod.length == 0){ //not a mod of this room, so deny this resource
+				var error = new Error("This resource is for moderators only.");
+				error.status = 403;
+				throw error;
+			}
+			return req.db.select(["users.id as user_id","users.username","users.avatar","users.bio"])
+			.from('users').join('mods','mods.username','users.username')
+			.where("mods.room_name",room);
+		})
+		.then(function(mods){
+			res.json(mods);
+		})
+		.catch(function(err){
+			return next(err);
+		});
 	}
 });
 router.post('/mods/add', function(req,res,next){
