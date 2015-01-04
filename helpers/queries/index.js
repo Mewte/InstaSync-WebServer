@@ -25,6 +25,9 @@ var queries = function(){
 				return this.user;
 			}).catch(function(err){throw err;});
 	};
+	this.register = function(username){
+		
+	};
 	this.getLoggedInUser = function(auth_token, username){
 		return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({cookie: auth_token, username: username}).limit(1).then(function(rows){
 			if (rows.length == 0)
