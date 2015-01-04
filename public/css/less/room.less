@@ -160,9 +160,17 @@
 					}
 				}
 				li.add-video{
-					.supported-media-types{
-						margin-top: 6px;
-						text-align: right;
+					.dropdown-toggle:before{
+						content:"Add Video ";
+						@media(max-width: 480px){
+							content: "Add ";
+						}
+					}
+					.dropdown-form{
+						@media(max-width: 480px){
+							margin-left: -185%;
+							width: 240px;
+						}
 					}
 				}
 			}
@@ -271,10 +279,7 @@
 //@userlist: ~'.room-container .room-component-row .chat .user-list';
 /* room page media queries */
 @media(max-width: 480px){
-	.add-video .dropdown-form{
-		left: auto;
-		right: 0px;
-	}
+
 }
 @media(max-width:767px){
 	.room-component-row .chat .chat-tabs-content{height: 225px;}

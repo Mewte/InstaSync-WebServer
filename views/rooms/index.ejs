@@ -94,7 +94,7 @@
 						</div>
 					</li>
 					<li class="add-video">
-						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Add Video <strong class="caret"></strong></a>
+						<a class="dropdown-toggle" href="#" data-toggle="dropdown"><strong class="caret"></strong></a>
 						<div class="dropdown-menu dropdown-form">
 							<div class="form">
 								<div>
@@ -128,7 +128,7 @@
 	/*
 	 * initalize some room properties
 	 */
-	var ROOM_NAME = <%- '"' + room.room_name + '"'%>;
+	var ROOM_NAME = <%- '"' + room.room_name.toLowerCase() + '"'%>;
 </script>
 <!-- Start with room, each js file is self executing and attachs itself to the global 'room' object -->
 <script type='text/javascript' src="/js/room/room.js"></script>
