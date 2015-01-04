@@ -48,9 +48,10 @@ function playlist(room, socket){
 			}));
 			li.append($("<div/>", {
 				class:"buttons"
-				}).append($("<i/>",{
-					class:"fa fa-external-link"
-				})).append($("<i/>",{
+				}).append(
+					$("<a/>",{target: "_blank", href: url(video)}).append($("<i/>",{class:"fa fa-external-link"}))
+				)
+				.append($("<i/>",{
 					class:"fa fa-times-circle"
 				})));
 			li.append($("<div/>",{
@@ -106,12 +107,30 @@ function playlist(room, socket){
 		}
 	};
 	this.purge = function(username) {
-		for (var i = self.playlist.videos - 1; i >= 0; i--)
+		for (var i = self.videos.length - 1; i >= 0; i--)
 		{
-			if (self.playerlist.videos[i].addedby.toLowerCase() == username.toLowerCase()) {
-				self.removeVideo(self.playerlist.videos[i].info, false);
+			if (self.videos[i].addedby.toLowerCase() == username.toLowerCase()) {
+				self.removeVideo(self.videos[i].info);
 			}
 		}
 	};
+	function url(vidinfo){
+			if (vidinfo.info.provider === 'youtube') {
+				return 'http://www.youtube.com/watch?v=' + vidinfo.info.id;
+			}
+			else if (vidinfo.info.provider === 'vimeo') {
+				return'http://vimeo.com/' + vidinfo.info.id;
+			}
+			else if (vidinfo.info.provider === 'twitch') {
+				if (vidinfo.info.mediaType === "stream")
+					return 'http://twitch.tv/' + vidinfo.info.channel;
+			}
+			else if (vidinfo.info.provider === 'dailymotion'){
+				return "http://dailymotion.com/video/"+vidinfo.info.id;
+			}
+			else{
+				return "http://instasync.com";
+			}
+	}
 	return this;
 };

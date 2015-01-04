@@ -4,7 +4,6 @@
 */
 
 function player(containerID){
-	console.log(ROOM_NAME);
 	var container = $("#"+containerID);
 	var player = this;
 	//var triggeredByAPI = true; //all calls are assumed to be triggered by the user unless set to false by API action

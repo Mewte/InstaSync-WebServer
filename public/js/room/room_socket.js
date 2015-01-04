@@ -106,7 +106,7 @@ room.setSocket(new function (room){
 	});
 	socket.on('room-event', function (data)
 	{
-		//room.roomEvent(data);
+		room.event(data.action, data.data);
 	});
 	socket.on('add-user', function (data)
 	{
@@ -135,19 +135,22 @@ room.setSocket(new function (room){
 		room.playVideo(data.info, data.time, data.playing);
 	});
 	socket.on('resume', function (data) {
+		console.log("IMPLEMENT ME!");
 		//resume();
 	});
 	socket.on('pause', function (data) {
+		console.log("IMPLEMENT ME!");
 		//pause();
 	});
 	socket.on('seekTo', function (data) {
+		console.log("IMPLEMENT ME!");
 		//seekTo(data.time);
 	});
 	socket.on('skips', function (data) {
 		room.setSkips(data.skips, data.skipsneeded);
 	});
 	socket.on('purge', function (data) {
-		//room.playlist.purge(data.username);
+		room.playlist.purge(data.username);
 	});
 	socket.on('log', function (data) {
 		console.log(data.message);

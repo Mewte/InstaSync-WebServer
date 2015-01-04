@@ -36,6 +36,7 @@ room = new function(room_name){
 	this.filterGreyname = false;
 	var autosynch = true;
 	var showYTcontrols = false;
+	var messages = 0; //stores how many total messages are in the window (for cleaning up)
 	this.player = null;
 	this.user = {
 		userinfo: null,
@@ -192,7 +193,7 @@ room = new function(room_name){
 			self.unreadTabMessages++;
 			$("#tabs_chat .unread-msg-count").text(self.unreadTabMessages);
 		}
-		lastMessageFrom = user;
+		messages++
 		self.cleanChat();
 	};
 	this.cleanChat = function(){
@@ -204,31 +205,17 @@ room = new function(room_name){
 		if(!self.autoscroll){
 			max = max*2;
 		}
-		while(self.messages > max){
+		while(messages > max){
 			$('#chat_messages > :first-child').remove(); //div messages
-			self.messages--;
+			messages--;
 		}
 	};
-	function url(vidinfo){
-			if (vidinfo.info.provider === 'youtube') {
-				return 'http://www.youtube.com/watch?v=' + vidinfo.info.id;
-			}
-			else if (vidinfo.info.provider === 'vimeo') {
-				return'http://vimeo.com/' + vidinfo.info.id;
-			}
-			else if (vidinfo.info.provider === 'twitch') {
-				if (vidinfo.info.mediaType === "stream")
-					return 'http://twitch.tv/' + vidinfo.info.channel;
-			}
-			else if (vidinfo.info.provider === 'dailymotion'){
-				return "http://dailymotion.com/video/"+vidinfo.info.id;
-			}
-			else{
-				return "http://instasync.com";
-			}
-	}
-	function playlistlock(value) {
-
+	this.playlistlock = function(value) {
+		if (value == true) {
+			//$('#toggleplaylistlock').css('background-image', 'url("/images/lock.png")');
+		} else {
+			//$('#toggleplaylistlock').css('background-image', 'url("/images/unlock.png")');
+		}
 	}
 	function toggleAutosynch(){
 		autosynch = !autosynch;
@@ -267,6 +254,17 @@ room = new function(room_name){
 	}
 	this.setSkips = function(skips, skipsNeeded) {
 		$('#skip_counter').text(skips + '/' + skipsNeeded);
+	};
+	this.event = function(event, data){
+		switch(event.toLowerCase()) {
+			case "playlistlock":
+				self.playlistlock(data);
+				break;
+			case "leader":
+				break;
+			default:
+
+		}
 	};
 	this.mute = function(ip){
 		self.mutedIps[ip] = ip;
