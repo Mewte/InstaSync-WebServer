@@ -162,12 +162,12 @@
 				li.add-video{
 					.dropdown-toggle:before{
 						content:"Add Video ";
-						@media(max-width: 480px){
+						@media(max-width: @media-xxs){
 							content: "Add ";
 						}
 					}
 					.dropdown-form{
-						@media(max-width: 480px){
+						@media(max-width: @media-xxs){
 							margin-left: -185%;
 							width: 240px;
 						}
@@ -278,19 +278,19 @@
 //@chat-box: ~'.room-container .room-component-row .chat .chat-box';
 //@userlist: ~'.room-container .room-component-row .chat .user-list';
 /* room page media queries */
-@media(max-width: 480px){
+@media(max-width: @media-xxs){
 
 }
-@media(max-width:767px){
+@media(max-width: @media-xs){
 	.room-component-row .chat .chat-tabs-content{height: 225px;}
 }
-@media(min-width:768px){
+@media(min-width: @media-sm){
 	.room-component-row .chat .chat-tabs-content{height: 247px;}
 }
-@media(min-width:992px){
+@media(min-width:@media-md){
 	.room-component-row .chat .chat-tabs-content{height: 329.5px;}
 }
-@media(min-width:1200px){
+@media(min-width:@media-lg){
 	.room-component-row .chat .chat-tabs-content{height: 404.5px;}
 	/* --- */
 }
