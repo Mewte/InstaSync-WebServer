@@ -15,8 +15,8 @@ var queries = helpers.queries;
 //});
 router.use(function (req, res, next) {
 	res.set('Content-Type', 'application/json');
-	var origin = req.headers.origin.toLowerCase();
-	var host = req.headers.host.toLowerCase();
+	var origin = req.headers.origin;
+	var host = req.headers.host;
 	//if origin is undefined, not cross domain (firefox only), for chrome + safari: make sure host and origin don't equal eachother
 	//Note: host only contains domain and port, origin contains http/https
 	if (origin != undefined && origin != "http://"+host && origin != "https://"+host){  //check origin i.e. cross domain (the browser sends an origin if it's a cross domain request, which we are blocking)
