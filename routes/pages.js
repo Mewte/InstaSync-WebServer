@@ -9,7 +9,8 @@ var pageTitles = {
 	"help":"Help",
 	"dmca":"DMCA",
 	"privacy":"Privacy Policy",
-	"settings":"My Settings"
+	"settings":"My Settings",
+	"terms":"Terms of Service"
 };
 //set Content type
 router.use(function(req,res,next){

@@ -66,12 +66,14 @@
 					<div class="tab-pane" id="tabs_polls_content">
 
 					</div>
-					<div class="tab-pane" id="tabs_chat_settings_content"></div>
+					<div class="tab-pane" id="tabs_chat_settings_content">
+
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-8 col-xs-12 column">
-			<div class="room-info">
+			<div class="video-controls">
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="active">
@@ -117,7 +119,22 @@
 						</div>
 					</div>
 					<div class="tab-pane" id="tabs_playlist_settings">
-
+						<button id="reload_btn" class="btn btn-xs btn-primary">Reload Video</button>
+						<button id="resynch_btn" class="btn btn-xs btn-primary">Resync Video</button>
+						<div id="toggle_autosync" class="checkbox">
+							<label class="active_tooltip" data-original-title="Uncheck if your internet connection is poor" data-placement="bottom">
+								<input id="toggle_autosync_box" type="checkbox" value="Autosync" checked="">
+								Autosync
+							</label>
+						</div>
+						<h4>Playlist (Mods only)</h4>
+						<button id="shuffle_btn" class="btn btn-sm btn-primary active_tooltip" data-original-title="Coming soon!" data-placement="bottom">Shuffle</button>
+						<div class="input-group active_tooltip" data-original-title="Purge this user's videos from the playlist" data-placement="bottom">
+							<span class="input-group-btn">
+								<button id='purge_btn' class="btn btn-sm btn-primary" type="button">Purge</button>
+							</span>
+							<input type="text" class="form-control input-sm" placeholder="Username to purge..">
+						</div>
 					</div>
 				</div>
 			</div>
