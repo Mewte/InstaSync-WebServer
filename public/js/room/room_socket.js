@@ -135,16 +135,13 @@ room.setSocket(new function (room){
 		room.playVideo(data.info, data.time, data.playing);
 	});
 	socket.on('resume', function (data) {
-		console.log("IMPLEMENT ME!");
-		//resume();
+		room.resume();
 	});
 	socket.on('pause', function (data) {
-		console.log("IMPLEMENT ME!");
-		//pause();
+		room.pause();
 	});
 	socket.on('seekTo', function (data) {
-		console.log("IMPLEMENT ME!");
-		//seekTo(data.time);
+		room.seekTo(data.time);
 	});
 	socket.on('skips', function (data) {
 		room.setSkips(data.skips, data.skipsneeded);

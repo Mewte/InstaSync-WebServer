@@ -34,7 +34,7 @@ room = new function(room_name){
 	this.unreadMessages = 0;
 	this.unreadTabMessages = 0;
 	this.filterGreyname = false;
-	var autosynch = true;
+	this.autosync = true;
 	var showYTcontrols = false;
 	var messages = 0; //stores how many total messages are in the window (for cleaning up)
 	this.player = null;
@@ -60,29 +60,41 @@ room = new function(room_name){
 	 */
 	$(function(){
 		var video = new player("media");
-//		video.on["userSeeked"] = function(time){
-//			if (isLeader){
-//				//global.sendcmd('seekto', {time: time});
-//			}
-//			else
-//				//requestResynch();
-//		};
-//		video.on["userPlayed"] = function(){
-//			if (isLeader){
-//				//global.sendcmd('resume', null);
-//			}
-//			else{//resynch
-//				//requestResynch();
-//			}
-//		};
-//		video.on["userPaused"] = function(){
-//			if (isLeader){
-//				//global.sendcmd('pause', null);
-//			}
-//		};
-//		video.on['resynchNeeded'] = function(){ //trigger this if a resynch is needed? perhaps after a buffer?
-//			requestResynch();
-//		};
+		var queue = null; //stores resynch limiter timeout
+		function requestResynch(){
+			console.log("Resynch requested..");
+			if (queue === null && self.autosync){
+				queue = setTimeout(function() //prevent to many resynchs
+				{
+					console.log("Resynch request sent.");
+					socket.sendcmd("resynch", null);
+					queue = null;
+				}, 1000);
+			}
+		}
+		video.on["userSeeked"] = function(time){
+			if (self.user.isLeader){
+				socket.sendcmd('seekto', {time: time});
+			}
+			else
+				requestResynch();
+		};
+		video.on["userPlayed"] = function(){
+			if (self.user.isLeader){
+				socket.sendcmd('resume', null);
+			}
+			else{//resynch
+				requestResynch();
+			}
+		};
+		video.on["userPaused"] = function(){
+			if (self.user.isLeader){
+				socket.sendcmd('pause', null);
+			}
+		};
+		video.on['resynchNeeded'] = function(){ //trigger this if a resynch is needed? perhaps after a buffer?
+			requestResynch();
+		};
 		//bind events
 		self.video = video;
 		self.playlist = new playlist(self, socket);
@@ -243,13 +255,13 @@ room = new function(room_name){
 		}
 		self.video.play(vidinfo, time, playing);
 	};
-	function resume() {
+	this.resume = function() {
 			self.video.resume();
 	}
-	function pause() {
+	this.pause = function() {
 			self.video.pause();
 	}
-	function seekTo(time){
+	this.seekTo = function(time){
 			self.video.seekTo(time);
 	}
 	this.setSkips = function(skips, skipsNeeded) {
