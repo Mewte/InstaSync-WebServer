@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-var request = require('request');
-request.defaults({timeout: 6000});
+var helpers = require('../helpers');
+var queries = helpers.queries;
 
 //set Content type
 router.use(function(req,res,next){
@@ -11,13 +11,15 @@ router.use(function(req,res,next){
 	next();
 });
 router.param('room_name', function(req,res, next, room_name){
-	req.db.select().from('rooms').where({room_name: room_name}).limit(1).then(function(rows){
-		if (rows.length == 0){
+	queries.getRoom(room_name).then(function(room){
+		if (!room){
 			var error = new Error("Room not found.");
 			error.status = 404;
 			throw error;
 		}
-		req.room = rows[0];
+		req.room = room;
+		return req.db("rooms").where("room_id",'=',room.room_id).increment("visits", 1);
+	}).then(function(){
 		next();
 	}).catch(function(err){
 		return next(err);
