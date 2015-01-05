@@ -280,8 +280,9 @@ function player(containerID){
 	}
 	function loadTwitch(channel){
 		removePlayer();
-        var embed = '<object type="application/x-shockwave-flash" height="100%" width="100%" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=' + channel +'" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="allowNetworking" value="all" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="hostname=www.twitch.tv&channel='+channel+'&auto_play=true&start_volume=25" /></object>';
-        $(container).html(embed);
+        var embed = '<object class="twitch-video" width="1280" height="720" type="application/x-shockwave-flash" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=' + channel +'" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="allowNetworking" value="all" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="hostname=www.twitch.tv&channel='+channel+'&auto_play=true&start_volume=25" /></object>';
+        //var embed = '<iframe class="videoplayer" src="http://www.twitch.tv/embed?channel=rothmaw" height="478" width="800" frameborder="0" scrolling="no"></iframe>';
+		$(container).html(embed);
 	}
 	function createVideoTag(id){
 		var video = $("<video/>", {

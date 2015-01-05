@@ -1,3 +1,9 @@
+//These are directly related to the size of the video (also hard coded for twitch.tv embed)
+@chat-height-xs: 225px;
+@chat-height-sm: 247px;
+@chat-height-md: 329.5px;
+@chat-height-lg: 404.5px;
+
 .video-js{
 	padding-top: 56.25% !important; /* sets 16:9 aspect ratio for vide.js */
 }
@@ -12,6 +18,23 @@
 	.vjs-time-divider{ display: none}
 	.vjs-quality-button{ display: none}
 }
+/* twitch TV responsive fix */
+.twitch-video{
+	width: 100%;
+	@media(max-width: @media-xs){
+		height: @chat-height-xs;
+	}
+	@media(min-width: @media-sm){
+		height: (@chat-height-sm + 36);
+	}
+	@media(min-width:@media-md){
+		height: (@chat-height-md + 36);
+	}
+	@media(min-width:@media-lg){
+		height: (@chat-height-lg + 36);
+	}
+}
+
 .room-container{
 	margin-bottom: 30px;
 	border-radius: 2px;
