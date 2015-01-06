@@ -6,6 +6,7 @@ var crypto = require('crypto');
 var moment = require('moment');
 var helpers = require('../helpers');
 var queries = helpers.queries;
+var email = require("emailjs");
 //router.use(function(req,res,next){ //testing only
 //	res.set('Access-Control-Allow-Origin',req.headers.origin || req.host);
 //	res.set('Access-Control-Allow-Methods','GET, POST, PUT, DELETE, OPTIONS');
@@ -150,7 +151,32 @@ router.post('/me/change_password', function(req,res,next){
 
 });
 router.post('/me/password_reset', function(req,res,next){
-
+	var server  = email.server.connect({user:    "",password:"",host:"104.236.173.236",ssl:false});
+	var username = req.body.username || "";
+	var email_address = req.body.email || "";
+	queries.getResets(req.cf_ip).then(function(resets){
+		if (resets.length > 5){
+			var error = new Error("Max reset request limit reached. You may try send 5 resets per hour.");
+			error.status = 422;
+			throw error;
+		}
+		var reset_code = crypto.pseudoRandomBytes(30).toString('base64');
+		return queries.createReset(reset_code, "lindner4147@yahoo.com","mewte", "123.123.123.456");
+	}).then(function(a,b,c){
+		res.send(a);
+	}).catch(function(err){
+		return next(err);
+	})
+//	server.send({
+//		text: "i hope this works",
+//		from: "InstaSync <donotreply@instasync.com>",
+//		to: "",
+//		subject: "testing emailjs"
+//	}, function (err, message) {
+//		if (err){
+//			return next(err);
+//		}
+//	});
 });
 router.post('/me/room_info', function(req,res,next){
 
@@ -191,12 +217,9 @@ router.get('/mods/:room_name', function(req,res,next){
 		return next(error);
 	}
 	if (user.username.toLowerCase() == room.toLowerCase()){ //room owner
-		queries.getMods(room)
-		.then(function(rows){
+		queries.getMods(room).then(function(rows){
 			res.json(rows);
-		}).catch(function(err){
-			return next(err);
-		});
+		}).catch(function(err){return next(err);});
 	}
 	else{ //everyone else
 		queries.isMod(user.username,room)

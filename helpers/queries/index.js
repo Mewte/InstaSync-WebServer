@@ -70,5 +70,14 @@ var queries = function(){
 			.from('users').join('mods','mods.username','users.username')
 			.where("mods.room_name",room);
 	};
+	this.getResets = function(ip){
+		var now = moment().unix();
+		return db.select().from("resets").where("time", ">", now - 60 * 60).where("ip", ip);
+	};
+	this.createReset = function(token, email, username, ip){
+		var now = moment().unix();
+		return db("resets").insert(db.raw("(token, user_id, time, ip) " + db.select(db.raw("? as token, id as user_id, ? as time, ? as ip",[token,now,ip])).from("users").where("username",username).where("email", email).toString()));
+
+	};
 }
 module.exports = new queries();
