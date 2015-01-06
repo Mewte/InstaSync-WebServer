@@ -74,9 +74,18 @@ var queries = function(){
 		var now = moment().unix();
 		return db.select().from("resets").where("time", ">", now - 60 * 60).where("ip", ip);
 	};
-	this.createReset = function(token, email, username, ip){
+	this.createReset = function(email, username, ip){
 		var now = moment().unix();
-		return db("resets").insert(db.raw("(token, user_id, time, ip) " + db.select(db.raw("? as token, id as user_id, ? as time, ? as ip",[token,now,ip])).from("users").where("username",username).where("email", email).toString()));
+		var token = crypto.pseudoRandomBytes(30).toString('base64');
+		return db("resets").insert(db.raw("(token, user_id, time, ip) " + db.select(db.raw("? as token, id as user_id, ? as time, ? as ip",[token,now,ip])).from("users").where("username",username).where("email", email).toString()))
+			.then(function(id){
+				if (id == 0){
+					return null;
+				}
+				return token;
+			}).catch(function(err){
+					throw err;
+			});
 
 	};
 }

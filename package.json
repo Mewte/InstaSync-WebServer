@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bluebird": "^2.6.0",
     "body-parser": "~1.0.0",
     "cloudflare-express": "0.0.1",
     "cookie-parser": "~1.0.1",

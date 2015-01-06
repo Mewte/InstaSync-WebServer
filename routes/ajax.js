@@ -7,6 +7,7 @@ var moment = require('moment');
 var helpers = require('../helpers');
 var queries = helpers.queries;
 var email = require("emailjs");
+var promise = require("bluebird");
 //router.use(function(req,res,next){ //testing only
 //	res.set('Access-Control-Allow-Origin',req.headers.origin || req.host);
 //	res.set('Access-Control-Allow-Methods','GET, POST, PUT, DELETE, OPTIONS');
@@ -151,32 +152,49 @@ router.post('/me/change_password', function(req,res,next){
 
 });
 router.post('/me/password_reset', function(req,res,next){
-	var server  = email.server.connect({user:    "",password:"",host:"104.236.173.236",ssl:false});
 	var username = req.body.username || "";
 	var email_address = req.body.email || "";
 	queries.getResets(req.cf_ip).then(function(resets){
-		if (resets.length > 5){
+		if (resets.length > 4){
 			var error = new Error("Max reset request limit reached. You may try send 5 resets per hour.");
 			error.status = 422;
 			throw error;
 		}
-		var reset_code = crypto.pseudoRandomBytes(30).toString('base64');
-		return queries.createReset(reset_code, "lindner4147@yahoo.com","mewte", "123.123.123.456");
-	}).then(function(a,b,c){
-		res.send(a);
+		return queries.createReset(email_address,username, req.cf_ip);
+	}).then(function(token){
+		if (!token){
+			var error = new Error("Invalid email/username combination.")
+			error.status = 403;
+			throw error;
+		}
+		else{
+			var server  = email.server.connect({user:"",password:"",host:"104.236.173.236",ssl:false});
+			var url = "http://pr.instasync.com/"+token;
+			var message = {
+				text: "i hope this works",
+				from: "InstaSync <donotreply@instasync.com>",
+				to: "<"+email_address+">",
+				subject: "Password reset for " + username,
+				attachment:
+					[
+						{data: "<html><p>A password reset was requested for: <strong>"+username+"</strong>.</p><p>You may reset the password for this account by going to: <br/> <a href='"+url+"'>"+url+"</a></p><p><br/><br/><font size='2'><em>If you did not request a password reset, simply ignore this email as no changes to your current account have been made.</em></font></p></html>", alternative: true}
+					]
+			};
+			return new promise(function(fulfill, reject){
+				server.send(message, function(err, message){
+					if (err){
+						reject(err);
+					}
+					else
+						fulfill();
+				});
+			});
+		}
+	}).then(function(){
+		res.json({mesage: "An email has been sent to: "+email_address+". If you aren't recieving emails, be sure to check your spam folder and allow emails from 'donotreply@instasync.com'."});
 	}).catch(function(err){
 		return next(err);
-	})
-//	server.send({
-//		text: "i hope this works",
-//		from: "InstaSync <donotreply@instasync.com>",
-//		to: "",
-//		subject: "testing emailjs"
-//	}, function (err, message) {
-//		if (err){
-//			return next(err);
-//		}
-//	});
+	});
 });
 router.post('/me/room_info', function(req,res,next){
 
