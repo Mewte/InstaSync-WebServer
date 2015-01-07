@@ -37,7 +37,7 @@ var queries = function(){
 		}).catch(function(err){throw err;});
 	};
 	this.getUser = function(username){
-		return db.select(['username','avatar','bio']).from('users').where({username:username}).limit(1)
+		return db.select(['username','avatar','bio', 'created']).from('users').where({username:username}).limit(1)
 		.then(function(results){
 			if (results.length == 0)
 				return null;
@@ -66,7 +66,7 @@ var queries = function(){
 		}).catch(function(err){throw err;});
 	};
 	this.getMods = function(room){
-		return db.select(["users.id as user_id","users.username","users.avatar","users.bio"])
+		return db.select(["users.id as user_id","users.username","users.avatar","users.bio","users.created"])
 			.from('users').join('mods','mods.username','users.username')
 			.where("mods.room_name",room);
 	};
