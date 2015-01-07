@@ -67,7 +67,26 @@
 
 					</div>
 					<div class="tab-pane" id="tabs_chat_settings_content">
-
+						<button id="clearchat_btn" class="btn btn-xs btn-primary">Clear Chat</button>
+						<div class="checkbox">
+							<label class="active_tooltip" data-original-title="" data-placement="bottom">
+								<input id="toggle_show_joined" type="checkbox" value="ShowJoined" checked="">
+								Show user join/leave messages
+							</label>
+						</div>
+						<div class="checkbox">
+							<label class="active_tooltip" data-original-title="Unchech to hide greyname messages in chat" data-placement="bottom">
+								<input id="toggle_greyname_chat" type="checkbox" value="ShowGreyNameChat" checked="">
+								Show Grey Name chat
+							</label>
+						</div>
+						<h4>Mods</h4>
+						<div class="input-group active_tooltip" data-original-title="Add user as mod" data-placement="bottom">
+							<span class="input-group-btn">
+								<button id='mod_btn' class="btn btn-sm btn-primary" type="button">Add Mod</button>
+							</span>
+							<input id="mod_username" type="text" class="form-control input-sm" placeholder="Username to mod...">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -121,7 +140,7 @@
 					<div class="tab-pane" id="tabs_playlist_settings">
 						<button id="reload_btn" class="btn btn-xs btn-primary">Reload Video</button>
 						<button id="resynch_btn" class="btn btn-xs btn-primary">Resync Video</button>
-						<div id="toggle_autosync" class="checkbox">
+						<div class="checkbox">
 							<label class="active_tooltip" data-original-title="Uncheck if your internet connection is poor" data-placement="bottom">
 								<input id="toggle_autosync_box" type="checkbox" value="Autosync" checked="">
 								Autosync
@@ -133,7 +152,7 @@
 							<span class="input-group-btn">
 								<button id='purge_btn' class="btn btn-sm btn-primary" type="button">Purge</button>
 							</span>
-							<input type="text" class="form-control input-sm" placeholder="Username to purge..">
+							<input id="purge_username" type="text" class="form-control input-sm" placeholder="Username to purge..">
 						</div>
 					</div>
 				</div>
