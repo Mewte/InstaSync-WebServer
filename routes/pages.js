@@ -4,13 +4,13 @@ var fs = require('fs');
 var request = require('request');
 request.defaults({timeout: 6000});
 
-var pageTitles = {
-	"index":"Watch videos with friends!",
-	"help":"Help",
-	"dmca":"DMCA",
-	"privacy":"Privacy Policy",
-	"settings":"My Settings",
-	"terms":"Terms of Service"
+var meta = {
+	"index":{title:"Watch videos with friends!"},
+	"help":{title:"Help"},
+	"dmca":{title:"DMCA"},
+	"privacy":{title:"Privacy Policy"},
+	"settings":{title:"My Settings"},
+	"terms":{title:"Terms of Service"}
 };
 //set Content type
 router.use(function(req,res,next){
@@ -32,7 +32,7 @@ function indexRoute(req,res,next){
 	.then(function(resp) {
 		var records = resp[0]; //first element of the array is an array of records I guess
 		res.render('pages/index', {
-			title: 'InstaSync - '+pageTitles['index'],
+			title: 'InstaSync - '+meta['index'].title,
 			rooms: records
 		}, function(err,html){
 			if(err) {
@@ -47,7 +47,7 @@ function indexRoute(req,res,next){
 }
 router.get('/pages/:page', function(req, res, next) {
 	res.render('pages/'+req.param('page'), {
-		title: 'InstaSync - '+pageTitles[req.param('page')],
+		title: 'InstaSync - '+ (meta[req.param('page')] && meta[req.param('page')].title)
 	}, function(err,html){
 		if(err) {
 			next(); //continues on to middleware as if this router was never called (should lead to 404)
