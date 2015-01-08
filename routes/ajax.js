@@ -191,7 +191,7 @@ router.post('/me/password_reset', function(req,res,next){
 			});
 		}
 	}).then(function(){
-		res.json({mesage: "An email has been sent to: "+email_address+". If you aren't recieving emails, be sure to check your spam folder and allow emails from 'donotreply@instasync.com'."});
+		res.json({mesage: "An email has been sent to: "+email_address+". If you aren't receiving emails, be sure to check your spam folder and allow emails from 'donotreply@instasync.com'."});
 	}).catch(function(err){
 		return next(err);
 	});
