@@ -10,7 +10,11 @@
 	<div class="room-name">
 		in <a href="/r/<%= room.room_name %>"><strong><%= room.room_name %></strong></a>
 	</div>
+	<!--
 	<div class="visits">
 		<%= commaSeparateNumber(room.visits) %> visits
+	</div>-->
+	<div class="watching">
+		<strong><%= commaSeparateNumber(room.users) %></strong> watching
 	</div>
 </div>
