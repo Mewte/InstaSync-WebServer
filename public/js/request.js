@@ -7,23 +7,13 @@ var request = new function(){
 	this.register = function(credentials, callback){
 		$.post(base_url+"register", credentials).done(function(response){
 			callback(false,response);
-		}).fail(function(err){
-			if (err.status == 0){
-				err.responseJSON = {message: "Failed to connect to server. Try again later."}
-			}
-			callback(err);
-		});
+		}).fail(errorHandler(callback));
 	};
 	this.login = function(credentials, callback)
 	{
 		$.post(base_url+"login", credentials).done(function(response){
 			callback(false,response);
-		}).fail(function(err){
-			if (err.status == 0){
-				err.responseJSON = {message: "Failed to connect to server. Try again later."}
-			}
-			callback(err);
-		});
+		}).fail(errorHandler(callback));
 	};
 	this.logout = function(callback){
 		$.post(base_url+"logout").done(function(){
@@ -35,9 +25,7 @@ var request = new function(){
 	this.checklogin = function(callback){
 		$.get(base_url+"me/user_info").done(function(response){
 			callback(false,response);
-		}).fail(function(){
-			callback(false);
-		});
+		}).fail(errorHandler(callback));
 	};
 	function getRoomInfo(room, callback)
 	{
@@ -62,5 +50,13 @@ var request = new function(){
 			var result = JSON.parse(data);
 			callback(result.error);
 		});
+	}
+	function errorHandler(callback){
+		return function(err){
+			if (err.status == 0){
+				err.responseJSON = {message: "Failed to connect to server. Try again later."}
+			}
+			callback(err);
+		};
 	}
 };
