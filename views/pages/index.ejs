@@ -37,7 +37,10 @@
 			</div>
 		</div>
 	</div>
-	<h3>Public Rooms</h3>
+	<div>
+		<h3 class='public-rooms-h'>Public Rooms</h3>
+		<div class='users-online'><%= numUsers %> Users in <%= numRooms %> rooms</div>
+	</div>
 	<div class="row rooms">
 		<%- partial('partials/room', rooms) %>
 	</div>

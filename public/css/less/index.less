@@ -8,6 +8,21 @@
 	.home{
 		border-bottom: 4px solid #E2E2E2;
 	}
+	.public-rooms-h{
+		float: left;
+		@media(max-width: @media-xxs){
+			float: none;
+		}
+	}
+	.users-online{
+		float: right;
+		margin-top: 20px;
+		margin-bottom: 10px;
+		@media(max-width: @media-xxs){
+			float: none;
+			margin-top: 0px;
+		}
+	}
 	.rooms{
 		.room{
 			margin-bottom: 10px;
@@ -31,7 +46,7 @@
 					&:extend(.username);
 				}
 			}
-			.visits{
+			.visits, .watching{
 				color: #999;
 				font-size: 11px;
 			}
