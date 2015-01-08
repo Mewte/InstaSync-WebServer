@@ -90,6 +90,7 @@ $(function() {
 			}
 			else{
 				$("#logged_in_as").text($.cookie("username"));
+				$("#my_room_link").attr("href", "/r/"+$.cookie("username"));
 				$("#user_dropdown").show();
 			}
 		});
