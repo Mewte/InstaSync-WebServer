@@ -150,48 +150,58 @@ room = new function(room_name){
 		var messageBox = $('<div/>', {
 			"class": "chat-message"
 		});
+		var usernameSpan; //we attach the modal popup code to this
 		if (message.substring(0,4) == "/me "){ //emote text
 			message = message['substring'](3);
-			messageBox.append($("<span/>", {
+			var usernameSpan = $("<span/>", {
 				"class":"username emote "+usernameClass,
 				"text":user.username+" "
-			}));
+			});
+			messageBox.append(usernameSpan);
 			messageBox.append($("<span/>",{
 				"class":"emote",
 				"text":message
 			}));
 		}
 		else if(message.substring(0, 4) == '&gt;'){ //greentext
-			messageBox.append($("<span/>", {
+			usernameSpan = $("<span/>", {
 				"class":"username "+usernameClass,
 				"text":user.username+": "
-			}));
+			});
+			messageBox.append(usernameSpan);
 			messageBox.append($("<span/>",{
 				"class":"message greentext",
 				"html":message //convert to text when switching anti xss to client side
 			}));
 		}
 		else if (message[0] == "#"){ //hashtext
-			messageBox.append($("<span/>", {
+			usernameSpan = $("<span/>", {
 				"class":"username "+usernameClass,
 				"text":user.username+": "
-			}));
+			});
+			messageBox.append(usernameSpan);
 			messageBox.append(($("<span/>",{
 				"class":"message hashtext",
 				"html":message //convert to text when switching anti xss to client side
 			})));
 		}
 		else{ //regular message
-			messageBox.append($("<span/>", {
+			usernameSpan = $("<span/>", {
 				"class":"username "+usernameClass,
 				"text":user.username+": "
-			}));
+			});
+			messageBox.append(usernameSpan);
 			var msg = $("<span/>",{
 				"class":"message "+extraStyles,
 				"html":linkify(message)//switch this to text when switching to xss prevention client side
 			});
 			messageBox.append(msg);
 		}
+		$(usernameSpan).click(function(){
+			var modal = $('#user_profile_modal');
+			$(".modal-title",modal).text(user.username);
+			modal.modal('show');
+		});
 		$("#chat_messages").append(messageBox);
 		if (self.autoscroll === true) {
 			var textarea = document.getElementById('chat_messages');
