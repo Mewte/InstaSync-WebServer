@@ -89,6 +89,9 @@ var error_handler = function(err, req, res, next){
 		// production error handler
 		// no stacktraces leaked to user
 		res.status(err.status || 500);
+		if (err.status == 500){//hide server errors from client
+			err.message = "A server error has occured. Please try again later.";
+		}
 		res.render('error', {
 			message: err.message,
 			error: {
