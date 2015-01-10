@@ -197,7 +197,7 @@ room = new function(room_name){
 			});
 			messageBox.append(msg);
 		}
-		$(usernameSpan).click(function(){
+		$(usernameSpan).mousedown(function(){
 			var modal = $('#user_profile_modal');
 			$(".modal-title",modal).text(user.username);
 			modal.modal('show');
