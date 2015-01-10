@@ -63,7 +63,7 @@
 							</div>
 							<div id='invalid_login_message' class="text-danger">
 							</div>
-							<a href='/user/forgotpassword'>Forgot your password?</a>
+							<a href='#forgot_password_modal' onclick="$('#forgot_password_modal').modal('show'); return false;">Forgot your password?</a>
 							<button id="login" class="btn btn-xs btn-primary btn-block form-submit">Sign in <span style="padding-left: 5px;" class="glyphicon glyphicon-log-in"></span> </button>
 						</div>
 					</div>
@@ -99,4 +99,26 @@
         </div>
         <!--/.nav-collapse -->
     </div>
+</div>
+<!-- Forgot Password Modal -->
+<div class="modal fade" id="forgot_password_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Forgot Password</h4>
+			</div>
+			<div class="modal-body" id="password_reset">
+				<div style="margin-bottom: 5px;">
+					<input data-name="email" style="margin-bottom: 4px;" type="text" class="form-control" placeholder="Email"/>
+					<input data-name="username" type="text" class="form-control" placeholder="Username"/>
+				</div>
+				<div data-name="output" class="text-danger"></div>
+			</div>
+			<div class="modal-footer">
+				<button data-name="submit" type="button" class="btn btn-primary btn-sm">Submit</button>
+				<button type="button" class="btn btn-default btn-sm" onclick="$('#forgot_password_modal').modal('hide')">Close</button>
+			</div>
+		</div>
+	</div>
 </div>

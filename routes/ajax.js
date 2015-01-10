@@ -171,7 +171,7 @@ router.post('/me/password_reset', function(req,res,next){
 			var server  = email.server.connect({user:"",password:"",host:"104.236.173.236",ssl:false});
 			var url = "http://pr.instasync.com/"+token;
 			var message = {
-				text: "i hope this works",
+				text: "",
 				from: "InstaSync <donotreply@instasync.com>",
 				to: "<"+email_address+">",
 				subject: "Password reset for " + username,
@@ -191,7 +191,7 @@ router.post('/me/password_reset', function(req,res,next){
 			});
 		}
 	}).then(function(){
-		res.json({mesage: "An email has been sent to: "+email_address+". If you aren't receiving emails, be sure to check your spam folder and allow emails from 'donotreply@instasync.com'."});
+		res.json({message: "An email has been sent to: "+email_address+". If you aren't receiving emails, be sure to check your spam folder and allow emails from 'donotreply@instasync.com'."});
 	}).catch(function(err){
 		return next(err);
 	});

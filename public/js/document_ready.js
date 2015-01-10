@@ -102,4 +102,26 @@ $(function() {
 		});
 		return false;
 	});
+	$("#forgot_password_modal [data-name='submit']").click(function(){
+		var output = $("#forgot_password_modal [data-name='output']");
+		var email = $("#forgot_password_modal [data-name='email']");
+		var username = $("#forgot_password_modal [data-name='username']");
+		output.removeClass();
+		output.addClass("text-info");
+		output.text("Sending..");
+		request.passwordReset(username.val(),email.val(), function(err, response){
+			if (err){
+				output.removeClass();
+				output.addClass("text-danger");
+				output.text(err.responseJSON.message);
+			}
+			else{
+				output.removeClass();
+				output.addClass("text-success");
+				output.text(response.message);
+				email.val("");
+				username.val("");
+			}
+		});
+	});
 });
