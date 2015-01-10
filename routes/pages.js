@@ -33,7 +33,6 @@ function indexRoute(req,res,next){
 		this.rooms = resp[0]; //first element of the array is an array of records I guess
 		return req.db.select(req.db.raw("sum(users) as users, count(room_id) as rooms")).from("rooms").where("users",">", 0);
 	}).then(function(online_count){
-		console.log(online_count);
 		res.render('pages/index', {
 			title: 'InstaSync - '+meta['index'].title,
 			rooms: this.rooms,
