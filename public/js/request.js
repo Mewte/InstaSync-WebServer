@@ -35,13 +35,11 @@ var request = new function(){
 			callback(result.listing, result.description, result.info, result.error);
 		});
 	}
-	function getUserInfo(username, callback)
+	this.getUser = function(username, callback)
 	{
-		$.get("/ajax/userinfo?username=" + username).done(function(data)
-		{
-			var result = JSON.parse(data);
-			callback(result.avatar, result.bio, result.error);
-		});
+		$.get(base_url+"user/"+username).done(function(response){
+			callback(false,response);
+		}).fail(errorHandler(callback));
 	}
 	function setUserInfo(avatar, bio, social, callback)
 	{
