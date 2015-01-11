@@ -83,4 +83,23 @@ function onReady(room, socket){
 		}
 		$('#join_username').val('');
 	};
+	$("#chat_messages").on("mousedown",".chat-message .username",function(e){
+		if (e.which == 1){ //left click
+			var user = $(this).parent().data("user");
+			var modal = $('#user_profile_modal');
+			$(".modal-body", modal).text("");
+			$(".modal-title",modal).text(user.username);
+			if (user.loggedin){
+				request.getUser(user.username, function(err, user){
+					if (!err){
+						$(".modal-body",modal).text(user.bio);
+					}
+				});
+			}
+			else{
+				$(".modal-body", modal).html("<em class='text-muted'>Not Registered</em>");
+			}
+			modal.modal('show');
+		}
+	});
 }
