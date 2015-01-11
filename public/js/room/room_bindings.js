@@ -54,6 +54,10 @@ function onReady(room, socket){
 		}
 		$('#add_video_url').val('');
 	});
+	$("#tabs_chat").click(function(){ //scrollchat to bottom when clicked
+		var textarea = document.getElementById('chat_messages');
+		textarea.scrollTop = textarea.scrollHeight;
+	});
 	$("#skip_button").click(function(){
 		if (room.user.userinfo.loggedin)
 			socket.sendcmd('skip', null);
