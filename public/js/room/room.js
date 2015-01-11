@@ -199,7 +199,18 @@ room = new function(room_name){
 		}
 		$(usernameSpan).mousedown(function(){
 			var modal = $('#user_profile_modal');
+			$(".modal-body", modal).text("");
 			$(".modal-title",modal).text(user.username);
+			if (user.loggedin){
+				request.getUser(user.username, function(err, user){
+					if (!err){
+						$(".modal-body",modal).text(user.bio);
+					}
+				});
+			}
+			else{
+				$(".modal-body", modal).html("<em class='text-muted'>Not Registered</em>");
+			}
 			modal.modal('show');
 		});
 		$("#chat_messages").append(messageBox);
