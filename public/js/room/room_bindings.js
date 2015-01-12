@@ -102,4 +102,10 @@ function onReady(room, socket){
 			modal.modal('show');
 		}
 	});
+	$("#playlist").on("click","li .remove-video",function(e){
+		if (e.which == 1){ //left click
+			var video = $(this).parent().parent().data("video");
+			socket.sendcmd("remove", {info: video.info});
+		}
+	});
 }

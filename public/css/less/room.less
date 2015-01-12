@@ -34,7 +34,9 @@
 		height: (@chat-height-lg + 36);
 	}
 }
-
+.mod{
+	display: anything;
+}
 .room-container{
 	margin-bottom: 30px;
 	border-radius: 2px;
@@ -231,7 +233,7 @@
 							color: rgb(76,76,76);
 							.title{
 								float: left;
-								width: calc(~"100% - 40px");
+								width: calc(~"100% - 46px");
 								&:extend(.no-wrap-ellipsis);
 								.list-number{
 									font-weight: bold;
@@ -239,11 +241,16 @@
 							}
 							.buttons{
 								float: right;
-								width: 40px;
+								width: 34px;
 								font-size: 14px;
+								margin-right: 6px;
 								margin-bottom: -3px;
+								> *{
+									float: right;
+								}
 								i{
 									margin-left: 4px;
+									margin-top: 2px;
 								}
 
 							}

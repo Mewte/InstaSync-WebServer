@@ -48,12 +48,12 @@ function playlist(room, socket){
 			}));
 			li.append($("<div/>", {
 				class:"buttons"
-				}).append(
+				}).append($("<i/>",{
+					class:"fa fa-times-circle mod remove-video",
+					css: room.user.isMod ? {} : {display: "none"}
+				})).append(
 					$("<a/>",{target: "_blank", href: url(video)}).append($("<i/>",{class:"fa fa-external-link"}))
-				)
-				.append($("<i/>",{
-					class:"fa fa-times-circle"
-				})));
+				));
 			li.append($("<div/>",{
 				class:"pl-video-info"
 				}).append($("<div/>",{
