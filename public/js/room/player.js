@@ -43,7 +43,7 @@ function player(containerID){
 				loadYoutube(info.id, time, playing);
 				break;
 			case "vimeo":
-				var src = "http://vimeo.instasynch.com/video.php?id="+info.id+"&type=vimeo&redirect=1";
+				var src = "http://vimeo.instasync.com/video.php?id="+info.id+"&type=vimeo&redirect=1";
 				var destination = "http://vimeo.com/"+info.id;
 				loadMP4(src, time, playing, "/images/icons/vimeo.png",destination);
 				break;
