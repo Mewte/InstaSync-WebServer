@@ -243,7 +243,7 @@ room = new function(room_name){
 		}
 	}
 	this.playVideo = function(vidinfo, time, playing) {
-		return;
+		//return;
 		var indexOfVid = self.playlist.indexOf(vidinfo);
 		if (indexOfVid > -1)
 		{

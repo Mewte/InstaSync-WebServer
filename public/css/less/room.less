@@ -166,6 +166,60 @@
 					}
 				}
 			}
+			#tabs_polls_content{
+				padding-top: 10px;
+				overflow: auto;
+				overflow-x: hidden;
+				font-size: 13px;
+				.poll{
+					margin: 0px 10px 6px 10px;
+					border-radius: 4px;
+					border: 1px solid rgba(0,0,0,0.25);
+					background-color: rgba(0,0,0,0.1);
+					padding: 4px;
+					&.active{
+						box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+						background-color: white;
+						.poll-options .poll-option .poll-votes{
+							box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+							border: 1px solid rgba(0,0,0,0.25);
+							background-color: transparent;
+							cursor: pointer;
+							&:hover{
+								background-color: rgba(0,0,0,0.1);
+							}
+						}
+					}
+					.poll-controls{
+						float: right;
+						display: inline-block;
+						margin-right: 8px;
+					}
+					.poll-title{
+						border-bottom: 1px solid rgba(0,0,0,0.15);
+						margin-bottom: 2px;
+					}
+					.poll-options{
+						.poll-option{
+							margin-top: 4px;
+							.poll-votes{
+								box-shadow: none;
+								border: none;
+								background-color: rgba(0,0,0,0.1);
+								padding: 2px 6px;
+								margin-right: 2px;
+								border-radius: 4px;
+								&hover{
+
+								}
+							}
+							.poll-text{
+
+							}
+						}
+					}
+				}
+			}
 			#user_profile_modal{
 				.modal-header{
 					padding-bottom: 5px;
