@@ -168,7 +168,7 @@ router.post('/me/password_reset', function(req,res,next){
 			throw error;
 		}
 		else{
-			var server  = email.server.connect({user:"",password:"",host:"104.236.173.236",ssl:false});
+			var server  = email.server.connect({user:"",password:"",host:"mail.instasync.com",ssl:false});
 			var url = "http://pr.instasync.com/"+token;
 			var message = {
 				text: "",
