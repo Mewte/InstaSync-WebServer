@@ -99,6 +99,7 @@ room = new function(room_name){
 		self.video = video;
 		self.playlist = new playlist(self, socket);
 		self.userlist = new userlist(self,socket);
+		self.poll = new poll(self,socket);
 		onReady(self, socket);
 		socket.connect();
 	});
@@ -279,6 +280,18 @@ room = new function(room_name){
 				self.playlistlock(data);
 				break;
 			case "leader":
+				break;
+			case "poll-create":
+				self.poll.create(data.poll);
+				break;
+			case "poll-end":
+				self.poll.end();
+				break;
+			case "poll-addvote":
+				self.poll.addVote(data.option);
+				break;
+			case "poll-removevote":
+				self.poll.removeVote(data.option);
 				break;
 			default:
 

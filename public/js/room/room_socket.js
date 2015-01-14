@@ -106,7 +106,8 @@ room.setSocket(new function (room){
 	});
 	socket.on('room-event', function (data)
 	{
-		room.event(data.action, data.data);
+		//TODO: data.data should ALWAYS BE DATA, why is it sometimes data.data and sometimes data.poll? etc.
+		room.event(data.action, data);
 	});
 	socket.on('add-user', function (data)
 	{
