@@ -73,6 +73,7 @@ function onReady(room, socket){
 				if (username['toLowerCase']() == room.userlist.users[i]['username']['toLowerCase']())
 				{
 					alert('Name in use.');
+					return false;
 				}
 			}
 			socket.rename(username);
