@@ -10,7 +10,7 @@ function poll(room, socket){
 		if (room.user.isMod){ //mod controls
 			pollEle.append($("<div>",{
 				class:"mod poll-controls",
-				html: $("<i>",{class:"fa fa-pencil"}).prop('outerHTML') +" "+ $("<i>",{class: "fa fa-close"}).prop('outerHTML') //ALL THIS JUST TO ADD A SPACE
+				html: $("<i>",{class:"fa fa-pencil"}).prop('outerHTML') +" "+ $("<i>",{class: "fa fa-close poll-end"}).prop('outerHTML') //ALL THIS JUST TO ADD A SPACE
 			}));
 		}
 		var title = $("<div>",{

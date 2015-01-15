@@ -121,4 +121,9 @@ function onReady(room, socket){
 			}
 		}
 	});
+	$("#tabs_polls_content").on("click",".poll.active .poll-controls .poll-end",function(e){
+		if (e.which == 1){ //left click
+			socket.sendcmd("poll-end", null);
+		}
+	});
 }
