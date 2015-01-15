@@ -65,7 +65,7 @@ function onReady(room, socket){
 			room.addMessage({username: ""},"You must be logged in to vote to skip.","errortext");
 	});
 	function join(){
-		var username = $('#join_username').val();
+		var username = $('#join_username').val().trim();
 		if (username != '' && username['match'](/^([A-Za-z0-9]|([-_](?![-_]))){1,16}$/) != null)
 		{
 			for (var i = 0; i < room.userlist.users['length']; i++)
