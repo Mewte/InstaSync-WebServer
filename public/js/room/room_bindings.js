@@ -108,7 +108,7 @@ function onReady(room, socket){
 			socket.sendcmd("remove", {info: video.info});
 		}
 	});
-	$("#tabs_polls_content").on("click",".poll.active .poll-options .poll-votes",function(e){
+	$("#polls").on("click",".poll.active .poll-options .poll-votes",function(e){
 		if (e.which == 1){ //left click
 			var option = $(this).data("option");
 			if (room.user.userinfo.loggedin)
@@ -121,7 +121,7 @@ function onReady(room, socket){
 			}
 		}
 	});
-	$("#tabs_polls_content").on("click",".poll.active .poll-controls .poll-end",function(e){
+	$("#polls").on("click",".poll.active .poll-controls .poll-end",function(e){
 		if (e.which == 1){ //left click
 			socket.sendcmd("poll-end", null);
 		}

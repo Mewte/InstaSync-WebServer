@@ -5,7 +5,7 @@
 function poll(room, socket){
 	var self = this;
 	this.create = function(poll){
-		$("#tabs_polls_content .poll.active").removeClass("active");
+		$("#polls .poll.active").removeClass("active");
 		var pollEle = $("<div>",{class: "poll active"});
 		if (room.user.isMod){ //mod controls
 			pollEle.append($("<div>",{
@@ -27,17 +27,17 @@ function poll(room, socket){
 			pollOptionsEle.append($("<div>",{class: "poll-option",}).append(voteEle).append(textEle));
 		}
 		pollEle.append(pollOptionsEle);
-		$("#tabs_polls_content").prepend(pollEle);
+		$("#polls").prepend(pollEle);
 	};
 	this.end = function(){
-		$("#tabs_polls_content .poll.active").removeClass("active");
+		$("#polls .poll.active").removeClass("active");
 	};
 	this.addVote = function(option){
-		var element = $("#tabs_polls_content .poll.active .poll-options .poll-option .poll-votes")[option];
+		var element = $("#polls .poll.active .poll-options .poll-option .poll-votes")[option];
 		$(element).text(parseInt($(element).text(), 10) + 1);
 	};
 	this.removeVote = function(option){
-		var element = $("#tabs_polls_content .poll.active .poll-options .poll-option .poll-votes")[option];
+		var element = $("#polls .poll.active .poll-options .poll-option .poll-votes")[option];
 		$(element).text(parseInt($(element).text(), 10) - 1);
 	};
 	return this;
