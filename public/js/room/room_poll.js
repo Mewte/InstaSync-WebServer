@@ -22,7 +22,7 @@ function poll(room, socket){
 		for (var i = 0; i < poll.options.length; i++){
 			var voteEle = $("<span>",{class:"poll-votes",text:poll.options[i].votes});
 			voteEle.data("option",i);
-			var textEle = $("<span>",{class:"poll-text"});
+			var textEle = $("<div>",{class:"poll-text"});
 			textEle.html(linkify(textEle.text(poll.options[i].option).html()));
 			pollOptionsEle.append($("<div>",{class: "poll-option",}).append(voteEle).append(textEle));
 		}
