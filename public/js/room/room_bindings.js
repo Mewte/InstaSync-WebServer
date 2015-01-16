@@ -19,6 +19,13 @@ function onReady(room, socket){
 		room.unreadTabMessages = 0;
 		$("#tabs_chat .unread-msg-count").text("");
 	});
+	$("#tabs_chat").click(function(){ //scrollchat to bottom when clicked
+		var textarea = document.getElementById('chat_messages');
+		textarea.scrollTop = textarea.scrollHeight;
+	});
+	$("#tabs_polls").click(function(){
+		$("#tabs_polls").removeClass("attention")
+	});
 	//(C) BibbyTube, (C) Faqqq
 	//https://github.com/Bibbytube/Instasynch/blob/master/Chat%20Additions/Autoscroll%20Fix/autoscrollFix.js
 	$('#chat_messages').on('scroll',function(){
@@ -53,10 +60,6 @@ function onReady(room, socket){
 			socket.sendcmd('add', {URL: url});
 		}
 		$('#add_video_url').val('');
-	});
-	$("#tabs_chat").click(function(){ //scrollchat to bottom when clicked
-		var textarea = document.getElementById('chat_messages');
-		textarea.scrollTop = textarea.scrollHeight;
 	});
 	$("#skip_button").click(function(){
 		if (room.user.userinfo.loggedin)

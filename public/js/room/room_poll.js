@@ -28,6 +28,9 @@ function poll(room, socket){
 		}
 		pollEle.append(pollOptionsEle);
 		$("#polls").prepend(pollEle);
+		if (!$("#tabs_polls").parent().hasClass("active")){ //tab is not selected, so highlight it
+			$("#tabs_polls").addClass("attention");
+		}
 	};
 	this.end = function(){
 		$("#polls .poll.active").removeClass("active");
