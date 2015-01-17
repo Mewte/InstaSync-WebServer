@@ -24,7 +24,18 @@ function onReady(room, socket){
 		textarea.scrollTop = textarea.scrollHeight;
 	});
 	$("#tabs_polls").click(function(){
-		$("#tabs_polls").removeClass("attention")
+		$("#tabs_polls").removeClass("attention");
+		if ($(".poll.active").length == 0){
+			$("#poll_message").text("No active polls.");
+			$("#poll_message").show();
+		}
+		else if (!room.user.userinfo.loggedin){
+			$("#poll_message").text("You must be logged in to vote.");
+			$("#poll_message").show();
+		}
+		else{
+			$("#poll_message").hide();
+		}
 	});
 	//(C) BibbyTube, (C) Faqqq
 	//https://github.com/Bibbytube/Instasynch/blob/master/Chat%20Additions/Autoscroll%20Fix/autoscrollFix.js

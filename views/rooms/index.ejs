@@ -20,24 +20,24 @@
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs chat-tabs" role="tablist">
 					<li id="tabs_chat" class="active">
-						<a class='active_tooltip' data-original-title="Chat" href="#tabs_chat_content" data-toggle="tab" rel="tooltip" data-placement="bottom">
+						<a class='active_tooltip' data-original-title="Chat" href="#tabs_chat_content" data-toggle="tab" rel="tooltip" data-placement="top">
 							<i class="fa fa-comments"></i>
 							<span class="badge unread-msg-count"></span>
 						</a>
 					</li>
 					<li>
-						<a class='active_tooltip' data-original-title="Users" href="#tabs_users_content" data-toggle="tab" rel="tooltip" data-placement="bottom">
+						<a class='active_tooltip' data-original-title="Users" href="#tabs_users_content" data-toggle="tab" rel="tooltip" data-placement="top">
 							<i class="fa fa-users"></i>
 							<span class="badge user-count"></span>
 						</a>
 					</li>
 					<li>
-						<a class='active_tooltip' id="tabs_polls" data-original-title="Polls" href="#tabs_polls_content" data-toggle="tab" rel="tooltip" data-placement="bottom">
+						<a class='active_tooltip' id="tabs_polls" data-original-title="Polls" href="#tabs_polls_content" data-toggle="tab" rel="tooltip" data-placement="top">
 							<i class="fa fa-bar-chart"></i>
 						</a>
 					</li>
 					<li>
-						<a class='active_tooltip' data-original-title="Settings" href="#tabs_chat_settings_content" data-toggle="tab" rel="tooltip" data-placement="bottom">
+						<a class='active_tooltip' data-original-title="Settings" href="#tabs_chat_settings_content" data-toggle="tab" rel="tooltip" data-placement="top">
 							<i class="fa fa-cog"></i>
 						</a>
 					</li>
@@ -64,6 +64,9 @@
 						</div>
 					</div>
 					<div class="tab-pane" id="tabs_polls_content">
+						<div class="poll-top">
+							<div id="poll_message" class="text-danger" style="display: none;">You must be logged in to vote.</div>
+						</div>
 						<div id="polls"></div>
 					</div>
 					<div class="tab-pane" id="tabs_chat_settings_content">

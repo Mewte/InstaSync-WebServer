@@ -27,6 +27,9 @@ function poll(room, socket){
 			pollOptionsEle.append($("<div>",{class: "poll-option",}).append(voteEle).append(textEle));
 		}
 		pollEle.append(pollOptionsEle);
+		pollEle.append($("<div/>",{
+			class: "text-danger poll-ended"
+		}));
 		$("#polls").prepend(pollEle);
 		if (!$("#tabs_polls").parent().hasClass("active")){ //tab is not selected, so highlight it
 			$("#tabs_polls").addClass("attention");
