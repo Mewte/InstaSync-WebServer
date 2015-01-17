@@ -146,7 +146,7 @@ room = new function(room_name){
 			return;
 		usernameClass += user.loggedin ? "registered " : "unregistered ";
 		if (user.permissions > 0){
-			usernameClass += "mod";
+			usernameClass += "mod-message";
 		}
 		var messageBox = $('<div/>', {
 			"class": "chat-message"
