@@ -18,10 +18,10 @@ function onReady(room, socket){
 	$("#tabs_chat").click(function(){
 		room.unreadTabMessages = 0;
 		$("#tabs_chat .unread-msg-count").text("");
-	});
-	$("#tabs_chat").click(function(){ //scrollchat to bottom when clicked
-		var textarea = document.getElementById('chat_messages');
-		textarea.scrollTop = textarea.scrollHeight;
+		setTimeout(function(){
+			var textarea = document.getElementById('chat_messages');
+			textarea.scrollTop = textarea.scrollHeight;
+		}, 100);
 	});
 	$("#tabs_polls").click(function(){
 		$("#tabs_polls").removeClass("attention");
