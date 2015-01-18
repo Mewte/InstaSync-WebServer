@@ -37,6 +37,11 @@ function onReady(room, socket){
 			$("#poll_message").hide();
 		}
 	});
+	$("#create_poll_btn").click(function(){
+		var user = $(this).parent().data("user");
+		var modal = $('#create_poll_modal');
+		modal.modal('show');
+	});
 	//(C) BibbyTube, (C) Faqqq
 	//https://github.com/Bibbytube/Instasynch/blob/master/Chat%20Additions/Autoscroll%20Fix/autoscrollFix.js
 	$('#chat_messages').on('scroll',function(){
