@@ -28,23 +28,34 @@ function poll(room, socket){
 		}
 		pollEle.append(pollOptionsEle);
 		pollEle.append($("<div/>",{
-			class: "text-danger poll-ended"
+			class: "text-danger poll-ended",
+			html:$("<i/>",{class:"fa fa-trash-o delete-poll"})
 		}));
 		$("#poll_tab").prepend(pollEle);
-		$("#poll_column").prepend(pollEle.clone());
+		$("#poll_column").prepend(pollEle.clone(true));
 		if (!$("#tabs_polls").parent().hasClass("active")){ //tab is not selected, so highlight it
 			$("#tabs_polls").addClass("attention");
 		}
 	};
 	this.end = function(){
-		$("#polls .poll.active").removeClass("active");
+		$(".poll.active").removeClass("active");
 	};
 	this.addVote = function(option){
-		var element = $("#polls .poll.active .poll-options .poll-option .poll-votes")[option];
+		//update tab poll
+		var element = $("#poll_tab .poll.active .poll-options .poll-option .poll-votes")[option];
+		$(element).text(parseInt($(element).text(), 10) + 1);
+
+		//update column poll
+		var element = $("#poll_column .poll.active .poll-options .poll-option .poll-votes")[option];
 		$(element).text(parseInt($(element).text(), 10) + 1);
 	};
 	this.removeVote = function(option){
-		var element = $("#polls .poll.active .poll-options .poll-option .poll-votes")[option];
+		//update tab poll
+		var element = $("#poll_tab .poll.active .poll-options .poll-option .poll-votes")[option];
+		$(element).text(parseInt($(element).text(), 10) - 1);
+
+		//update column poll
+		var element = $("#poll_column .poll.active .poll-options .poll-option .poll-votes")[option];
 		$(element).text(parseInt($(element).text(), 10) - 1);
 	};
 	return this;

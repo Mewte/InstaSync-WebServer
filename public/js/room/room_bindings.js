@@ -38,7 +38,6 @@ function onReady(room, socket){
 		}
 	});
 	$("#create_poll_btn").click(function(){
-		var user = $(this).parent().data("user");
 		var modal = $('#create_poll_modal');
 		modal.modal('show');
 	});
@@ -128,9 +127,10 @@ function onReady(room, socket){
 			socket.sendcmd("remove", {info: video.info});
 		}
 	});
-	$("#polls").on("click",".poll.active .poll-options .poll-votes",function(e){
+	$("#poll_tab,#poll_column").on("click",".poll.active .poll-options .poll-votes",function(e){
 		if (e.which == 1){ //left click
 			var option = $(this).data("option");
+			console.log(option);
 			if (room.user.userinfo.loggedin)
 			{
 				socket.sendcmd("poll-vote", {vote: option});
@@ -141,9 +141,14 @@ function onReady(room, socket){
 			}
 		}
 	});
-	$("#polls").on("click",".poll.active .poll-controls .poll-end",function(e){
+	$("#poll_tab,#poll_column").on("click",".poll.active .poll-controls .poll-end",function(e){
 		if (e.which == 1){ //left click
 			socket.sendcmd("poll-end", null);
+		}
+	});
+	$("#poll_tab,#poll_column").on("click",".poll .poll-ended .delete-poll",function(e){
+		if (e.which == 1){ //left click
+			$(this).parents('.poll').remove();
 		}
 	});
 }
