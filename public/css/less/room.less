@@ -173,84 +173,6 @@
 					text-align: center;
 					margin: 4px 0px 4px 0px;
 				}
-				#polls{
-					.poll{
-						margin: 0px 10px 6px 10px;
-						border-radius: 4px;
-						border: 1px solid rgba(0,0,0,0.25);
-						background-color: rgba(0,0,0,0.1);
-						padding: 4px;
-						overflow-x: hidden;
-						.poll-controls{
-							float: right;
-							display: inline-block;
-							margin-right: 8px;
-						}
-						.poll-title{
-							border-bottom: 1px solid rgba(0,0,0,0.15);
-							margin-bottom: 2px;
-							word-break: break-all;
-							@media(max-width: @media-xxs){font-size: 11px;}
-							@media(max-width: @media-xs){font-size: 13px;}
-							@media(min-width: @media-sm){font-size: 12px;}
-							@media(min-width:@media-md){font-size: 13px;}
-							@media(min-width:@media-lg){font-size: 14px;}
-						}
-						.poll-options{
-							margin-bottom: 4px;
-							.poll-option{
-								margin-top: 8px;
-								.poll-votes{
-									box-shadow: none;
-									border: none;
-									background-color: rgba(0,0,0,0.1);
-									padding: 2px 6px;
-									margin-right: 2px;
-									border-radius: 4px;
-								}
-								.poll-text{
-									display: inline;
-									margin-left: 4px;
-									@media(max-width: @media-xxs){font-size: 10px;}
-									@media(max-width: @media-xs){font-size: 12px;}
-									@media(min-width: @media-sm){font-size: 10px;}
-									@media(min-width:@media-md){font-size: 11px;}
-									@media(min-width:@media-lg){font-size: 12px;}
-								}
-							}
-						}
-						.poll-ended{
-							font-size: 12px;
-							text-align: center;
-							cursor: pointer;
-							&:before{
-								content: "This poll has ended.";
-							}
-						}
-					}
-					.poll.active{
-						box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
-						background-color: white;
-						.poll-options .poll-option .poll-votes{
-							border: 1px solid rgba(0,0,0,0.25);
-							background-color: transparent;
-							cursor: pointer;
-							&:hover{
-								background-color: rgba(0,0,0,0.1);
-							}
-						}
-						.poll-ended{
-							display: none;
-						}
-					}
-					.poll:not(.active){
-						.poll-controls{
-							.fa-close{
-								display: none; /* COuldn't figure out how to remove display none..'*/
-							}
-						}
-					}
-				}
 			}
 			#user_profile_modal{
 				.modal-header{
@@ -439,3 +361,81 @@
 @media(min-width: @media-sm){}
 @media(min-width:@media-md){}
 @media(min-width:@media-lg){}
+#poll_tab,#poll_column{
+	.poll{
+		margin: 0px 10px 6px 10px;
+		border-radius: 4px;
+		border: 1px solid rgba(0,0,0,0.25);
+		background-color: rgba(0,0,0,0.1);
+		padding: 4px;
+		overflow-x: hidden;
+		.poll-controls{
+			float: right;
+			display: inline-block;
+			margin-right: 8px;
+		}
+		.poll-title{
+			border-bottom: 1px solid rgba(0,0,0,0.15);
+			margin-bottom: 2px;
+			word-break: break-all;
+			@media(max-width: @media-xxs){font-size: 11px;}
+			@media(max-width: @media-xs){font-size: 13px;}
+			@media(min-width: @media-sm){font-size: 12px;}
+			@media(min-width:@media-md){font-size: 13px;}
+			@media(min-width:@media-lg){font-size: 14px;}
+		}
+		.poll-options{
+			margin-bottom: 4px;
+			.poll-option{
+				margin-top: 8px;
+				.poll-votes{
+					box-shadow: none;
+					border: none;
+					background-color: rgba(0,0,0,0.1);
+					padding: 2px 6px;
+					margin-right: 2px;
+					border-radius: 4px;
+				}
+				.poll-text{
+					display: inline;
+					margin-left: 4px;
+					@media(max-width: @media-xxs){font-size: 10px;}
+					@media(max-width: @media-xs){font-size: 12px;}
+					@media(min-width: @media-sm){font-size: 10px;}
+					@media(min-width:@media-md){font-size: 11px;}
+					@media(min-width:@media-lg){font-size: 12px;}
+				}
+			}
+		}
+		.poll-ended{
+			font-size: 12px;
+			text-align: center;
+			cursor: pointer;
+			&:before{
+				content: "This poll has ended.";
+			}
+		}
+	}
+	.poll.active{
+		box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+		background-color: white;
+		.poll-options .poll-option .poll-votes{
+			border: 1px solid rgba(0,0,0,0.25);
+			background-color: transparent;
+			cursor: pointer;
+			&:hover{
+				background-color: rgba(0,0,0,0.1);
+			}
+		}
+		.poll-ended{
+			display: none;
+		}
+	}
+	.poll:not(.active){
+		.poll-controls{
+			.fa-close{
+				display: none; /* COuldn't figure out how to remove display none..'*/
+			}
+		}
+	}
+}

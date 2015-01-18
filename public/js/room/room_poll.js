@@ -5,7 +5,7 @@
 function poll(room, socket){
 	var self = this;
 	this.create = function(poll){
-		$("#polls .poll.active").removeClass("active");
+		$(".poll.active").removeClass("active");
 		var pollEle = $("<div>",{class: "poll active"});
 		if (room.user.isMod){ //mod controls
 			pollEle.append($("<div>",{
@@ -30,7 +30,8 @@ function poll(room, socket){
 		pollEle.append($("<div/>",{
 			class: "text-danger poll-ended"
 		}));
-		$("#polls").prepend(pollEle);
+		$("#poll_tab").prepend(pollEle);
+		$("#poll_column").prepend(pollEle.clone());
 		if (!$("#tabs_polls").parent().hasClass("active")){ //tab is not selected, so highlight it
 			$("#tabs_polls").addClass("attention");
 		}
