@@ -164,4 +164,7 @@ function onReady(room, socket){
 			$(this).parent().remove();
 		}
 	});
+	$("#create_poll_modal .add-poll-option").click(function(e){ //remove poll option
+		room.poll.addPollOption();
+	});
 }

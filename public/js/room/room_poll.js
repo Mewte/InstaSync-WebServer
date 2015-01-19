@@ -63,9 +63,18 @@ function poll(room, socket){
 		title = title || "";
 		options = options || ["",""]; //default is two options
 		var modal = $('#create_poll_modal');
-		console.log(options);
-
+		$("#create_poll_title").val(title);
+		for (var i = 0; i < options.length; i++){
+			self.addPollOption(options[i]);
+		}
 		modal.modal('show');
+	};
+	this.addPollOption = function(text){
+		if ($("#create_poll_modal .poll-options .input-group").length < 10){
+			var option = $('<div class="input-group input-group-sm"><span class="input-group-addon">Option</span><input type="text" class="form-control"><i class="fa fa-close remove-option"></i></div>');
+			$(option).find('input').val(text);
+			$("#create_poll_modal .poll-options").append(option);
+		}
 	};
 	return this;
 }

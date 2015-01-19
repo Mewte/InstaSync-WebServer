@@ -97,12 +97,12 @@
 					</div>
 				</div>
 				<!-- User Profile Modal -->
-				<div class="modal fade" id="user_profile_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal fade" id="user_profile_modal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title" id="myModalLabel">Mewte</h4>
+								<h4 class="modal-title" id="userModalLabel">Mewte</h4>
 							</div>
 							<div class="modal-body">
 									Hi Im Mewte
@@ -114,29 +114,21 @@
 					</div>
 				</div>
 				<!-- Create Poll Modal -->
-				<div class="modal fade" id="create_poll_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal fade" id="create_poll_modal" tabindex="-1" role="dialog" aria-labelledby="pollModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title" id="myModalLabel">Create Poll</h4>
+								<h4 class="modal-title" id="pollModalLabel">Create Poll</h4>
 							</div>
 							<div class="modal-body">
 								<div class="input-group input-group-sm">
-									<span class="input-group-addon" id="basic-addon1">Title</span>
-									<input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+									<span class="input-group-addon">Title</span>
+									<input id="create_poll_title" type="text" class="form-control">
 								</div>
-								<div id="poll-options">
-									<div class="input-group input-group-sm">
-										<span class="input-group-addon" id="basic-addon1">Option</span>
-										<input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
-										<i class="fa fa-close remove-option"></i>
-									</div>
-									<div class="input-group input-group-sm">
-										<span class="input-group-addon" id="basic-addon1">Option</span>
-										<input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
-										<i class="fa fa-close remove-option"></i>
-									</div>
+								<div class="poll-options"></div>
+								<div class="" style="margin: 0px 0px -8px 2px;">
+									<i class="fa fa-plus add-poll-option"></i>
 								</div>
 							</div>
 							<div class="modal-footer">
