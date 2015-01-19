@@ -16,7 +16,7 @@ room.setSocket(new function (room){
 		"max reconnection attempts": 5,
 		"auto connect": false,
 		"sync disconnect on unload": true,
-		//transports: ['websocket','xhr-polling','jsonp-polling'] //testing
+		transports: ['xhr-polling','jsonp-polling'] //testing
 	});
 	this.sendmsg = function (message) {
 		var d = new Date();
@@ -46,7 +46,7 @@ room.setSocket(new function (room){
 		socket.socket.connect();
 	};
 	socket.on('sys-message', function (data) {
-		room.addMessage({username: ""}, data.message, 'system');
+		room.addMessage({username: ""}, data.message, 'text-info');
 	});
 	socket.on('rename', function (data) {
 		room.userlist.renameUser(data.id, data.username);

@@ -11,17 +11,27 @@
 room = new function(room_name){
 	var self = this; //netbeans says this is unused, but it's not. It's not a global variable either
 	/* Some default events (override these in room) */
-	this.onConnecting = function(){};
+	this.onConnecting = function(){
+		self.addMessage({username:""},"Connecting..","text-danger");
+	};
 	this.onConnected = function(){
-
+		self.addMessage({username:""},"Connected!","text-success");
 	};
 	this.onJoining = function(){
 
 	};
-	this.onJoined = function(){};
-	this.onReconnecting = function(){};
-	this.onReconnect = function(){};
-	this.reconnectFailed = function(){};
+	this.onJoined = function(){
+		//self.addMessage({username:""},"Joined!","text-danger")
+	};
+	this.onReconnecting = function(){
+
+	};
+	this.onReconnect = function(){
+
+	};
+	this.reconnectFailed = function(){
+
+	};
 	this.onError = function(){
 
 	};
