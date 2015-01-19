@@ -10,7 +10,7 @@ function poll(room, socket){
 		if (room.user.isMod){ //mod controls
 			pollEle.append($("<div>",{
 				class:"mod poll-controls",
-				html: $("<i>",{class:"fa fa-pencil"}).prop('outerHTML') +" "+ $("<i>",{class: "fa fa-close poll-end"}).prop('outerHTML') //ALL THIS JUST TO ADD A SPACE
+				html: $("<i>",{class:"fa fa-pencil poll-edit"}).prop('outerHTML') +" "+ $("<i>",{class: "fa fa-close poll-end"}).prop('outerHTML') //ALL THIS JUST TO ADD A SPACE
 			}));
 		}
 		var title = $("<div>",{
@@ -31,6 +31,7 @@ function poll(room, socket){
 			class: "text-danger poll-ended",
 			html:$("<i/>",{class:"fa fa-trash-o delete-poll"})
 		}));
+		pollEle.data('poll',poll);
 		$("#poll_tab").prepend(pollEle);
 		$("#poll_column").prepend(pollEle.clone(true));
 		if (!$("#tabs_polls").parent().hasClass("active")){ //tab is not selected, so highlight it
@@ -57,6 +58,14 @@ function poll(room, socket){
 		//update column poll
 		var element = $("#poll_column .poll.active .poll-options .poll-option .poll-votes")[option];
 		$(element).text(parseInt($(element).text(), 10) - 1);
+	};
+	this.showCreateModal = function(title, options){ //create poll dropdown modal logic
+		title = title || "";
+		options = options || ["",""]; //default is two options
+		var modal = $('#create_poll_modal');
+		console.log(options);
+
+		modal.modal('show');
 	};
 	return this;
 }

@@ -37,9 +37,8 @@ function onReady(room, socket){
 			$("#poll_message").hide();
 		}
 	});
-	$("#create_poll_btn").click(function(){
-		var modal = $('#create_poll_modal');
-		modal.modal('show');
+	$("#create_poll_btn_tab,#create_poll_btn_column").click(function(){
+		room.poll.showCreateModal();
 	});
 	//(C) BibbyTube, (C) Faqqq
 	//https://github.com/Bibbytube/Instasynch/blob/master/Chat%20Additions/Autoscroll%20Fix/autoscrollFix.js
@@ -146,9 +145,23 @@ function onReady(room, socket){
 			socket.sendcmd("poll-end", null);
 		}
 	});
+	$("#poll_tab,#poll_column").on("click",".poll.active .poll-controls .poll-edit",function(e){
+		if (e.which == 1){ //left click
+			var poll = $(this).parents(".poll").data('poll');
+			for (var i = 0; i < poll.options.length; i++){ //turn every element from an object to a string
+				poll.options[i] = poll.options[i].option;
+			}
+			room.poll.showCreateModal(poll.title, poll.options);
+		}
+	});
 	$("#poll_tab,#poll_column").on("click",".poll .poll-ended .delete-poll",function(e){
 		if (e.which == 1){ //left click
 			$(this).parents('.poll').remove();
+		}
+	});
+	$("#create_poll_modal").on("click",".remove-option", function(e){ //remove poll option
+		if (e.which == 1){ //left click
+			$(this).parent().remove();
 		}
 	});
 }
