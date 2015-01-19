@@ -129,7 +129,6 @@ function onReady(room, socket){
 	$("#poll_tab,#poll_column").on("click",".poll.active .poll-options .poll-votes",function(e){
 		if (e.which == 1){ //left click
 			var option = $(this).data("option");
-			console.log(option);
 			if (room.user.userinfo.loggedin)
 			{
 				socket.sendcmd("poll-vote", {vote: option});
@@ -145,13 +144,14 @@ function onReady(room, socket){
 			socket.sendcmd("poll-end", null);
 		}
 	});
-	$("#poll_tab,#poll_column").on("click",".poll.active .poll-controls .poll-edit",function(e){
+	$("#poll_tab,#poll_column").on("click",".poll .poll-controls .poll-edit",function(e){
 		if (e.which == 1){ //left click
 			var poll = $(this).parents(".poll").data('poll');
+			var options = [];
 			for (var i = 0; i < poll.options.length; i++){ //turn every element from an object to a string
-				poll.options[i] = poll.options[i].option;
+				options.push(poll.options[i].option);
 			}
-			room.poll.showCreateModal(poll.title, poll.options);
+			room.poll.showCreateModal(poll.title, options);
 		}
 	});
 	$("#poll_tab,#poll_column").on("click",".poll .poll-ended .delete-poll",function(e){
@@ -166,5 +166,25 @@ function onReady(room, socket){
 	});
 	$("#create_poll_modal .add-poll-option").click(function(e){ //remove poll option
 		room.poll.addPollOption();
+	});
+	$("#create_poll").click(function(){
+		var title = $("#create_poll_title").val();
+		if (title.trim() == ""){
+			$("#create_poll_title").parent().addClass("has-error");
+			return;
+		}
+		else{
+			$("#create_poll_title").parent().removeClass("has-error");
+		}
+		var optionsEle = $("#create_poll_modal .poll-options input");
+		var options = [];
+		for (var i = 0; i<optionsEle.length; i++){
+			var val = $(optionsEle[i]).val();
+			console.log(val);
+			if (val.trim() != "")
+				options.push(val)
+		}
+		socket.sendcmd("poll-create", {title: title, options:options});
+		$("#create_poll_modal").modal('hide');
 	});
 }

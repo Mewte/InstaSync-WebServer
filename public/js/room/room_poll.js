@@ -62,12 +62,12 @@ function poll(room, socket){
 	this.showCreateModal = function(title, options){ //create poll dropdown modal logic
 		title = title || "";
 		options = options || ["",""]; //default is two options
-		var modal = $('#create_poll_modal');
 		$("#create_poll_title").val(title);
+		$("#create_poll_modal .poll-options .input-group").remove();
 		for (var i = 0; i < options.length; i++){
 			self.addPollOption(options[i]);
 		}
-		modal.modal('show');
+		$('#create_poll_modal').modal('show');
 	};
 	this.addPollOption = function(text){
 		if ($("#create_poll_modal .poll-options .input-group").length < 10){
