@@ -4,17 +4,8 @@
 */
 //Use this to have the socket in a file seperate from the room file, but it's still a part of it (or rather an extension of it)
 room.setSocket(new function (room){
-
-	var server = "";
-	if (document.domain == "dev.instasynch.com"){
-		server = "dev.instasynch.com";
-	}
-	else{
-		server = "chat.instasynch.com";
-	}
-	server = "192.168.1.106";
-	server = "chat.instasynch.com";
-	var port = 38000;//Math.floor(Math.random() * 4 + 38000);
+	var server = "chat.instasync.com";
+	var port = 8080;
 	var socket = io.connect(server + ":" + port,
 	{
 		query: "room="+room.roomName,
@@ -24,8 +15,8 @@ room.setSocket(new function (room){
 		"reconnection delay": 1000,
 		"max reconnection attempts": 5,
 		"auto connect": false,
-		"sync disconnect on unload": true
-		//transports: ['jsonp-polling'] //testing
+		"sync disconnect on unload": true,
+		//transports: ['websocket','xhr-polling','jsonp-polling'] //testing
 	});
 	this.sendmsg = function (message) {
 		var d = new Date();
