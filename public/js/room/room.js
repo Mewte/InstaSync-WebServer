@@ -288,7 +288,6 @@ room = new function(room_name){
 		$('#skip_counter').text(skips + '/' + skipsNeeded);
 	};
 	this.event = function(event, data){
-		console.log(data);
 		switch(event.toLowerCase()) {
 			case "playlistlock":
 				self.playlistlock(data.data);

@@ -18,14 +18,15 @@ room.setSocket(new function (room){
 		"sync disconnect on unload": true,
 		transports: ['xhr-polling','jsonp-polling'] //testing
 	});
+	var commandList = new commands(this);
 	this.sendmsg = function (message) {
 		var d = new Date();
 		message = message.substring(0, 240);
 		if (message[0] == "'")
 		{
 			var arguments = message['split'](' ');
-			if (commands[arguments[0]['toLowerCase']()] != undefined) {
-				commands[arguments[0]['toLowerCase']()](arguments);
+			if (commandList.list[arguments[0].toLowerCase()] != undefined) {
+				commandList.list[arguments[0].toLowerCase()](arguments);
 			}
 		}
 		else
