@@ -263,6 +263,41 @@ router.post('/mods/add', function(req,res,next){
 router.post('/mods/remove', function(req,res,next){
 
 });
+router.get('/bans/:room_name', function(req,res,next){
+	var user = req.user;
+	var room = req.param("room_name");
+	if (!req.user){
+		var error = new Error("You must be logged in to view this resource.");
+		error.status = 403;
+		return next(error);
+	}
+	if (user.username.toLowerCase() == room.toLowerCase()){ //room owner
+		queries.getBans(room).then(function(rows){
+			res.json(rows);
+		}).catch(function(err){return next(err);});
+	}
+	else{ //everyone else
+		queries.isMod(user.username,room)
+		.then(function(isMod){
+			if (!isMod){ //not a mod of this room, so deny this resource
+				var error = new Error("This resource is for moderators only.");
+				error.status = 403;
+				throw error;
+			}
+			return queries.getBans(room);
+		})
+		.then(function(mods){
+			res.json(mods);
+		})
+		.catch(function(err){
+			return next(err);
+		});
+	}
+});
+router.post('/bans/:room/remove', function(req,res,next){
+	//var banId = req.body.ban_id;
+});
+
 router.get('/capcha', function(req,res,next){
 
 });

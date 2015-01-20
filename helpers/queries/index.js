@@ -70,6 +70,12 @@ var queries = function(){
 			.from('users').join('mods','mods.username','users.username')
 			.where("mods.room_name",room);
 	};
+	this.addMod = function(){
+
+	};
+	this.removeMod = function(){
+
+	};
 	this.getResets = function(ip){
 		var now = moment().unix();
 		return db.select().from("resets").where("time", ">", now - 60 * 60).where("ip", ip);
@@ -88,5 +94,12 @@ var queries = function(){
 			});
 
 	};
+	this.getBans = function(room){
+		return db.select(["username","loggedin"])
+			.from('bans').where("room_name",room);
+	};
+	this.removeBan = function(ban_id, room){
+
+	}
 }
 module.exports = new queries();
