@@ -34,6 +34,9 @@ room.setSocket(new function (room){
 		}
 	};
 	this.sendcmd = function (command, data) {
+		if (data == undefined){
+			data = null;
+		}
 		socket.emit('command', {command: command, data: data});
 	};
 	this.rename = function (username) {

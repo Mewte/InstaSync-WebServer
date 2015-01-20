@@ -240,12 +240,15 @@ room = new function(room_name){
 		}
 	};
 	this.playlistlock = function(value) {
+		var lock = $("#playlist_lock");
 		if (value == true) {
-			//$('#toggleplaylistlock').css('background-image', 'url("/images/lock.png")');
+			lock.removeClass("fa-unlock");
+			lock.addClass("fa-lock");
 		} else {
-			//$('#toggleplaylistlock').css('background-image', 'url("/images/unlock.png")');
+			lock.removeClass("fa-lock");
+			lock.addClass("fa-unlock");
 		}
-	}
+	};
 	function toggleAutosynch(){
 		autosynch = !autosynch;
 		if (autosynch)
@@ -285,9 +288,10 @@ room = new function(room_name){
 		$('#skip_counter').text(skips + '/' + skipsNeeded);
 	};
 	this.event = function(event, data){
+		console.log(data);
 		switch(event.toLowerCase()) {
 			case "playlistlock":
-				self.playlistlock(data);
+				self.playlistlock(data.data);
 				break;
 			case "leader":
 				break;

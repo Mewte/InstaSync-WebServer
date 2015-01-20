@@ -77,7 +77,7 @@ function onReady(room, socket){
 	});
 	$("#skip_button").click(function(){
 		if (room.user.userinfo.loggedin)
-			socket.sendcmd('skip', null);
+			socket.sendcmd('skip');
 		else
 			room.addMessage({username: ""},"You must be logged in to vote to skip.","errortext");
 	});
@@ -141,7 +141,7 @@ function onReady(room, socket){
 	});
 	$("#poll_tab,#poll_column").on("click",".poll.active .poll-controls .poll-end",function(e){
 		if (e.which == 1){ //left click
-			socket.sendcmd("poll-end", null);
+			socket.sendcmd("poll-end");
 		}
 	});
 	$("#poll_tab,#poll_column").on("click",".poll .poll-controls .poll-edit",function(e){
@@ -186,5 +186,8 @@ function onReady(room, socket){
 		}
 		socket.sendcmd("poll-create", {title: title, options:options});
 		$("#create_poll_modal").modal('hide');
+	});
+	$("#playlist_lock").click(function(){
+		socket.sendcmd('toggleplaylistlock', null);
 	});
 }
