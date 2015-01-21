@@ -145,7 +145,7 @@ room = new function(room_name){
 		}
 		if (userinfo.permissions > 0)
 		{
-			$('.mod').show();
+			$('.mod-control').show();
 			self.user.isMod = true;
 		}
 		self.user.userinfo = userinfo;
