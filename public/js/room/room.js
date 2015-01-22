@@ -249,6 +249,67 @@ room = new function(room_name){
 			lock.addClass("fa-unlock");
 		}
 	};
+	this.makeLead = function(){
+		makeLeader(data.userId);
+		if (data.userId === userInfo.id)
+		{
+			isLeader = true;
+			$(".leader").show();
+			$( "#video-list" ).sortable(
+			{
+				update : function (event, ui){
+						   room.sendcmd('move', {info: ui.item.data("info"), position: ui.item.index()});
+							$( "#video-list" ).sortable( "cancel" );
+						 },
+				 start: function(event,ui)
+				 {
+					 //Prevents click event from triggering when sorting videos
+					 $("#video-list").addClass('noclick');
+				 }
+
+			});
+			$("#video-list").sortable( "enable" );
+			$("#lead").hide();
+			$("#unlead").show();
+			/*
+			 * Make sure to show YouTube control bar for leader
+			 */
+			if (video.video != null){
+				video.video.controls(true);
+			}
+		}
+		else
+		{
+			if (isLeader)
+			{
+				isLeader = false;
+				$(".leader").css("display", "none");
+				$("#video-list").sortable("disable");
+				$("#unlead").hide();
+				if (isMod)
+				{
+					$("#lead").show();
+				}
+			}
+			/*
+			 * Disable video.js for youtube if the user has yt controls on
+			 */
+			if (video.video != null && video.loadedVideo.provider == "youtube"){
+				video.video.controls(!showYTcontrols);
+			}
+		}
+	};
+	function makeLeader(userId)
+	{
+		$(".leader").removeClass(".leader");
+		for (var i = 0; i < users.length; i++){
+			if (self.userlist.users[i].id == userId){
+				var leaderElement = $("<i/>", {});
+				$($("#userlist li")[i]).prepend(leaderElement);
+				break;
+			}
+		}
+	}
 	function toggleAutosynch(){
 		autosynch = !autosynch;
 		if (autosynch)

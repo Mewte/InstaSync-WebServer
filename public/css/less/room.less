@@ -34,7 +34,7 @@
 		height: (@chat-height-lg + 36);
 	}
 }
-.mod-conyrol{
+.mod-control{
 	display: none;
 }
 .room-container{
@@ -160,6 +160,13 @@
 					}
 					li.registered{
 						font-weight: bold;
+						&:before{
+							font-family: FontAwesome;
+							content: "\f005";
+							font-size: 16px;
+							color: black;
+							padding-right: 4px;
+						}
 					}
 					li.mod{
 						color: #C9421D;
@@ -237,10 +244,15 @@
 						}
 					}
 				}
-				li.playlist-lock{
+				li.playlist-lock,li.toggle-leader{
 					float: right;
-					padding: 8px 15px;
-					font-size: 18px;
+					padding: 6px 10px;
+					font-size: 20px;
+				}
+				li.toggle-leader.is-leader{
+					i{
+						.fadeTextToTransition(leader,rgb(184,26,26));
+					}
 				}
 			}
 			.tab-content{

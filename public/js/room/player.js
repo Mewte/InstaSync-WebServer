@@ -33,6 +33,9 @@ function player(containerID){
 	};
 	var vidContainerShown = false;
 	this.play = function(info, time, playing){
+		if (info == null){
+			return; //aparently an empty playlist still emits the play event with an empty info
+		}
 		if (!vidContainerShown){
 			container.show();
 			vidContainerShown = true;
