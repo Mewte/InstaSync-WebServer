@@ -301,11 +301,10 @@ room = new function(room_name){
 	};
 	function makeLeader(userId)
 	{
-		$(".leader").removeClass(".leader");
+		$(".leader").removeClass("leader");
 		for (var i = 0; i < users.length; i++){
 			if (self.userlist.users[i].id == userId){
-				var leaderElement = $("<i/>", {});
-				$($("#userlist li")[i]).prepend(leaderElement);
+				$($("#userlist li")[i]).addClass("leader");
 				break;
 			}
 		}
