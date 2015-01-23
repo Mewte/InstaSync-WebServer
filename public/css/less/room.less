@@ -91,6 +91,38 @@
 			}
 			#tabs_chat_content{
 				position: relative;
+				.user-list{
+
+					padding-bottom: 15px;
+					height: calc(~"100% - 34px");;
+					width: 145px;
+					font-size: 11px;
+					position: absolute;
+					right: 0px;
+					top: 0px;
+					overflow: auto;
+					&:extend(.no-list-style);
+					li{
+						padding-left: 4px;
+						&:extend(.no-wrap-ellipsis);
+					}
+					li:hover{
+						background-color: rgb(244,244,244);
+					}
+					li.registered{
+						font-weight: bold;
+						&:before{
+							font-family: FontAwesome;
+							content: "\f005";
+							font-size: 16px;
+							color: black;
+							padding-right: 4px;
+						}
+					}
+					li.mod{
+						color: #C9421D;
+					}
+				}
 				.chat-messages{
 					padding: 4px 4px 4px 10px;
 					overflow:auto;
@@ -141,35 +173,6 @@
 						#join_btn{
 							border-radius: 0px;
 						}
-					}
-				}
-			}
-			#tabs_users_content{
-				.user-list{
-					height: 100%;
-					width: 100%;
-					font-size: 12px;
-					overflow: auto;
-					&:extend(.no-list-style);
-					li{
-						padding-left: 4px;
-						&:extend(.no-wrap-ellipsis);
-					}
-					li:hover{
-						background-color: rgb(244,244,244);
-					}
-					li.registered{
-						font-weight: bold;
-						&:before{
-							font-family: FontAwesome;
-							content: "\f005";
-							font-size: 16px;
-							color: black;
-							padding-right: 4px;
-						}
-					}
-					li.mod{
-						color: #C9421D;
 					}
 				}
 			}

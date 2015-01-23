@@ -26,7 +26,7 @@
 						</a>
 					</li>
 					<li>
-						<a class='active_tooltip' data-original-title="Users" href="#tabs_users_content" data-toggle="tab" rel="tooltip" data-placement="top">
+						<a class='active_tooltip' data-original-title="Users" href="" data-toggle="tab" rel="tooltip" data-placement="top">
 							<i class="fa fa-users"></i>
 							<span class="badge user-count"></span>
 						</a>
@@ -44,6 +44,7 @@
 				</ul>
 				<div class="tab-content chat-tabs-content">
 					<div class="tab-pane active" id='tabs_chat_content'>
+						<ol id="user_list" class="user-list"></ol>
 						<div id="chat_messages" class="chat-messages"></div>
 						<div class="input">
 							<input id="cin" type="text" style="display: none;" disabled maxlength="240"/>
@@ -53,14 +54,6 @@
 									<button id='join_btn' class="btn btn-default" type="button">Join</button>
 								</span>
 							</div>
-						</div>
-					</div>
-					<div class="tab-pane" id="tabs_users_content">
-						<div class="here-now">
-							<ol id="user_list" class="user-list"></ol>
-						</div>
-						<div class="recent">
-
 						</div>
 					</div>
 					<div class="tab-pane" id="tabs_polls_content">
