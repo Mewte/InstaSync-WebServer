@@ -5,7 +5,7 @@
 //Use this to have the socket in a file seperate from the room file, but it's still a part of it (or rather an extension of it)
 room.setSocket(new function (room){
 	//var server = "is-sf-proxy.chat.instasync.com";
-	var server = "is-sf-proxy.chat.instasync.com";
+	var server = "is-sf-wsproxy.chat.instasync.com";
 	var port = 8080;
 	var socket = io.connect(server + ":" + port,
 	{
@@ -17,8 +17,8 @@ room.setSocket(new function (room){
 		"max reconnection attempts": 5,
 		"auto connect": false,
 		"sync disconnect on unload": true,
-		transports: ['xhr-polling'] //testing
-		//transports: ['websocket','xhr-polling','jsonp-polling'] //testing
+		//transports: ['xhr-polling'] //testing
+		transports: ['websocket','xhr-polling','jsonp-polling'] //testing
 	});
 	var commandList = new commands(this);
 	this.sendmsg = function (message) {
