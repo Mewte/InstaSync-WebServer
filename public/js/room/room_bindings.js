@@ -190,4 +190,16 @@ function onReady(room, socket){
 	$("#playlist_lock").click(function(){
 		socket.sendcmd('toggleplaylistlock', null);
 	});
+	$("#tabs_users").click(function(e){
+		e.stopPropagation();
+		var userlist = $("#user_list");
+		if (userlist.css("right") == "0px"){//already visible
+			$(this).removeClass("visible");
+			userlist.animate({right: "-145px"});
+		}
+		else{
+			$(this).addClass("visible");
+			userlist.animate({right: "0px"});
+		}
+	});
 }

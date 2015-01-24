@@ -4,7 +4,6 @@
 */
 //Use this to have the socket in a file seperate from the room file, but it's still a part of it (or rather an extension of it)
 room.setSocket(new function (room){
-	//var server = "is-sf-proxy.chat.instasync.com";
 	var server = "is-sf-wsproxy.chat.instasync.com";
 	var port = 8080;
 	var socket = io.connect(server + ":" + port,
