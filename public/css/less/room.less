@@ -101,8 +101,11 @@
 				overflow-x: hidden;
 				position: relative;
 				.user-list{
-					padding-bottom: 15px;
-					height: calc(~"100% - 34px");;
+					@media(max-width: @media-xs){}
+					@media(min-width: @media-sm){}
+					@media(min-width:@media-md){}
+					@media(min-width:@media-lg){}
+					max-height: calc(~"100% - 34px");;
 					width: 145px;
 					font-size: 11px;
 					position: absolute;
@@ -120,11 +123,13 @@
 					}
 					li.registered{
 						font-weight: bold;
+					}
+					li.leader{
 						&:before{
 							font-family: FontAwesome;
 							content: "\f005";
-							font-size: 16px;
-							color: black;
+							font-size: 13px;
+							color: orange;
 							padding-right: 4px;
 						}
 					}
