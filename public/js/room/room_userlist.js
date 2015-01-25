@@ -7,8 +7,8 @@ function userlist(room, socket){
 	this.users = new Array();
 	this.addUser = function(user, sort) {
 		var css = '';
-		css += user.loggedin ? "registered ":"";
 		css += user.permissions > 0 ? "mod ":"";
+		css += user.loggedin ? "registered ":"unregistered";
 		css += room.isMuted(user.ip) ? "muted" : "";
 		user.css = css;
 		self.users.push(user);
@@ -19,7 +19,7 @@ function userlist(room, socket){
 		});
 		$('#user_list').append(userElement);
 		if (sort === true) {
-			//sortUserlist();
+			sortUserlist();
 		}
 		$('.user-count').text(self.users.length);
 	};
@@ -34,6 +34,7 @@ function userlist(room, socket){
 			}
 		}
 		$('.user-count').text(self.users.length);
+		sortUserlist();
 	};
 	this.load = function(userlist){
 		$('#user_list').empty();
@@ -41,7 +42,7 @@ function userlist(room, socket){
 		for (var i = 0; i < userlist.length; i++) {
 			self.addUser(userlist[i], false);
 		}
-		//sortUserlist();
+		sortUserlist();
 	};
 	function makeLeader(userId){
 		$("#leaderSymbol").remove();
@@ -78,13 +79,15 @@ function userlist(room, socket){
 			$('#cin').removeAttr('disabled');
 			$('#cin').focus();
 		}
-		//sortUserlist();
+		sortUserlist();
 	};
 	function sortUserlist() {
-		var userlist = $('#userlist li')['clone'](true);
+		var userlist = $('#user_list li')['clone'](true);
 		userlist.sort(function (a, b) {
-			var keyA = $(a).data('username').toLowerCase();
-			var keyB = $(b).data('username').toLowerCase();
+			var dataA = $(a).data('user');
+			var dataB = $(b).data('user');
+			var keyA = dataA.css + " "+dataA.username.toLowerCase();
+			var keyB = dataB.css + " "+dataB.username.toLowerCase();
 			if (keyA < keyB) {
 				return -1;
 			}
@@ -93,37 +96,15 @@ function userlist(room, socket){
 			}
 			return 0;
 		});
-		userlist.sort(function (a, b) {
-			var keyA = $(a).data('css');
-			var keyB = $(b).data('css');
-			if (keyA > keyB) {
-				return -1;
-			}
-			if (keyA < keyB) {
-				return 1;
-			}
-			return 0;
-		});
-		$('#userlist').empty();
-		$('#userlist').html(userlist);
-		users.sort(function (a, b) {
-			var keyA = a.username.toLowerCase();
-			var keyB = b.username.toLowerCase();
+		$('#user_list').empty();
+		$('#user_list').html(userlist);
+		self.users.sort(function (a, b) {
+			var keyA = a.css + " "+a.username.toLowerCase();
+			var keyB = b.css + " "+b.username.toLowerCase();
 			if (keyA < keyB) {
 				return -1;
 			}
 			if (keyA > keyB) {
-				return 1;
-			}
-			return 0;
-		});
-		users.sort(function (a, b) {
-			var keyA = a.css;
-			var keyB = b.css;
-			if (keyA > keyB) {
-				return -1;
-			}
-			if (keyA < keyB) {
 				return 1;
 			}
 			return 0;
