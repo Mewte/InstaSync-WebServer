@@ -113,7 +113,7 @@ router.post('/register', function(req,res,next){
         return next(error);
 	}
 	if (!validator.isEmail(email)){
-        var error = new Error("Email must be in a valid email address.");
+        var error = new Error("Email must be a valid email address.");
 		error.status = 422;
 		error.field_name = "email";
         return next(error);
@@ -149,7 +149,25 @@ router.get('/me/user_info', function(req,res,next){
 		res.json(req.user);
 });
 router.post('/me/change_password', function(req,res,next){
-
+	var currentPass = req.body.current;
+	var newPass = req.body.new;
+	if (!req.user){
+		var error = new Error("You must be logged in to access this resource.");
+		error.status = 403;
+		return next(error);
+	}
+	queries.changePassword(req.user.user_id,currentPass,newPass).then(function(user){
+		if (!user){
+			var error = new Error("Password and current password did not match");
+			error.status = 403;
+			return next(error);
+		}
+		else{
+			res.json(user);
+		}
+	}).catch(function(err){
+		return next(err);
+	});
 });
 router.post('/me/password_reset', function(req,res,next){
 	var username = req.body.username || "";

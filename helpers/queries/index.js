@@ -9,7 +9,7 @@ var queries = function(){
 		db = DB;
 	};
 	this.login = function(username, prehash){
-		var hashed = crypto.createHash('sha1').update(prehash).digest('hex');
+		var hashed = hash(prehash);
 		//Note for below: .bind({}) forces 'this' to be shared among each promise resolution. Handy for passing data between promises
 		return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({username:username, hashpw: hashed}).limit(1).bind({})
 			.then(function(results){
@@ -27,6 +27,20 @@ var queries = function(){
 	};
 	this.register = function(username){
 		
+	};
+	this.changePassword = function(user_id,currentPass,newPass){
+		return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({id:user_id, hashpw: hash(currentPass)}).limit(1).bind({})
+			.then(function(results){
+				if (results.length == 0){
+					return null;
+				}
+				else{
+					this.user = results[0];
+					return db('users').update({hashpw: hash(newPass)}).where({id: this.user.user_id});
+				}
+			}).then(function(){
+				return this.user;
+			}).catch(function(err){throw err;});
 	};
 	this.getLoggedInUser = function(auth_token, username){
 		return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({cookie: auth_token, username: username}).limit(1).then(function(rows){
@@ -100,6 +114,9 @@ var queries = function(){
 	};
 	this.removeBan = function(ban_id, room){
 
+	}
+	function hash(text){
+		return crypto.createHash('sha1').update(text).digest('hex')
 	}
 }
 module.exports = new queries();
