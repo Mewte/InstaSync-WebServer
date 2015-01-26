@@ -58,6 +58,7 @@ room = new function(room_name){
 	this.setSocket = function(ws){
 		if (socket == null){ //only allow socket to be set once
 			socket = ws;
+			self.socket = socket;
 		}
 	};
 
