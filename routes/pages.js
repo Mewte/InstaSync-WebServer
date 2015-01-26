@@ -10,7 +10,8 @@ var meta = {
 	"dmca":{title:"DMCA"},
 	"privacy":{title:"Privacy Policy"},
 	"settings":{title:"My Settings"},
-	"terms":{title:"Terms of Service"}
+	"terms":{title:"Terms of Service"},
+	"password_reset":{title: "Reset Password"}
 };
 //set Content type
 router.use(function(req,res,next){
