@@ -99,7 +99,7 @@ var queries = function(){
 	};
 	this.createReset = function(email, username, ip){
 		var now = moment().unix();
-		var token = crypto.pseudoRandomBytes(30).toString('base64');
+		var token = crypto.pseudoRandomBytes(30).toString('base64').replace(/\//g,'_').replace(/\+/g,'-');
 		return db("resets").insert(db.raw("(token, user_id, time, ip) " + db.select(db.raw("? as token, id as user_id, ? as time, ? as ip",[token,now,ip])).from("users").where("username",username).where("email", email).toString()))
 			.then(function(id){
 				if (id == 0){
