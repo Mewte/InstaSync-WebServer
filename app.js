@@ -71,35 +71,26 @@ app.use(function(req, res, next) {
 	});
 });
 var error_handler = function(err, req, res, next){
-	if (err.status == 404){
+	var pageTitle = "InstaSync - ";
+	var status = err.status || 500;
+	if (status == 404){
 		err.message = "File not found.";
 		err.stack = "URL : "+req.url+" could not be located on this server.";
+		pageTitle = "InstaSync - Page not found";
 	}
-	if (config.environment == "dev"){
-		/// error handlers
-		// development error handler
-		// will print stacktrace
-		res.status(err.status || 500);
-		res.render('error', {
-			message: err.message,
-			error: err
-		});
-	}
-	else{
-		// production error handler
-		// no stacktraces leaked to user
-		res.status(err.status || 500);
-		if (err.status == 500){//hide server errors from client
+	else if(status = 500){
+		pageTitle = "InstaSync - Server Error";
+		if (config.enviroment != "dev"){
 			err.message = "A server error has occured. Please try again later.";
+			err.stack = "";
 		}
-		res.render('error', {
-			message: err.message,
-			error: {
-				stack:"",
-				status:err.status
-			}
-		});
 	}
+	res.status(status);
+	err.status = status;
+	res.render('error', {
+		error: err,
+		title: pageTitle
+	});	
 };
 app.use(error_handler);
 
