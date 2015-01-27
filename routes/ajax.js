@@ -50,17 +50,14 @@ router.post('/login', function(req,res,next){
 	var username = req.body.username;
 	var password = req.body.password;
 	queries.login(username, password).then(function(user){
-		if (!user){
-			var error = new Error("Invalid username or password.");
-			error.status = 403;
-			throw error;
-		}
-		else{ //success
-			res.cookie('auth_token', this.user.auth_token, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
-			res.cookie('username', username, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
-			res.json(user);
-		}
+		res.cookie('auth_token', this.user.auth_token, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
+		res.cookie('username', username, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
+		res.json(user);
 	}).catch(function(err){
+		if (err.type == "invalid_credentials"){
+			err.status = 403;
+			return next(err);
+		}
 		 return next(err);
 	});
 });
@@ -149,27 +146,30 @@ router.get('/me/user_info', function(req,res,next){
 		res.json(req.user);
 });
 router.post('/me/change_password', function(req,res,next){
-	var currentPass = req.body.current;
-	var newPass = req.body.new;
 	if (!req.user){
 		var error = new Error("You must be logged in to access this resource.");
 		error.status = 403;
 		return next(error);
 	}
+	var currentPass = req.body.current || "";
+	var newPass = req.body.new || "";
+	if (newPass.length < 6){
+        var error = new Error("Password must be at least 6 characters.");
+		error.status = 422;
+		error.field_name = "new";
+        return next(error);
+	}
 	queries.changePassword(req.user.user_id,currentPass,newPass).then(function(user){
-		if (!user){
-			var error = new Error("Password and current password did not match");
-			error.status = 403;
-			return next(error);
-		}
-		else{
-			res.json(user);
-		}
+		res.json(user);
 	}).catch(function(err){
+		if (err.type = "password_mismatch"){
+			err.status = 403;
+			return next(err);
+		}
 		return next(err);
 	});
 });
-router.post('/me/password_reset', function(req,res,next){
+router.post('/me/send_reset', function(req,res,next){
 	var username = req.body.username || "";
 	var email_address = req.body.email || "";
 	queries.getResets(req.cf_ip).then(function(resets){
@@ -211,6 +211,25 @@ router.post('/me/password_reset', function(req,res,next){
 	}).then(function(){
 		res.json({message: "An email has been sent to: "+email_address+". If you aren't receiving emails, be sure to check your spam folder and allow emails from 'donotreply@instasync.com'."});
 	}).catch(function(err){
+		return next(err);
+	});
+});
+router.post('/me/password_reset', function(req,res,next){
+	var token = req.body.token || "";
+	var newPass = req.body.new || "";
+	if (newPass.length < 6){
+        var error = new Error("Password must be at least 6 characters.");
+		error.status = 422;
+		error.field_name = "new";
+        return next(error);
+	}
+	queries.resetPassword(token, newPass).then(function(err){
+		res.json({err: false, message:"Password change successful. You may now long in with the newly created password."});
+	}).catch(function(err){
+		if (err.type == "bad_token"){
+			err.status = 403;
+			return next(err);
+		}
 		return next(err);
 	});
 });
@@ -335,7 +354,7 @@ router.use(function (err, req, res, next) {
 	//error.stack = undefined; //Dont show stack trace, we could for dev, but I'd rather just disable it completely
 	if (error.status == 500){
 		res.status(500).json({message:"The server encountered an error and was forced to abort the request. Please try again later.", status: 500});
-		console.log(err);
+		console.log(err.stack);
 		//Todo: Log errors to a database and then return the error_id to the user for reporting
 	}
 	else

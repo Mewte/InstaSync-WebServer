@@ -4,6 +4,7 @@
 var crypto = require('crypto');
 var moment = require('moment');
 var queries = function(){
+	var self = this;
 	var db;
 	this.setDb = function(DB){
 		db = DB;
@@ -14,13 +15,13 @@ var queries = function(){
 		return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({username:username, hashpw: hashed}).limit(1).bind({})
 			.then(function(results){
 				if (results.length == 0){
-					return null;
+					var error = new Error("Invalid username or password.");
+					error.type ="invalid_credentials";
+					throw error;
 				}
-				else{
-					this.user = results[0];
-					this.user.auth_token = crypto.pseudoRandomBytes(20).toString('hex');
-					return db('users').update({cookie: this.user.auth_token, last_login: moment().format("YYYY-MM-DD HH:mm:ss")}).where({id: this.user.user_id});
-				}
+				this.user = results[0];
+				this.user.auth_token = crypto.pseudoRandomBytes(20).toString('hex');
+				return db('users').update({cookie: this.user.auth_token, last_login: moment().format("YYYY-MM-DD HH:mm:ss")}).where({id: this.user.user_id});
 			}).then(function(){
 				return this.user;
 			}).catch(function(err){throw err;});
@@ -32,11 +33,13 @@ var queries = function(){
 		return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({id:user_id, hashpw: hash(currentPass)}).limit(1).bind({})
 			.then(function(results){
 				if (results.length == 0){
-					return null;
+					var error = new Error("Password and current password did not match");
+					error.type ="password_mismatch";
+					throw error;
 				}
 				else{
 					this.user = results[0];
-					return db('users').update({hashpw: hash(newPass)}).where({id: this.user.user_id});
+					return db('users').update({hashpw: hash(newPass)}).where({id: this.user.user_id}).limit(1);
 				}
 			}).then(function(){
 				return this.user;
@@ -108,6 +111,31 @@ var queries = function(){
 			});
 
 	};
+	this.getReset = function(token){
+		var now = moment().unix();
+		return db.select().from('resets').where({token:token}).then(function(results){
+			if ((results.length == 0) || (results[0].time < (now - 60*60*3))){
+				var error = new Error("Invalid or expired reset token.");
+				error.type = "bad_token";
+				throw error;
+			}
+			return results[0];
+		}).catch(function(err){
+			throw err;
+		});
+	};
+	this.resetPassword = function(token, newPass){
+		return self.getReset(token).bind({}).then(function(reset){
+			this.reset = reset;
+			return db('users').update({hashpw: hash(newPass)}).where({id: this.reset.user_id}).limit(1);
+		}).then(function(){
+			return db('resets').where('user_id',this.reset.user_id).del();
+		}).then(function(){
+			return false; //return no error
+		}).catch(function(err){
+			throw err;
+		});
+	};
 	this.getBans = function(room){
 		return db.select(["username","loggedin"])
 			.from('bans').where("room_name",room);
@@ -116,7 +144,7 @@ var queries = function(){
 
 	}
 	function hash(text){
-		return crypto.createHash('sha1').update(text).digest('hex')
+		return crypto.createHash('sha1').update(text).digest('hex');
 	}
 }
 module.exports = new queries();

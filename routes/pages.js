@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-var request = require('request');
-request.defaults({timeout: 6000});
-
+var helpers = require('../helpers');
+var queries = helpers.queries;
 var meta = {
 	"index":{title:"Watch videos with friends!"},
 	"help":{title:"Help"},
@@ -26,7 +25,36 @@ router.get('/', function(req,res,next){
 router.get('/pages/index', function(req, res, next) {
 	indexRoute(req,res,next);
 });
+router.get('/pages/password_reset', function(req,res,next){
+	var token = req.query.token || "";
+	queries.getReset(token).then(function(reset){
+		res.render('pages/password_reset', {
+			title: 'InstaSync - '+ meta.password_reset.title,
+			valid_token: true
+		});
+	}).catch(function(err){
+		if (err.type = "bad_token"){
+			res.status(404).render('pages/password_reset', {
+				title: 'InstaSync - '+ meta.password_reset.title,
+				valid_token: false
+			});
+		}
+		else
+			return next(err);
+	});
+});
 var room_list_cache = {rooms: [], cached: 0}; //repalces memcache for intensive front page query
+router.get('/pages/:page', function(req, res, next) {
+	res.render('pages/'+req.param('page'), {
+		title: 'InstaSync - '+ (meta[req.param('page')] && meta[req.param('page')].title)
+	}, function(err,html){
+		if(err) {
+			next(); //continues on to middleware as if this router was never called (should lead to 404)
+		} else {
+			res.end(html);
+		}
+	});
+});
 function indexRoute(req,res,next){
 	//WARNING: If you modify this for user allowed inputs: remember to sanitize it!
 	req.db.raw("SELECT room.*, least(room.users, 30) * rand() as result FROM rooms as room where users > 0 and listing = 'public' and title <> 'No Videos' and (NSFW = 0 or NSFW = 1)order by result desc limit 24")
@@ -48,18 +76,6 @@ function indexRoute(req,res,next){
 		});
 	}).catch(function(err){
 		next(err);
-	});	
-}
-router.get('/pages/:page', function(req, res, next) {
-	res.render('pages/'+req.param('page'), {
-		title: 'InstaSync - '+ (meta[req.param('page')] && meta[req.param('page')].title)
-	}, function(err,html){
-		if(err) {
-			next(); //continues on to middleware as if this router was never called (should lead to 404)
-		} else {
-			res.end(html);
-		}
 	});
-});
-
+}
 module.exports = router;

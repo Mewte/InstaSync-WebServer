@@ -109,7 +109,7 @@ $(function() {
 		output.removeClass();
 		output.addClass("text-info");
 		output.text("Sending..");
-		request.passwordReset(username.val(),email.val(), function(err, response){
+		request.sendReset(username.val(),email.val(), function(err, response){
 			if (err){
 				output.removeClass();
 				output.addClass("text-danger");
