@@ -103,13 +103,16 @@ $(function() {
 		return false;
 	});
 	$("#forgot_password_modal [data-name='submit']").click(function(){
+		var self = $(this);
 		var output = $("#forgot_password_modal [data-name='output']");
 		var email = $("#forgot_password_modal [data-name='email']");
 		var username = $("#forgot_password_modal [data-name='username']");
 		output.removeClass();
 		output.addClass("text-info");
 		output.text("Sending..");
+		self.attr("disabled",true);
 		request.sendReset(username.val(),email.val(), function(err, response){
+			self.attr("disabled",false);
 			if (err){
 				output.removeClass();
 				output.addClass("text-danger");

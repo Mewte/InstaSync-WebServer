@@ -30,7 +30,8 @@ router.get('/pages/password_reset', function(req,res,next){
 	queries.getReset(token).then(function(reset){
 		res.render('pages/password_reset', {
 			title: 'InstaSync - '+ meta.password_reset.title,
-			valid_token: true
+			valid_token: true,
+			token: token
 		});
 	}).catch(function(err){
 		if (err.type = "bad_token"){
