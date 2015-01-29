@@ -205,5 +205,7 @@ function onReady(room, socket){
 	$("#toggle_leader").click(function(){
 
 	});
-	$("#create_poll_modal .poll-options").sortable();
+	$("#create_poll_modal .poll-options").sortable({
+		"handle":".input-group-addon"
+	});
 }
