@@ -266,8 +266,8 @@
 					padding: 6px 10px;
 					font-size: 20px;
 				}
-				li.toggle-leader.is-leader{
-					i{
+				li.toggle-leader{
+					i.is-leader{
 						.fadeTextToTransition(leader,rgb(184,26,26));
 					}
 				}
@@ -276,6 +276,7 @@
 				padding: 10px;
 				#tabs_playlist{
 					.playlist{
+						background-color: rgb(240,240,240);
 						height: 240px;
 						border: 1px solid #DDD;
 						overflow-y: auto;
@@ -283,6 +284,7 @@
 						&:extend(.no-list-style);
 						counter-reset: videos;
 						li{
+							background-color: white;
 							border-radius: 4px;
 							border-bottom: 1px solid rgb(104,104,104);
 							padding: 4px;
@@ -350,6 +352,7 @@
 						}
 					}
 					.playlist-stats div{
+						padding-top: 4px;
 						text-align:right;
 					}
 				}

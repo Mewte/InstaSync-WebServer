@@ -202,4 +202,7 @@ function onReady(room, socket){
 			userlist.animate({right: "0px"});
 		}
 	});
+	$("#toggle_leader").click(function(){
+
+	});
 }
