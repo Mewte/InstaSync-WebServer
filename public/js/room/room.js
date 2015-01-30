@@ -112,7 +112,7 @@ room = new function(room_name){
 		self.userlist = new userlist(self,socket);
 		self.poll = new poll(self,socket);
 		onReady(self, socket);
-		room.addMessage({username:""},"Initializing connection..","text-danger");
+		self.addMessage({username:""},"Initializing connection..","text-danger");
 		socket.connect();
 	});
 
