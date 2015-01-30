@@ -15,9 +15,9 @@ room.setSocket(new function (room){
 		"reconnection delay": 1000,
 		"max reconnection attempts": 5,
 		"auto connect": false,
-		"sync disconnect on unload": true,
+		//"sync disconnect on unload": true,
 		//transports: ['xhr-polling'] //testing
-		transports: ['websocket','xhr-polling','jsonp-polling'] //testing
+		transports: ['websocket','xhr-polling'] //testing
 	});
 	var commandList = new commands(this);
 	this.sendmsg = function (message) {
@@ -48,7 +48,19 @@ room.setSocket(new function (room){
 		socket.disconnect();
 	};
 	this.connect = function () {
+//		setTimeout(function(){
+//			if (socket.socket.connected == false && socket.socket.connecting == true){
+//				attemptFailover();
+//			}
+//		},3000);
 		socket.socket.connect();
+	};
+	function attemptFailover(){
+		//socket.socket.disconnect();
+		room.addMessage({username:""},"Attempting failover..","text-danger");
+		socket.socket.options.host = "is-sf-proxy.chat.instasync.com";
+		socket.socket.options.transports = ['xhr-polling'];
+		socket.socket.reconnect();
 	};
 	socket.on('sys-message', function (data) {
 		room.addMessage({username: ""}, data.message, 'text-info');
@@ -70,12 +82,16 @@ room.setSocket(new function (room){
 		}
 		room.onConnected();
 		room.onJoining();
+		console.log(socket.socket);
 	});
 	socket.on('reconnecting', function (data) {
 		room.onReconnecting();
 	});
 	socket.on('reconnect', function (data) {
 		room.onReconnect();
+	});
+	socket.on('connect_failed', function(){
+		//console.log("CONNECT FAILED");
 	});
 	socket.on('reconnect_failed', function () {
 		room.reconnectFailed();
@@ -87,8 +103,12 @@ room.setSocket(new function (room){
 	socket.on('disconnect', function (data){
 		room.onDisconnect();
 	});
-	socket.on('error', function(data){
-		room.onError();
+	socket.on('error', function(){
+		if (socket.socket.options.host != "is-sf-proxy.chat.instasync.com"){
+			attemptFailover();
+		}else{
+			room.onError();
+		}
 	});
 	socket.on('userinfo', function (data) {
 		room.onJoined();

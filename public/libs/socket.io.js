@@ -1637,11 +1637,14 @@ var io = ('undefined' === typeof module ? {} : module.exports);
       });
     } else {
       var xhr = io.util.request();
-
+	  xhr.timeout = 3000;
       xhr.open('GET', url, true);
       if (this.isXDomain()) {
         xhr.withCredentials = true;
       }
+	  xhr.ontimeout = function(){
+		console.log("XHR TIMEOUT");
+	  };
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
           xhr.onreadystatechange = empty;

@@ -33,7 +33,7 @@ room = new function(room_name){
 
 	};
 	this.onError = function(){
-		self.addMessage({username:""},"Failed to connect.","text-danger");
+		self.addMessage({username:""},"Error connecting..","text-danger");
 	};
 	this.onDisconnect = function(){
 		self.addMessage({username:""},"Connection lost..","text-danger");
@@ -112,6 +112,7 @@ room = new function(room_name){
 		self.userlist = new userlist(self,socket);
 		self.poll = new poll(self,socket);
 		onReady(self, socket);
+		room.addMessage({username:""},"Initializing connection..","text-danger");
 		socket.connect();
 	});
 
