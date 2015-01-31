@@ -251,11 +251,17 @@ room = new function(room_name){
 			lock.addClass("fa-unlock");
 		}
 	};
-	this.makeLead = function(){
-		makeLeader(data.userId);
-		if (data.userId === userInfo.id)
+	this.makeLead = function(userId){
+		$(".leader").removeClass("leader");
+		for (var i = 0; i < self.userlist.users.length; i++){
+			if (self.userlist.users[i].id == userId){
+				$($("#userlist li")[i]).addClass("leader");
+				break;
+			}
+		}
+		if (userId === self.user.userinfo.id)
 		{
-			isLeader = true;
+			self.user.isLeader = true;
 			$(".leader").show();
 			$( "#video-list" ).sortable(
 			{
@@ -301,16 +307,6 @@ room = new function(room_name){
 			}
 		}
 	};
-	function makeLeader(userId)
-	{
-		$(".leader").removeClass("leader");
-		for (var i = 0; i < users.length; i++){
-			if (self.userlist.users[i].id == userId){
-				$($("#userlist li")[i]).addClass("leader");
-				break;
-			}
-		}
-	}
 	function toggleAutosynch(){
 		autosynch = !autosynch;
 		if (autosynch)
@@ -355,6 +351,7 @@ room = new function(room_name){
 				self.playlistlock(data.data);
 				break;
 			case "leader":
+				self.makeLead(data.userId);
 				break;
 			case "poll-create":
 				self.poll.create(data.poll);

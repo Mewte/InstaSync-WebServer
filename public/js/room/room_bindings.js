@@ -203,7 +203,10 @@ function onReady(room, socket){
 		}
 	});
 	$("#toggle_leader").click(function(){
-
+		if (!room.user.isLeader)
+			socket.sendcmd("lead");
+		else
+			socket.sendcmd("unlead");
 	});
 	$("#create_poll_modal .poll-options").sortable({
 		"handle":".input-group-addon"
