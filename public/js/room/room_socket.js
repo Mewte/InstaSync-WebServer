@@ -20,7 +20,7 @@ room.setSocket(new function (room){
 		//transports: ['xhr-polling'] //testing
 		transports: ['websocket','xhr-polling'] //testing
 	});
-	var commandList = new commands(this);
+	var commandList = new commands(this,room);
 	this.sendmsg = function (message) {
 		var d = new Date();
 		message = message.substring(0, 240);
