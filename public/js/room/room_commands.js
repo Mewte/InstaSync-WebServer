@@ -3,9 +3,9 @@ function commands(socket,room){
 	this.list = {
 		"'ban": function (data) {
 			var banUserID = null;
-			for (var i = 0; i < users['length']; i++) {
-				if (users[i].username.toLowerCase() === data[1].toLowerCase()) {
-					banUserID = users[i].id;
+			for (var i = 0; i < room.userlist.users['length']; i++) {
+				if (room.userlist.user[i].username.toLowerCase() === data[1].toLowerCase()) {
+					banUserID = room.userlist.user[i].id;
 				}
 			}
 			socket.sendcmd('ban', {userid: banUserID});
@@ -18,9 +18,9 @@ function commands(socket,room){
 		},
 		"'kick": function (data) {
 			var kickUserID = null;
-			for (var i = 0; i < users['length']; i++) {
-				if (users[i]['username']['toLowerCase']() === data[1]['toLowerCase']()) {
-					kickUserID = users[i]['id'];
+			for (var i = 0; i < room.userlist.users['length']; i++) {
+				if (room.userlist.users[i]['username']['toLowerCase']() === data[1]['toLowerCase']()) {
+					kickUserID = room.userlist.users[i]['id'];
 				}
 			}
 			socket.sendcmd('kick', {userid: kickUserID});
@@ -39,7 +39,7 @@ function commands(socket,room){
 		"'play": function (data) {
 			if (!isNaN(data[1])) {
 				socket.sendcmd('play', {
-					info: playlist[data[1]].info
+					info: room.playlist.videos[data[1]].info
 				});
 			}
 		},
@@ -85,7 +85,7 @@ function commands(socket,room){
 		},
 		"'move": function (data) {
 			if (!isNaN(data[1]) && !isNaN(data[2])) {
-				socket.sendcmd('move', {info: playlist[data[1]].info, position: data[2]});
+				socket.sendcmd('move', {info: room.playlist.videos[data[1]].info, position: data[2]});
 			}
 		},
 		"'clean": function (data) {

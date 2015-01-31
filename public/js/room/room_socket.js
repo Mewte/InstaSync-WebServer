@@ -4,7 +4,7 @@
 */
 //Use this to have the socket in a file seperate from the room file, but it's still a part of it (or rather an extension of it)
 room.setSocket(new function (room){
-	var server = "is-sf-wsproxy.chat.instasync.com";
+	var server = CHAT_SERVER; //located in room/index.ejs
 	var port = 8080;
 	var socket = io.connect(server + ":" + port,
 	{
@@ -13,8 +13,9 @@ room.setSocket(new function (room){
 		"force new connection": true,
 		"try multiple transports": true,
 		"reconnection delay": 1000,
-		"max reconnection attempts": 5,
+		"max reconnection attempts": 2,
 		"auto connect": false,
+		"connect timeout": 5000,
 		//"sync disconnect on unload": true,
 		//transports: ['xhr-polling'] //testing
 		transports: ['websocket','xhr-polling'] //testing
@@ -48,19 +49,18 @@ room.setSocket(new function (room){
 		socket.disconnect();
 	};
 	this.connect = function () {
-//		setTimeout(function(){
-//			if (socket.socket.connected == false && socket.socket.connecting == true){
-//				attemptFailover();
-//			}
-//		},3000);
 		socket.socket.connect();
 	};
-	function attemptFailover(){
-		//socket.socket.disconnect();
+	function attemptFailover(HandshakeFailed){
 		room.addMessage({username:""},"Attempting failover..","text-danger");
-		socket.socket.options.host = "is-sf-proxy.chat.instasync.com";
+		socket.socket.options.host = FAIL_OVER; //located in room/index.ejs
 		socket.socket.options.transports = ['xhr-polling'];
-		socket.socket.reconnect();
+		socket.socket["max reconnection attempts"] = 5;
+		socket.socket["connect timeout"] = 1000;
+		if (HandshakeFailed) //fresh connection, WS down
+			socket.socket.reconnect();
+		else //interupted while already connected
+			socket.socket.connect();
 	};
 	socket.on('sys-message', function (data) {
 		room.addMessage({username: ""}, data.message, 'text-info');
@@ -82,9 +82,9 @@ room.setSocket(new function (room){
 		}
 		room.onConnected();
 		room.onJoining();
-		console.log(socket.socket);
+		console.log(socket);
 	});
-	socket.on('reconnecting', function (data) {
+	socket.on('reconnecting', function (delay,attempt) {
 		room.onReconnecting();
 	});
 	socket.on('reconnect', function (data) {
@@ -94,7 +94,12 @@ room.setSocket(new function (room){
 		//console.log("CONNECT FAILED");
 	});
 	socket.on('reconnect_failed', function () {
-		room.reconnectFailed();
+		console.log("reconnect_failed");
+		if (socket.socket.options.host != "is-sf-proxy.chat.instasync.com"){
+			attemptFailover();
+		}else{
+			room.onError();
+		}
 	});
 	socket.on('request-disconnect', function()
 	{
@@ -105,7 +110,7 @@ room.setSocket(new function (room){
 	});
 	socket.on('error', function(){
 		if (socket.socket.options.host != "is-sf-proxy.chat.instasync.com"){
-			attemptFailover();
+			attemptFailover(true);
 		}else{
 			room.onError();
 		}

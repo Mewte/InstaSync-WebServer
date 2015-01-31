@@ -225,6 +225,8 @@
 	 * initalize some room properties
 	 */
 	var ROOM_NAME = <%- '"' + room.room_name.toLowerCase() + '"'%>;
+	var CHAT_SERVER = "is-ovh-wsproxy.chat.instasync.com";
+	var FAIL_OVER = "is-sf-proxy.chat.instasync.com";
 </script>
 <!-- Start with room, each js file is self executing and attachs itself to the global 'room' object -->
 <script type='text/javascript' src="/js/room/room.js"></script>
