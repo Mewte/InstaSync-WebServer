@@ -23,20 +23,20 @@ room = new function(room_name){
 	this.onJoined = function(){
 		//self.addMessage({username:""},"Joined!","text-danger")
 	};
-	this.onReconnecting = function(){
-		self.addMessage({username:""},"Reconnecting..","text-danger");
+	this.onReconnecting = function(attempt){
+		self.addMessage({username:""},"Reconnecting ("+attempt+")..","text-danger");
 	};
 	this.onReconnect = function(){
 
 	};
-	this.reconnectFailed = function(){
-
+	this.onReconnectFailed = function(){
+		self.addMessage({username:""},"Failed to reconnect.","text-danger");
 	};
 	this.onError = function(){
-		self.addMessage({username:""},"Error connecting..","text-danger");
+		self.addMessage({username:""},"Error connecting.","text-danger");
 	};
 	this.onDisconnect = function(){
-		self.addMessage({username:""},"Connection lost..","text-danger");
+		self.addMessage({username:""},"Connection lost.","text-danger");
 	};
 	this.autoscroll = true;
 	this.mutedIps = new Array();
