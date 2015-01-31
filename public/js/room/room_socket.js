@@ -82,7 +82,6 @@ room.setSocket(new function (room){
 		}
 		room.onConnected();
 		room.onJoining();
-		console.log(socket);
 	});
 	socket.on('reconnecting', function (delay,attempt) {
 		room.onReconnecting();
@@ -94,7 +93,6 @@ room.setSocket(new function (room){
 		//console.log("CONNECT FAILED");
 	});
 	socket.on('reconnect_failed', function () {
-		console.log("reconnect_failed");
 		if (socket.socket.options.host != "is-sf-proxy.chat.instasync.com"){
 			attemptFailover();
 		}else{
