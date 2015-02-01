@@ -91,15 +91,6 @@ function commands(socket,room){
 		"'clean": function (data) {
 			socket.sendcmd('clean', null);
 		},
-		"'togglefilter": function (data) {
-			filterGreyname = !filterGreyname;
-		},
-		"'save": function (data) {
-			socket.sendcmd("save", null);
-		},
-		"'toggleautosynch": function (data) {
-			toggleAutosynch();
-		},
 		"'leaverban": function (data) {
 			socket.sendcmd("leaverban", {username: data[1]});
 		},

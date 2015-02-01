@@ -86,7 +86,7 @@ function player(containerID){
 		removePlayer();
 	};
 	function loadYoutube(id, time, playing){
-		var isLeader = false;
+		var isLeader = room.user.isLeader;
 		var showYTcontrols = false;
 		var src = "http://www.youtube.com/watch?v="+id+"";
 		if (player.video === null || player.video.mediaType != "youtube"){

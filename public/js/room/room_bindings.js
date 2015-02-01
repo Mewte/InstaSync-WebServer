@@ -3,14 +3,6 @@
     Copyright (C) 2015  InstaSync
 */
 function onReady(room, socket){
-	$('#addUrl').click(function () {
-		var url = $('#URLinput').val();
-		if ($('#URLinput').val().trim() != '')
-		{
-			room.sendcmd('add', {URL: url});
-		}
-		$('#URLinput').val('');
-	});
 	$('#cin')['focus'](function () {
 		room.unreadMessages = 0;
 		document.title = 'InstaSync - '+ room.roomName + "'s room";
@@ -126,6 +118,22 @@ function onReady(room, socket){
 			socket.sendcmd("remove", {info: video.info});
 		}
 	});
+	$("#playlist").on("click","li",function(e){
+		if (e.which == 1){ //left click
+			var css = $(e.target).attr("class") || "";
+			if (e.target === this || css.indexOf("title") > -1 || css.indexOf("pl-video-info") > -1){
+				if ($("#playlist").hasClass("noclick")){
+					$("#playlist").removeClass("noclick");
+				}
+				else{
+					if (room.user.isLeader)
+					{
+						socket.sendcmd('play', {info: $(this).data("video").info});
+					}
+				}
+			}
+		}
+	});
 	$("#poll_tab,#poll_column").on("click",".poll.active .poll-options .poll-votes",function(e){
 		if (e.which == 1){ //left click
 			var option = $(this).data("option");
@@ -180,7 +188,6 @@ function onReady(room, socket){
 		var options = [];
 		for (var i = 0; i<optionsEle.length; i++){
 			var val = $(optionsEle[i]).val();
-			console.log(val);
 			if (val.trim() != "")
 				options.push(val)
 		}

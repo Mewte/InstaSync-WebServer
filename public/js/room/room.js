@@ -58,7 +58,7 @@ room = new function(room_name){
 	this.setSocket = function(ws){
 		if (socket == null){ //only allow socket to be set once
 			socket = ws;
-			self.socket = socket;
+			self.sendcmd = socket.sendcmd;
 		}
 	};
 
@@ -252,59 +252,54 @@ room = new function(room_name){
 		}
 	};
 	this.makeLead = function(userId){
+		$("#toggle_leader").removeClass("is-leader"); //incase user was leader
 		$(".leader").removeClass("leader");
 		for (var i = 0; i < self.userlist.users.length; i++){
 			if (self.userlist.users[i].id == userId){
-				$($("#userlist li")[i]).addClass("leader");
+				$($("#user_list li")[i]).addClass("leader");
 				break;
 			}
 		}
 		if (userId === self.user.userinfo.id)
 		{
 			self.user.isLeader = true;
-			$(".leader").show();
-			$( "#video-list" ).sortable(
+			self.addMessage({username: ""},"You are now the leader. You may control the player and rearrange the playlist.","text-success");
+			$("#toggle_leader").addClass("is-leader");
+			$( "#playlist" ).sortable(
 			{
 				update : function (event, ui){
-						   room.sendcmd('move', {info: ui.item.data("info"), position: ui.item.index()});
-							$( "#video-list" ).sortable( "cancel" );
+						   socket.sendcmd('move', {info: ui.item.data("video").info, position: ui.item.index()});
+							$( "#playlist" ).sortable( "cancel" ); //let the server actually move the video
 						 },
 				 start: function(event,ui)
 				 {
 					 //Prevents click event from triggering when sorting videos
-					 $("#video-list").addClass('noclick');
+					 $("#playlist").addClass('noclick');
 				 }
 
 			});
-			$("#video-list").sortable( "enable" );
-			$("#lead").hide();
-			$("#unlead").show();
+			$("#playlist").sortable( "enable" );
 			/*
-			 * Make sure to show YouTube control bar for leader
+			 * Make sure to show Video.JS controls for leader
 			 */
-			if (video.video != null){
-				video.video.controls(true);
+			if (self.video.video != null){
+				self.video.video.controls(true);
 			}
 		}
 		else
 		{
-			if (isLeader)
+			if (self.user.isLeader)
 			{
-				isLeader = false;
-				$(".leader").css("display", "none");
-				$("#video-list").sortable("disable");
-				$("#unlead").hide();
-				if (isMod)
-				{
-					$("#lead").show();
-				}
+				self.addMessage({username: ""},"You are no longer the leader.","text-success");
+				self.user.isLeader = false;
+				$("#playlist").sortable("disable");
 			}
 			/*
 			 * Disable video.js for youtube if the user has yt controls on
 			 */
-			if (video.video != null && video.loadedVideo.provider == "youtube"){
-				video.video.controls(!showYTcontrols);
-			}
+//			if (video.video != null && video.loadedVideo.provider == "youtube"){
+//				video.video.controls(!showYTcontrols);
+//			}
 		}
 	};
 	function toggleAutosynch(){
