@@ -45,7 +45,7 @@ room = new function(room_name){
 	this.unreadTabMessages = 0;
 	this.filterGreyname = false;
 	this.autosync = true;
-	var showYTcontrols = false;
+	this.showYTcontrols = false;
 	var messages = 0; //stores how many total messages are in the window (for cleaning up)
 	this.player = null;
 	this.user = {
@@ -293,22 +293,15 @@ room = new function(room_name){
 				self.addMessage({username: ""},"You are no longer the leader.","text-success");
 				self.user.isLeader = false;
 				$("#playlist").sortable("disable");
+				/*
+				 * Disable video.js for youtube if the user has yt controls on (since leader requires the video.js controls)
+				 */
+				if (self.video.video != null && self.video.loadedVideo.provider == "youtube"){
+					self.video.video.controls(!self.showYTcontrols);
+				}
 			}
-			/*
-			 * Disable video.js for youtube if the user has yt controls on
-			 */
-//			if (video.video != null && video.loadedVideo.provider == "youtube"){
-//				video.video.controls(!showYTcontrols);
-//			}
 		}
 	};
-	function toggleAutosynch(){
-		autosynch = !autosynch;
-		if (autosynch)
-		{
-			global.sendcmd('resynch', null);
-		}
-	}
 	this.playVideo = function(vidinfo, time, playing) {
 		//return;
 		var indexOfVid = self.playlist.indexOf(vidinfo);

@@ -218,4 +218,33 @@ function onReady(room, socket){
 	$("#create_poll_modal .poll-options").sortable({
 		"handle":".input-group-addon"
 	});
+	/*
+	 * Player Settings Buttons
+	 */
+	$('#reload_btn').click(function () {
+		room.video.destroy();
+		socket.sendcmd('reload');
+	});
+	$('#resync_btn').click(function () {
+		socket.sendcmd('resynch');
+	});
+	$("#disable_player").click(function(){
+		$("#media").html("");
+	});
+	$("#toggle_autosync_box").prop("checked", true);
+	$("#toggle_autosync_box").on("change", function()
+	{
+		var checked = $(this).is(":checked");
+		room.autosync = checked;
+		if (checked){
+			socket.sendcmd('resynch');
+		}
+	});
+	$("#toggleYTcontrols_box").prop("checked", false);
+	$("#toggleYTcontrols_box").click(function(){
+		room.showYTcontrols = $(this).is(":checked");
+		room.video.destroy();
+		room.sendcmd('reload', null);
+	});
+	//------------
 }
