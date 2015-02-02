@@ -80,7 +80,7 @@ var error_handler = function(err, req, res, next){
 	}
 	else if(status = 500){
 		pageTitle = "InstaSync - Server Error";
-		if (config.enviroment != "dev"){
+		if (config.environment != "dev"){
 			err.message = "A server error has occured. Please try again later.";
 			err.stack = "";
 		}

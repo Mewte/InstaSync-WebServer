@@ -31,7 +31,7 @@ router.get('/:room_name', function(req, res, next) {
 		room: req.room
 	}, function(err,html){ //not sure this is needed
 		if(err) {
-			next(); //continues on to middleware as if this router was never called
+			next(err);
 		} else {
 			res.end(html);
 		}
