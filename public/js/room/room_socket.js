@@ -4,9 +4,14 @@
 */
 //Use this to have the socket in a file seperate from the room file, but it's still a part of it (or rather an extension of it)
 room.setSocket(new function (room){
-	var server = CHAT_SERVER; //located in room/index.ejs
-	var port = 8080;
-	var socket = io.connect(server + ":" + port,
+	var server = "";
+	if (location.protocol.toLowerCase() == "https:"){
+		server = SECURE_CHAT_SERVER;
+	}
+	else{
+		server = CHAT_SERVER;
+	}
+	var socket = io.connect(server,
 	{
 		query: "room="+room.roomName,
 		reconnect: true,
@@ -17,8 +22,8 @@ room.setSocket(new function (room){
 		"auto connect": false,
 		"connect timeout": 5000,
 		"sync disconnect on unload": true,
-		//transports: ['xhr-polling'] //testing
-		transports: ['websocket','xhr-polling'] //testing
+		transports: ['xhr-polling'] //testing
+		//transports: ['websocket','xhr-polling'] //testing
 	});
 	var commandList = new commands(this,room);
 	this.sendmsg = function (message) {
