@@ -4,8 +4,8 @@ function commands(socket,room){
 		"'ban": function (data) {
 			var banUserID = null;
 			for (var i = 0; i < room.userlist.users['length']; i++) {
-				if (room.userlist.user[i].username.toLowerCase() === data[1].toLowerCase()) {
-					banUserID = room.userlist.user[i].id;
+				if (room.userlist.users[i].username.toLowerCase() === data[1].toLowerCase()) {
+					banUserID = room.userlist.users[i].id;
 				}
 			}
 			socket.sendcmd('ban', {userid: banUserID});
@@ -19,7 +19,7 @@ function commands(socket,room){
 		"'kick": function (data) {
 			var kickUserID = null;
 			for (var i = 0; i < room.userlist.users['length']; i++) {
-				if (room.userlist.users[i]['username']['toLowerCase']() === data[1]['toLowerCase']()) {
+				if (room.userlist.users[i].username.toLowerCase() === data[1]['toLowerCase']()) {
 					kickUserID = room.userlist.users[i]['id'];
 				}
 			}
