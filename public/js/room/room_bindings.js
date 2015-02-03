@@ -246,5 +246,9 @@ function onReady(room, socket){
 		room.video.destroy();
 		room.sendcmd('reload', null);
 	});
+	$("#toggle_greyname_chat").prop("checked", true);
+	$("#toggle_greyname_chat").click(function(){
+		room.filterGreyname = !$(this).is(":checked");
+	});
 	//------------
 }
