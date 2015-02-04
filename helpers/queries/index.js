@@ -27,7 +27,7 @@ var queries = function(){
 			}).catch(function(err){throw err;});
 	};
 	this.register = function(username){
-		
+
 	};
 	this.changePassword = function(user_id,currentPass,newPass){
 		return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({id:user_id, hashpw: hash(currentPass)}).limit(1).bind({})
@@ -87,8 +87,8 @@ var queries = function(){
 			.from('users').join('mods','mods.username','users.username')
 			.where("mods.room_name",room);
 	};
-	this.addMod = function(){
-
+	this.addMod = function(room,username){
+		return db("mods").insert({room_name: room, username: username, permissions: 1});
 	};
 	this.removeMod = function(){
 

@@ -223,7 +223,7 @@ router.post('/me/password_reset', function(req,res,next){
 		error.field_name = "new";
         return next(error);
 	}
-	queries.resetPassword(token, newPass).then(function(err){
+	queries.resetPassword(token, newPass).then(function(){
 		res.json({err: false, message:"Password change successful. You may now long in with the newly created password."});
 	}).catch(function(err){
 		if (err.type == "bad_token"){
@@ -295,7 +295,35 @@ router.get('/mods/:room_name', function(req,res,next){
 	}
 });
 router.post('/mods/add', function(req,res,next){
-
+	var user = req.user;
+	var mod = req.body.mod || "";
+	var room = user.username;
+	if (!req.user){
+		var error = new Error("You must be logged in to view this resource.");
+		error.status = 403;
+		return next(error);
+	}
+	if (mod.toLowerCase() == room.toLowerCase()){
+		var error = new Error("You are already a moderator of your own room.");
+		error.status = 422;
+		return next(error);
+	};
+	queries.addMod(room,mod).then(function(id){
+		res.json({success:true});
+	}).catch(function(err){
+		if (err.code == "ER_DUP_ENTRY"){
+			var error = new Error("That user is already a moderator.");
+			error.status = 422;
+			return next(error);
+		}
+		if (err.code == "ER_NO_REFERENCED_ROW_2"){
+			var error = new Error("Username not found.");
+			error.status = 422;
+			return next(error);
+		}
+		else
+			return next(err);
+	});
 });
 router.post('/mods/remove', function(req,res,next){
 
