@@ -7,11 +7,11 @@ room.setSocket(new function (room){
 	var server = "";
 	var transports = []
 	if (location.protocol.toLowerCase() == "https:"){
-		server = SECURE_CHAT_SERVER;
+		server = SECURE_CHAT_SERVER.host +":"+ SECURE_CHAT_SERVER.port;
 		transports = ['xhr-polling'];
 	}
 	else{
-		server = CHAT_SERVER;
+		server = CHAT_SERVER.host + ":" +CHAT_SERVER.port;
 		transports = ['websocket','xhr-polling'];
 	}
 	var socket = io.connect(server,
@@ -60,7 +60,8 @@ room.setSocket(new function (room){
 	};
 	function attemptFailover(){
 		room.addMessage({username:""},"Attempting failover..","text-danger");
-		socket.socket.options.host = FAIL_OVER; //located in room/index.ejs
+		socket.socket.options.host = FAIL_OVER.host; //located in room/index.ejs
+		socket.socket.options.port = FAIL_OVER.port;
 		socket.socket.transports = ['xhr-polling'];
 		socket.socket.origTransports = ['xhr-polling']; //Because I'm lying to you Socket.io, baby girl, let's pretend you were xhr-polling the entire time ;)
 		socket.socket.reconnect();

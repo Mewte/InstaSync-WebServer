@@ -231,9 +231,18 @@
 	 * initalize some room properties
 	 */
 	var ROOM_NAME = <%- '"' + room.room_name.toLowerCase() + '"'%>;
-	var CHAT_SERVER = "ws-proxy.chat.instasync.com:8080";
-	var SECURE_CHAT_SERVER = "ssl-chat.instasync.com";
-	var FAIL_OVER = "cf-proxy.chat.instasync.com:8080";
+	var CHAT_SERVER = {
+		host:"ws-proxy.chat.instasync.com",
+		port: 8080
+	}
+	var SECURE_CHAT_SERVER = {
+		host:"ssl-chat.instasync.com",
+		port:443
+	}
+	var FAIL_OVER = {
+		host:"cf-proxy.chat.instasync.com",
+		port:8080
+	}
 </script>
 <!-- Start with room, each js file is self executing and attachs itself to the global 'room' object -->
 <script type='text/javascript' src="/js/room/room.js"></script>
