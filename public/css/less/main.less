@@ -108,6 +108,25 @@ i:hover{
 	max-height: 100%;
 	/*Note: for smaller devices, may need to allow scrollbar so those users can sign in */
 }
+#settings_modal{
+	.panel{
+		margin-bottom: 5px;
+		.panel-heading{
+			cursor: pointer;
+			i{
+				float: right;
+			}
+		}
+		.panel-body{
+			//display: none;
+			input[type=password],input[type=text], .output{
+				margin-bottom: 4px;
+			}
+		}
+	}
+}
+
+
 /* --------------------------------------- */
 @media(max-width:@media-xs){
 	.container{

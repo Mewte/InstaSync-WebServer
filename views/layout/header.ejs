@@ -45,7 +45,7 @@
 							<a id="my_room_link" href=""><i class="fa fa-home"></i> My Room</a>
 						</li>
 						<li>
-							<a href="/pages/settings"><i class="fa fa-cog fa-spin"></i> Settings</a>
+							<a href="#settings_modal" onclick="$('#settings_modal').modal('show'); return false;"><i class="fa fa-cog"></i> Settings</a>
 						</li>
 						<li>
 							<a id="logout" href=""><i class="fa fa-sign-out"></i> Logout</a>
@@ -121,4 +121,61 @@
 			</div>
 		</div>
 	</div>
+</div>
+<!-- Settings Modal -->
+<div class="modal fade" id="settings_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">My Settings - <span id="settings_username">{USERNAME}</span></h4>
+			</div>
+			<div class="modal-body">
+				<div class="change-password panel panel-default">
+					<div class="panel-heading">Change Password <i class="fa fa-caret-down"></i></div>
+					<div class="panel-body">
+						<div class="">
+							<input type="password" class="form-control input-sm" placeholder="Current"/>
+							<input type="password" class="form-control input-sm" placeholder="New"/>
+							<input type="password" class="form-control input-sm" placeholder="Confirm"/>
+						</div>
+						<div class="text-danger output"></div>
+						<button type="button" class="btn btn-primary btn-sm save">Change</button>
+					</div>
+				</div>
+				<div class="change-user-info panel panel-default">
+					<div class="panel-heading">User Bio  <i class="fa fa-caret-down"></i></div>
+					<div class="panel-body">
+					</div>
+				</div>
+				<div class="change-room-info panel panel-default">
+					<div class="panel-heading">Room Info  <i class="fa fa-caret-down"></i></div>
+					<div class="panel-body">
+					</div>
+				</div>
+				<div class="edit-room-mods panel panel-default">
+					<div class="panel-heading">Edit Room Mods  <i class="fa fa-caret-down"></i></div>
+					<div class="panel-body">
+						<p style="color: #999;">Add and remove moderators that can control your room.</p>
+						<div class="input-group">
+							<span class="input-group-btn">
+								<button id="mod_btn" class="btn btn-sm btn-primary" type="button">Add Mod</button>
+							</span>
+							<input style="margin-bottom: 0px;" id="mod_username" class="form-control input-sm" placeholder="Username to mod..." type="text">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-sm" onclick="$('#settings_modal').modal('hide')">Close</button>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		jQuery(function ($) {
+			$('#settings_modal .panel .panel-heading').on("click", function (e) {
+				$(this).parent().children(".panel-body").slideToggle();
+			});
+		});
+	</script>
 </div>

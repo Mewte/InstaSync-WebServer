@@ -250,5 +250,9 @@ function onReady(room, socket){
 	$("#toggle_greyname_chat").click(function(){
 		room.filterGreyname = !$(this).is(":checked");
 	});
+	$("#toggle_darkstyle").prop("checked", false);
+	$("#toggle_darkstyle").click(function(){
+
+	});
 	//------------
 }
