@@ -296,27 +296,27 @@ router.get('/mods/:room_name', function(req,res,next){
 });
 router.post('/mods/add', function(req,res,next){
 	var user = req.user;
-	var mod = req.body.mod || "";
+	var username = req.body.username || "";
 	var room = user.username;
 	if (!req.user){
 		var error = new Error("You must be logged in to view this resource.");
 		error.status = 403;
 		return next(error);
 	}
-	if (mod.toLowerCase() == room.toLowerCase()){
+	if (username.toLowerCase() == room.toLowerCase()){
 		var error = new Error("You are already a moderator of your own room.");
 		error.status = 422;
 		return next(error);
 	};
-	queries.addMod(room,mod).then(function(id){
+	queries.addMod(room,username).then(function(id){
 		res.json({success:true});
 	}).catch(function(err){
-		if (err.code == "ER_DUP_ENTRY"){
+		if (err.errno == 1062){ //duplicate
 			var error = new Error("That user is already a moderator.");
 			error.status = 422;
 			return next(error);
 		}
-		if (err.code == "ER_NO_REFERENCED_ROW_2"){
+		if (err.errno == 1452){ //foreign key constraint failure
 			var error = new Error("Username not found.");
 			error.status = 422;
 			return next(error);
@@ -326,7 +326,19 @@ router.post('/mods/add', function(req,res,next){
 	});
 });
 router.post('/mods/remove', function(req,res,next){
-
+	var user = req.user;
+	var username = req.body.username || "";
+	var room = user.username;
+	if (!req.user){
+		var error = new Error("You must be logged in to view this resource.");
+		error.status = 403;
+		return next(error);
+	}
+	queries.removeMod(room,username).then(function(removed){
+		res.json({success:true});
+	}).catch(function(err){
+		return next(err);
+	});
 });
 router.get('/bans/:room_name', function(req,res,next){
 	var user = req.user;

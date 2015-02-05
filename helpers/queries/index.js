@@ -90,8 +90,8 @@ var queries = function(){
 	this.addMod = function(room,username){
 		return db("mods").insert({room_name: room, username: username, permissions: 1});
 	};
-	this.removeMod = function(){
-
+	this.removeMod = function(room,username){
+		return db("mods").where('username',username).where('room_name',room).del();
 	};
 	this.getResets = function(ip){
 		var now = moment().unix();
