@@ -134,23 +134,64 @@
 				<div class="change-password panel panel-default">
 					<div class="panel-heading">Change Password <i class="fa fa-caret-down"></i></div>
 					<div class="panel-body">
-						<div class="">
+						<div>
 							<input type="password" class="form-control input-sm" placeholder="Current"/>
 							<input type="password" class="form-control input-sm" placeholder="New"/>
 							<input type="password" class="form-control input-sm" placeholder="Confirm"/>
 						</div>
 						<div class="text-danger output"></div>
-						<button type="button" class="btn btn-primary btn-sm save">Change</button>
+						<button type="button" class="btn btn-primary btn-sm">Change</button>
 					</div>
 				</div>
 				<div class="change-user-info panel panel-default">
 					<div class="panel-heading">User Bio  <i class="fa fa-caret-down"></i></div>
 					<div class="panel-body">
+						<div class="form-group">
+							<label for="settings_avatar">IMGUR Avatar URL:</label>
+							<input type="text" class="form-control input-sm" id="settings_avatar" placeholder="http://i.imgur.com/abc123">
+						</div>
+						<div class="form-group">
+							<label for="settings_bio">User Bio:</label>
+							<textarea class="form-control max-limit" data-limit="512" rows="3" id="settings_bio"></textarea>
+							<div class="character-counter"></div>
+						</div>
+						<div class="text-danger output"></div>
+						<button type="button" class="btn btn-primary btn-sm">Save</button>
 					</div>
 				</div>
 				<div class="change-room-info panel panel-default">
 					<div class="panel-heading">Room Info  <i class="fa fa-caret-down"></i></div>
 					<div class="panel-body">
+						<div class="radio">
+							<label>
+								<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+								Public - Your room appears in public listings (such as the front page)
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+								Private - Your room will be hidden from public listings (such as the front page)
+							</label>
+						</div>
+						<div class="radio disabled">
+							<label>
+								<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled>
+								Friends Only - Coming Soon!
+							</label>
+						</div>
+						<div class="form-group">
+							<label for="settings_room_description">Room Description:</label>
+							<textarea class="form-control max-limit" data-limit="160" rows="2" id="settings_room_description"></textarea>
+							<div class="character-counter"></div>
+						</div>
+						<div class="form-group">
+							<label for="settings_room_info">Room Info:</label>
+							<textarea class="form-control max-limit" data-limit="1024" rows="5" id="settings_room_info"></textarea>
+							<div class="character-counter"></div>
+						</div>
+						<div class="text-danger output"></div>
+						<button type="button" class="btn btn-primary btn-sm">Save</button>
 					</div>
 				</div>
 				<div class="edit-room-mods panel panel-default">
@@ -172,10 +213,20 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		jQuery(function ($) {
-			$('#settings_modal .panel .panel-heading').on("click", function (e) {
-				$(this).parent().children(".panel-body").slideToggle();
-			});
+		$('#settings_modal .panel .panel-heading').on("click", function (e) {
+			$(this).parent().children(".panel-body").slideToggle();
+		});
+		$('#settings_modal').on("propertychange input textInput","textarea.max-limit", function (e) {
+			var limit = $(this).data("limit");
+			var current = $(this).val().length;
+			var counter = $($(this).siblings(".character-counter")[0]);
+			counter.attr("data-content",current + "/"+limit);
+			if (current > limit){
+				counter.addClass("text-danger");
+			}
+			else{
+				counter.removeClass("text-danger");
+			}
 		});
 	</script>
 </div>

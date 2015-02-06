@@ -118,15 +118,27 @@ i:hover{
 			}
 		}
 		.panel-body{
+			padding-bottom: 10px;
 			//display: none;
 			input[type=password],input[type=text], .output{
 				margin-bottom: 4px;
 			}
+			textarea{
+				resize: vertical;
+				margin-bottom: 4px;
+			}
+			.form-group{
+				margin-bottom: 0px;
+				.character-counter{
+					float: right;
+					&:after{
+						content:attr(data-content);
+					}
+				}
+			}
 		}
 	}
 }
-
-
 /* --------------------------------------- */
 @media(max-width:@media-xs){
 	.container{
