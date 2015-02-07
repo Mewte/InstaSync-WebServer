@@ -90,6 +90,7 @@ $(function() {
 			}
 			else{
 				$("#logged_in_as").text($.cookie("username"));
+				$("#settings_username").text($.cookie("username"));
 				$("#my_room_link").attr("href", "/r/"+$.cookie("username"));
 				$("#user_dropdown").show();
 			}
@@ -127,4 +128,23 @@ $(function() {
 			}
 		});
 	});
+	$('#settings_modal .panel .panel-heading').on("click", function (e) {
+		$(this).parent().children(".panel-body").slideToggle();
+	});
+	$('#settings_modal').on("propertychange input textInput", "textarea.max-limit", function (e) {
+		var limit = $(this).data("limit");
+		var current = $(this).val().length;
+		var counter = $($(this).siblings(".character-counter")[0]);
+		counter.attr("data-content", current + "/" + limit);
+		if (current > limit) {
+			counter.addClass("text-danger");
+		}
+		else {
+			counter.removeClass("text-danger");
+		}
+	});
+	$("#settings_modal button[data-id='change_password']").click(function(){
+		$(this).attr("disabled",true);
+	});
+	//$('input[name=optionsRadios]:checked').val()
 });

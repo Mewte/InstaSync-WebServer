@@ -128,22 +128,22 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">My Settings - <span id="settings_username">{USERNAME}</span></h4>
+				<h4 class="modal-title">My Settings - <span id="settings_username"></span></h4>
 			</div>
 			<div class="modal-body">
-				<div class="change-password panel panel-default">
+				<div class="panel panel-default">
 					<div class="panel-heading">Change Password <i class="fa fa-caret-down"></i></div>
 					<div class="panel-body">
 						<div>
-							<input type="password" class="form-control input-sm" placeholder="Current"/>
-							<input type="password" class="form-control input-sm" placeholder="New"/>
-							<input type="password" class="form-control input-sm" placeholder="Confirm"/>
+							<input data-id="current_password" type="password" class="form-control input-sm" placeholder="Current"/>
+							<input data-id="new_password" type="password" class="form-control input-sm" placeholder="New"/>
+							<input data-id="confirm_new_password" type="password" class="form-control input-sm" placeholder="Confirm"/>
 						</div>
-						<div class="text-danger output"></div>
-						<button type="button" class="btn btn-primary btn-sm">Change</button>
+						<div class="output"></div>
+						<button data-id="change_password" type="button" class="btn btn-primary btn-sm">Change</button>
 					</div>
 				</div>
-				<div class="change-user-info panel panel-default">
+				<div class="panel panel-default">
 					<div class="panel-heading">User Bio  <i class="fa fa-caret-down"></i></div>
 					<div class="panel-body">
 						<div class="form-group">
@@ -159,24 +159,24 @@
 						<button type="button" class="btn btn-primary btn-sm">Save</button>
 					</div>
 				</div>
-				<div class="change-room-info panel panel-default">
+				<div class="panel panel-default">
 					<div class="panel-heading">Room Info  <i class="fa fa-caret-down"></i></div>
 					<div class="panel-body">
 						<div class="radio">
 							<label>
-								<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+								<input type="radio" name="optionsRadios" id="optionsRadios1" value="public" checked>
 								Public - Your room appears in public listings (such as the front page)
 							</label>
 						</div>
 						<div class="radio">
 							<label>
-								<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+								<input type="radio" name="optionsRadios" id="optionsRadios2" value="private">
 								Private - Your room will be hidden from public listings (such as the front page)
 							</label>
 						</div>
 						<div class="radio disabled">
 							<label>
-								<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled>
+								<input type="radio" name="optionsRadios" id="optionsRadios3" value="friends" disabled>
 								<span style="color:#AAAAA2">Friends Only - Coming Soon!</span>
 							</label>
 						</div>
@@ -194,16 +194,24 @@
 						<button type="button" class="btn btn-primary btn-sm">Save</button>
 					</div>
 				</div>
-				<div class="edit-room-mods panel panel-default">
+				<div class="panel panel-default">
 					<div class="panel-heading">Edit Room Mods  <i class="fa fa-caret-down"></i></div>
 					<div class="panel-body">
 						<p style="color: #999;">Add and remove moderators that can control your room.</p>
 						<div class="input-group">
 							<span class="input-group-btn">
-								<button id="mod_btn" class="btn btn-sm btn-primary" type="button">Add Mod</button>
+								<button id="add_mod_btn" class="btn btn-sm btn-primary" type="button">Add Mod</button>
 							</span>
 							<input style="margin-bottom: 0px;" id="mod_username" class="form-control input-sm" placeholder="Username to mod..." type="text">
 						</div>
+						<ul class="mod-list list-unstyled">
+							<li>Mewte<i class="fa fa-close remove"></i></li>
+							<li>Mewte<i class="fa fa-close"></i></li>
+							<li>Mewte<i class="fa fa-close"></i></li>
+							<li>Mewte<i class="fa fa-close"></i></li>
+							<li>Mewte<i class="fa fa-close"></i></li>
+							<li>Mewte<i class="fa fa-close"></i></li>
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -212,21 +220,4 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		$('#settings_modal .panel .panel-heading').on("click", function (e) {
-			$(this).parent().children(".panel-body").slideToggle();
-		});
-		$('#settings_modal').on("propertychange input textInput","textarea.max-limit", function (e) {
-			var limit = $(this).data("limit");
-			var current = $(this).val().length;
-			var counter = $($(this).siblings(".character-counter")[0]);
-			counter.attr("data-content",current + "/"+limit);
-			if (current > limit){
-				counter.addClass("text-danger");
-			}
-			else{
-				counter.removeClass("text-danger");
-			}
-		});
-	</script>
 </div>
