@@ -252,7 +252,12 @@ function onReady(room, socket){
 	});
 	$("#toggle_darkstyle").prop("checked", false);
 	$("#toggle_darkstyle").click(function(){
-
+		if ($(this).is(":checked")){
+			$("body").addClass("darkstyle");
+		}
+		else{
+			$("body").removeClass("darkstyle");
+		}
 	});
 	//------------
 }
