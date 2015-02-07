@@ -27,6 +27,11 @@ var request = new function(){
 			callback(false,response);
 		}).fail(errorHandler(callback));
 	};
+	this.changePassword = function(current,newPass,callback){
+		$.post(base_url+"me/change_password",{current: current, new: newPass}).done(function(response){
+			callback(false,response);
+		}).fail(errorHandler(callback));
+	};
 	this.sendReset = function(username, email, callback){
 		$.post(base_url+"me/send_reset",{username: username, email: email}).done(function(response){
 			callback(false,response);

@@ -33,7 +33,7 @@ var queries = function(){
 		return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({id:user_id, hashpw: hash(currentPass)}).limit(1).bind({})
 			.then(function(results){
 				if (results.length == 0){
-					var error = new Error("Password and current password did not match");
+					var error = new Error("Invalid current password. Please try again.");
 					error.type ="password_mismatch";
 					throw error;
 				}

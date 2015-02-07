@@ -157,6 +157,7 @@ router.post('/me/change_password', function(req,res,next){
         var error = new Error("Password must be at least 6 characters.");
 		error.status = 422;
 		error.field_name = "new";
+		error.type = "validation";
         return next(error);
 	}
 	queries.changePassword(req.user.user_id,currentPass,newPass).then(function(user){

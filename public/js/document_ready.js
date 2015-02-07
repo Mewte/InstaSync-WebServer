@@ -144,7 +144,43 @@ $(function() {
 		}
 	});
 	$("#settings_modal button[data-id='change_password']").click(function(){
+		var self = $(this);
+		var outputEle = $(this).siblings("div[data-type='output']");
+		outputEle.removeClass();
+		outputEle.text("");
+		$(this).parent().children('.has-error').removeClass("has-error");
+		var currentEle = $("#settings_modal input[data-id='current_password']");
+		var newEle = $("#settings_modal input[data-id='new_password']");
+		var confirmEle = $("#settings_modal input[data-id='confirm_new_password']");
+		if (newEle.val() != confirmEle.val()){
+			outputEle.addClass("text-danger");
+			outputEle.text("Passwords do not match. Please try again.");
+			newEle.parent().addClass("has-error");
+			confirmEle.parent().addClass("has-error");
+			return;
+		}
 		$(this).attr("disabled",true);
+		request.changePassword(currentEle.val(),newEle.val(), function(err, response){
+			self.attr("disabled",false);
+			if (err){
+				outputEle.addClass("text-danger");
+				outputEle.text(err.responseJSON.message);
+				if (err.responseJSON.type == "password_mismatch"){
+					currentEle.parent().addClass("has-error");
+				}
+				else if (err.responseJSON.field_name == "new"){
+					newEle.parent().addClass("has-error");
+					confirmEle.parent().addClass("has-error");
+				}
+			}
+			else{
+				outputEle.addClass("text-info");
+				outputEle.text("Password change successful.");
+				currentEle.val("");
+				newEle.val("");
+				confirmEle.val("");
+			}
+		});
 	});
 	//$('input[name=optionsRadios]:checked').val()
 });
