@@ -63,6 +63,14 @@ var queries = function(){
 		})
 		.catch(function(err){throw err;});
 	};
+	this.updateUser = function(user_id,avatar,bio){
+		var update = {};
+		if (avatar)
+			update.avatar = avatar;
+		if (bio)
+			update.bio = bio;
+		return db('users').update(update).where({id: user_id}).limit(1);
+	};
 	this.getRoom = function(room){
 		return db.select().from('rooms').where({room_name:room}).limit(1)
 		.then(function(results){

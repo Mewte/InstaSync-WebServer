@@ -238,7 +238,31 @@ router.post('/me/room_info', function(req,res,next){
 
 });
 router.post('/me/user_info', function(req,res,next){
-
+	if (!req.user){
+		var error = new Error("You must be logged in to access this resource.");
+		error.status = 403;
+		return next(error);
+	}
+	var avatar = req.body.avatar;
+	var bio = req.body.bio;
+	var imgurMatch = /(https?:\/\/)?(www\.)?(i\.)?imgur\.com\/(gallery\/)?([a-zA-Z0-9]+)(\.(jpg|jpeg|png|gif))?/i;
+	if (avatar){
+		if (!validator.isURL(avatar,{host_whitelist:["i.imgur.com","www.imgur.com","imgur.com"]})){
+			var error = new Error("Only IMGUR URLs are allowed.");
+			error.status = 422;
+			error.field_name = "avatar";
+			error.type = "validation";
+			return next(error);
+		}
+		avatar = avatar.replace(imgurMatch,"$5");
+	}
+	queries.updateUser(req.user.user_id,avatar,bio).then(function(){
+		return queries.getUser(req.user.username);
+	}).then(function(user){
+		res.json(user);
+	}).catch(function(err){
+		next(err);
+	});
 });
 router.get('/user/:username', function(req,res,next){
 	var username = req.param('username');
