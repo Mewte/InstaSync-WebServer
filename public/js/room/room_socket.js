@@ -137,7 +137,7 @@ room.setSocket(new function (room){
 	});
 	socket.on('add-user', function (data)
 	{
-		room.userlist.addUser(data.user);
+		room.userlist.addUser(data.user, true);
 	});
 	socket.on('remove-user', function (data)
 	{
