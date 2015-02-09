@@ -143,7 +143,7 @@ function onReady(room, socket){
 			}
 			else
 			{
-				//addMessage({username: ""},"You must be logged in to vote on polls.","errortext");
+				addMessage({username: ""},"You must be logged in to vote on polls.","errortext");
 			}
 		}
 	});
