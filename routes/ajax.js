@@ -235,7 +235,30 @@ router.post('/me/password_reset', function(req,res,next){
 	});
 });
 router.post('/me/room_info', function(req,res,next){
+	if (!req.user){
+		var error = new Error("You must be logged in to access this resource.");
+		error.status = 403;
+		return next(error);
+	}
+	var listing = req.body.listing;
+	var description = req.body.description;
+	var info = req.body.info;
 
+	var valid_listings = ["public","private"]
+	if (listing != undefined && valid_listings.indexOf(listing) < 0){//listing is defined, and doesn't equal valid listings
+		var error = new Error("Invalid room listing option.");
+		error.status = 422;
+		error.field_name = "listing";
+		error.type = "validation";
+		return next(error);
+	}
+	queries.updateRoom(req.user.username,listing,description,info).then(function(){
+		return queries.getRoom(req.user.username);
+	}).then(function(room){
+		res.json(room);
+	}).catch(function(err){
+		next(err);
+	});
 });
 router.post('/me/user_info', function(req,res,next){
 	if (!req.user){
@@ -246,7 +269,7 @@ router.post('/me/user_info', function(req,res,next){
 	var avatar = req.body.avatar;
 	var bio = req.body.bio;
 	var imgurMatch = /(https?:\/\/)?(www\.)?(i\.)?imgur\.com\/(gallery\/)?([a-zA-Z0-9]+)(\.(jpg|jpeg|png|gif))?/i;
-	if (avatar){
+	if (avatar != undefined){
 		if (!validator.isURL(avatar,{host_whitelist:["i.imgur.com","www.imgur.com","imgur.com"]})){
 			var error = new Error("Only IMGUR URLs are allowed.");
 			error.status = 422;

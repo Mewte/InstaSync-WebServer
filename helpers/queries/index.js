@@ -65,10 +65,13 @@ var queries = function(){
 	};
 	this.updateUser = function(user_id,avatar,bio){
 		var update = {};
-		if (avatar)
+		if (avatar != undefined)
 			update.avatar = avatar;
-		if (bio)
+		if (bio != undefined)
 			update.bio = bio;
+		if (Object.keys(update).length === 0){//just to return a promise
+			return db.select(db.raw("1 as one"));
+		}
 		return db('users').update(update).where({id: user_id}).limit(1);
 	};
 	this.getRoom = function(room){
@@ -80,6 +83,19 @@ var queries = function(){
 				return results[0];
 		})
 		.catch(function(err){throw err;});
+	};
+	this.updateRoom = function(room_name,listing,description,info){
+		var update = {};
+		if (listing)
+			update.listing = listing;
+		if (description)
+			update.description = description;
+		if (info)
+			update.info = info;
+		if (Object.keys(update).length === 0){ //just to turn a promise
+			return db.select(db.raw("1 as one"));
+		}
+		return db('rooms').update(update).where({room_name: room_name}).limit(1);
 	};
 	this.isMod = function(username, room){
 		return db.select().from('mods').where("mods.room_name",room).where("mods.username",username).limit(1)
