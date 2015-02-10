@@ -144,23 +144,23 @@
 							<input data-id="confirm_new_password" type="password" class="form-control input-sm" placeholder="Confirm"/>
 						</div>
 						<div data-type="output" class=""></div>
-						<button data-id="change_password" type="button" class="btn btn-primary btn-sm">Change</button>
+						<button data-id="change_password" type="button" class="btn btn-primary btn-sm" autocomplete="off">Change</button>
 					</div>
 				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">User Bio  <i class="fa fa-caret-down"></i></div>
+				<div data-id="user_info" class="panel panel-default">
+					<div class="panel-heading">User Info  <i class="fa fa-caret-down"></i></div>
 					<div class="panel-body">
 						<div class="form-group">
 							<label for="settings_avatar">IMGUR Avatar URL:</label>
-							<input type="text" class="form-control input-sm" id="settings_avatar" placeholder="http://i.imgur.com/abc123">
+							<input data-id="avatar" id="settings_avatar" type="text" class="form-control input-sm" placeholder="http://i.imgur.com/abc123">
 						</div>
 						<div class="form-group">
 							<label for="settings_bio">User Bio:</label>
-							<textarea class="form-control max-limit" data-limit="512" rows="3" id="settings_bio"></textarea>
+							<textarea data-id="bio" class="form-control max-limit" data-limit="512" rows="3" id="settings_bio"></textarea>
 							<div class="character-counter"></div>
 						</div>
-						<div class="text-danger output"></div>
-						<button type="button" class="btn btn-primary btn-sm">Save</button>
+						<div data-type="output"></div>
+						<button  data-id="update_user" type="button" class="btn btn-primary btn-sm" autocomplete="off">Save</button>
 					</div>
 				</div>
 				<div class="panel panel-default">
@@ -168,7 +168,7 @@
 					<div class="panel-body">
 						<div class="radio">
 							<label>
-								<input type="radio" name="optionsRadios" id="optionsRadios1" value="public" checked>
+								<input type="radio" name="optionsRadios" id="optionsRadios1" value="public">
 								Public - Your room appears in public listings (such as the front page)
 							</label>
 						</div>

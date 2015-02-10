@@ -142,9 +142,10 @@ $(function() {
 		else {
 			counter.removeClass("text-danger");
 		}
+		$(this).addClass("unsaved");
 	});
 	$("#settings_modal button[data-id='change_password']").click(function(){
-		var self = $(this);
+		var self = this;
 		var outputEle = $(this).siblings("div[data-type='output']");
 		outputEle.removeClass();
 		outputEle.text("");
@@ -161,7 +162,7 @@ $(function() {
 		}
 		$(this).attr("disabled",true);
 		request.changePassword(currentEle.val(),newEle.val(), function(err, response){
-			self.attr("disabled",false);
+			$(self).attr("disabled",false);
 			if (err){
 				outputEle.addClass("text-danger");
 				outputEle.text(err.responseJSON.message);
@@ -179,6 +180,32 @@ $(function() {
 				currentEle.val("");
 				newEle.val("");
 				confirmEle.val("");
+			}
+		});
+	});
+	$("#settings_modal button[data-id='update_user']").click(function(){
+		var self = this;
+		var outputEle = $(this).siblings("div[data-type='output']");
+		outputEle.removeClass();
+		outputEle.text("");
+		$(this).parent().children('.has-error').removeClass("has-error");
+		var avatarEle = $("#settings_modal input[data-id='avatar']");
+		var bioEle = $("#settings_modal textarea[data-id='bio']");
+		$(this).attr("disabled",true);
+		request.updateUser(avatarEle.val(),bioEle.val(),function(err,response){
+			$(self).attr("disabled",false);
+			if (err){
+				var err = err.responseJSON;
+				outputEle.addClass("text-danger");
+				outputEle.text(err.message);
+				if (err.type == "validation" && err.field_name == "avatar"){
+					avatarEle.parent().addClass("has-error");
+				}
+			}
+			else{
+				outputEle.addClass("text-info");
+				outputEle.text("User info updated.");
+				$(self).parent().find('.unsaved').removeClass("unsaved");
 			}
 		});
 	});

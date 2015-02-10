@@ -55,15 +55,13 @@ var request = new function(){
 		$.get(base_url+"user/"+username).done(function(response){
 			callback(false,response);
 		}).fail(errorHandler(callback));
-	}
-	function setUserInfo(avatar, bio, social, callback)
+	};
+	this.updateUser = function(avatar, bio, callback)
 	{
-		$.post("/ajax/userinfo", {avatar: avatar, bio: bio, social: social}).done(function(data)
-		{
-			var result = JSON.parse(data);
-			callback(result.error);
-		});
-	}
+		$.post("/ajax/me/user_info", {avatar: avatar, bio: bio}).done(function(response){
+			callback(false,response);
+		}).fail(errorHandler(callback));
+	};
 	function errorHandler(callback){
 		return function(err){
 			if (err.status == 0){
