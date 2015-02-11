@@ -233,6 +233,20 @@
 		host:"cf-proxy.chat.instasync.com",
 		port:8080
 	}
+	$.ajax({
+            type: "GET",
+            url: "/emotes/"+ROOM_NAME.toLowerCase()+".js",
+			error: function()
+			{
+				$.ajax({
+				type: "GET",
+				url: "/js/emotes.js",
+				dataType: "script",
+				cache: true});
+			},
+            dataType: "script",
+            cache: true
+    });
 </script>
 <!-- Start with room, each js file is self executing and attachs itself to the global 'room' object -->
 <script type='text/javascript' src="/js/room/room.js"></script>

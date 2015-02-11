@@ -198,6 +198,18 @@ room = new function(room_name){
 				"html":message //convert to text when switching anti xss to client side
 			})));
 		}
+		else if(message[0] == '/' && $codes[message.substring(1)] != undefined){ //emote
+			var emote = message['substring'](1);
+			usernameSpan = $("<span/>", {
+					"class":"username "+usernameClass,
+					"text":user.username+": "
+			});
+			messageBox.append(usernameSpan);
+			messageBox.append(($("<span/>",{
+				"class":"message",
+				"html":$codes[emote] //convert to text when switching anti xss to client side
+			})));
+		}
 		else{ //regular message
 			usernameSpan = $("<span/>", {
 				"class":"username "+usernameClass,
