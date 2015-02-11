@@ -86,11 +86,11 @@ var queries = function(){
 	};
 	this.updateRoom = function(room_name,listing,description,info){
 		var update = {};
-		if (listing)
+		if (listing != undefined)
 			update.listing = listing;
-		if (description)
+		if (description != undefined)
 			update.description = description;
-		if (info)
+		if (info != undefined)
 			update.info = info;
 		if (Object.keys(update).length === 0){ //just to turn a promise
 			return db.select(db.raw("1 as one"));
