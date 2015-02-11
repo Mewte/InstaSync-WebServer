@@ -168,34 +168,34 @@
 					<div class="panel-body">
 						<div class="radio">
 							<label>
-								<input type="radio" name="optionsRadios" id="optionsRadios1" value="public">
+								<input type="radio" name="listing" id="optionsRadios1" value="public">
 								Public - Your room appears in public listings (such as the front page)
 							</label>
 						</div>
 						<div class="radio">
 							<label>
-								<input type="radio" name="optionsRadios" id="optionsRadios2" value="private">
+								<input type="radio" name="listing" id="optionsRadios2" value="private">
 								Private - Your room will be hidden from public listings (such as the front page)
 							</label>
 						</div>
 						<div class="radio disabled">
 							<label>
-								<input type="radio" name="optionsRadios" id="optionsRadios3" value="friends" disabled>
+								<input type="radio" name="listing" id="optionsRadios3" value="friends" disabled>
 								<span style="color:#AAAAA2">Friends Only - Coming Soon!</span>
 							</label>
 						</div>
 						<div class="form-group">
 							<label for="settings_room_description">Room Description:</label>
-							<textarea class="form-control max-limit" data-limit="160" rows="2" id="settings_room_description"></textarea>
+							<textarea data-id="room_description" class="form-control max-limit" data-limit="160" rows="2" id="settings_room_description"></textarea>
 							<div class="character-counter"></div>
 						</div>
 						<div class="form-group">
 							<label for="settings_room_info">Room Info:</label>
-							<textarea class="form-control max-limit" data-limit="1024" rows="5" id="settings_room_info"></textarea>
+							<textarea data-id="room_info" class="form-control max-limit" data-limit="1024" rows="5" id="settings_room_info"></textarea>
 							<div class="character-counter"></div>
 						</div>
-						<div class="text-danger output"></div>
-						<button type="button" class="btn btn-primary btn-sm">Save</button>
+						<div data-type="output"></div>
+						<button data-id="update_room" type="button" class="btn btn-primary btn-sm">Save</button>
 					</div>
 				</div>
 				<div class="panel panel-default">

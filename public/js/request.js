@@ -62,6 +62,12 @@ var request = new function(){
 			callback(false,response);
 		}).fail(errorHandler(callback));
 	};
+	this.updateRoom = function(listing, description, info, callback)
+	{
+		$.post("/ajax/me/room_info", {listing: listing, description: description, info: info}).done(function(response){
+			callback(false,response);
+		}).fail(errorHandler(callback));
+	};
 	function errorHandler(callback){
 		return function(err){
 			if (err.status == 0){

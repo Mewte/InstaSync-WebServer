@@ -209,5 +209,28 @@ $(function() {
 			}
 		});
 	});
-	//$('input[name=optionsRadios]:checked').val()
+	$("#settings_modal button[data-id='update_room']").click(function(){
+		var self = this;
+		var outputEle = $(this).siblings("div[data-type='output']");
+		outputEle.removeClass();
+		outputEle.text("");
+		$(this).parent().children('.has-error').removeClass("has-error");
+		var listing = $('#settings_modal input[name=listing]:checked').val();
+		var descEle = $("#settings_modal textarea[data-id='room_description']");
+		var infoEle = $("#settings_modal textarea[data-id='room_info']");
+		$(this).attr("disabled",true);
+		request.updateRoom(listing, descEle.val(),infoEle.val(),function(err,response){
+			$(self).attr("disabled",false);
+			if (err){
+				var err = err.responseJSON;
+				outputEle.addClass("text-danger");
+				outputEle.text(err.message);
+			}
+			else{
+				outputEle.addClass("text-info");
+				outputEle.text("Room info updated.");
+				$(self).parent().find('.unsaved').removeClass("unsaved");
+			}
+		});
+	});
 });
