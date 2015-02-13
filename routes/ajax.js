@@ -145,6 +145,20 @@ router.get('/me/user_info', function(req,res,next){
 	else
 		res.json(req.user);
 });
+router.get('/me/room_info', function(req,res,next){
+	if (!req.user){
+		var error = new Error("You must be logged in to view this resource.");
+		error.status = 403;
+		return next(error);
+	}
+	else{
+		queries.getRoom(req.user.username).then(function(room){
+			res.json(room);
+		}).catch(function(err){
+			next(err);
+		});
+	}
+});
 router.post('/me/change_password', function(req,res,next){
 	if (!req.user){
 		var error = new Error("You must be logged in to access this resource.");
