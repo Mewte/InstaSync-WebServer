@@ -129,7 +129,43 @@ $(function() {
 		});
 	});
 	$('#settings_modal .panel .panel-heading').on("click", function (e) {
-		$(this).parent().children(".panel-body").slideToggle();
+		var panel = $(this).parent();
+		panel.children(".panel-body").slideToggle();
+		if (panel.hasClass("open")){
+			panel.removeClass("open");
+		}
+		else{ //opening
+			panel.addClass("open");
+			switch(panel.data("id")){
+				case "user_info_panel":
+					request.checklogin(function (err, data) {
+						if (err || !(data && data.user_id)) { //err: 403 if not logged in, or user_id not set
+
+						}
+						else {
+							$("#settings_modal input[data-id='avatar']").val("http://imgur.com/"+data.avatar);
+							$("#settings_modal textarea[data-id='bio']").val(data.bio);
+						}
+					});
+					break;
+				case "room_info_panel":
+					request.getRoomInfo(function (err, data) {
+						if (err) { //err: 403 if not logged in, or user_id not set
+
+						}
+						else {
+							$('#settings_modal input[name=listing]').val([data.listing]);
+							$("#settings_modal textarea[data-id='room_description']").val(data.description);
+							$("#settings_modal textarea[data-id='room_info']").val(data.info);
+						}
+					});
+					break;
+				case "room_mods_panel":
+					break;
+				default:
+					break;
+			}
+		}
 	});
 	$('#settings_modal').on("propertychange input textInput", "textarea.max-limit", function (e) {
 		var limit = $(this).data("limit");
@@ -188,6 +224,8 @@ $(function() {
 		var outputEle = $(this).siblings("div[data-type='output']");
 		outputEle.removeClass();
 		outputEle.text("");
+		outputEle.stop(true,true);
+		outputEle.show();
 		$(this).parent().children('.has-error').removeClass("has-error");
 		var avatarEle = $("#settings_modal input[data-id='avatar']");
 		var bioEle = $("#settings_modal textarea[data-id='bio']");
@@ -201,11 +239,13 @@ $(function() {
 				if (err.type == "validation" && err.field_name == "avatar"){
 					avatarEle.parent().addClass("has-error");
 				}
+				outputEle.fadeOut(2500);
 			}
 			else{
 				outputEle.addClass("text-info");
 				outputEle.text("User info updated.");
 				$(self).parent().find('.unsaved').removeClass("unsaved");
+				outputEle.fadeOut(2500);
 			}
 		});
 	});
@@ -214,6 +254,8 @@ $(function() {
 		var outputEle = $(this).siblings("div[data-type='output']");
 		outputEle.removeClass();
 		outputEle.text("");
+		outputEle.stop(true,true);
+		outputEle.show();
 		$(this).parent().children('.has-error').removeClass("has-error");
 		var listing = $('#settings_modal input[name=listing]:checked').val();
 		var descEle = $("#settings_modal textarea[data-id='room_description']");
@@ -225,11 +267,13 @@ $(function() {
 				var err = err.responseJSON;
 				outputEle.addClass("text-danger");
 				outputEle.text(err.message);
+				outputEle.fadeOut(2500);
 			}
 			else{
 				outputEle.addClass("text-info");
 				outputEle.text("Room info updated.");
 				$(self).parent().find('.unsaved').removeClass("unsaved");
+				outputEle.fadeOut(2500);
 			}
 		});
 	});

@@ -27,6 +27,11 @@ var request = new function(){
 			callback(false,response);
 		}).fail(errorHandler(callback));
 	};
+	this.getRoomInfo = function(callback){
+		$.get(base_url+"me/room_info").done(function(response){
+			callback(false,response);
+		}).fail(errorHandler(callback));
+	};
 	this.changePassword = function(current,newPass,callback){
 		$.post(base_url+"me/change_password",{current: current, new: newPass}).done(function(response){
 			callback(false,response);
@@ -42,7 +47,7 @@ var request = new function(){
 			callback(false,response);
 		}).fail(errorHandler(callback));
 	};
-	function getRoomInfo(room, callback)
+	function getRoom(room, callback)
 	{
 		$.get("/ajax/roominfo?room=" + room).done(function(data)
 		{
