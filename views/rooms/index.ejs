@@ -82,6 +82,9 @@
 							</label>
 						</div>
 					</div>
+					<div id="user_profile">
+						
+					</div>
 				</div>
 				<!-- User Profile Modal -->
 				<div class="modal fade" id="user_profile_modal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
@@ -89,12 +92,20 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title" id="userModalLabel">Mewte</h4>
+								<h4 class="modal-title" id="userModalLabel">{USERNAME}</h4>
 							</div>
 							<div class="modal-body">
-									Hi Im Mewte
+								<div class="avatar">
+									<img src="http://i.imgur.com/YfyWjq4.jpg" />
+								</div>
+								<div class="bio">
+									Hello World
+								</div>
 							</div>
 							<div class="modal-footer">
+								<button type="button" class="btn btn-default btn-sm mod-control">Kick</button>
+								<button type="button" class="btn btn-default btn-sm mod-control">Ban</button>
+								<button type="button" class="btn btn-default btn-sm">Mute</button>
 								<button type="button" class="btn btn-default btn-sm" onclick="$('#user_profile_modal').modal('hide')">Close</button>
 							</div>
 						</div>

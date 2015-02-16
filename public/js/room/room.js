@@ -46,6 +46,7 @@ room = new function(room_name){
 	this.filterGreyname = false;
 	this.autosync = true;
 	this.showYTcontrols = false;
+	this.mouseOverBio = true;
 	var messages = 0; //stores how many total messages are in the window (for cleaning up)
 	this.player = null;
 	this.user = {

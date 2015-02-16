@@ -93,24 +93,62 @@ function onReady(room, socket){
 		}
 		$('#join_username').val('');
 	};
-	$("#chat_messages").on("mousedown",".chat-message .username",function(e){
+	$("#user_list").on("mousedown","li",showProfileModal);
+	$("#chat_messages").on("mousedown",".chat-message .username",showProfileModal);
+	function showProfileModal(e){ //reuse code
 		if (e.which == 1){ //left click
-			var user = $(this).parent().data("user");
+			var user = null;
+			var type = $(this)[0].localName
+			if (type == "li") //clicked from userlist
+				user = $(this).data("user");
+			if (type == "span") //clicked from the chat
+				user = $(this).parent().data("user");
 			var modal = $('#user_profile_modal');
-			$(".modal-body", modal).text("");
+			var bio = $(".modal-body .bio", modal);
+			var avatar = $(".modal-body .avatar img",modal);
 			$(".modal-title",modal).text(user.username);
+			bio.text("");
+			avatar.attr("src","");
 			if (user.loggedin){
 				request.getUser(user.username, function(err, user){
 					if (!err){
-						$(".modal-body",modal).text(user.bio);
+						avatar.attr("src","//i.imgur.com/"+user.avatar+".jpg");
+						bio.text(user.bio);
 					}
 				});
 			}
 			else{
-				$(".modal-body", modal).html("<em class='text-muted'>Not Registered</em>");
+				bio.html("<em class='text-muted'>Not Registered</em>");
 			}
 			modal.modal('show');
 		}
+	}
+	$("#user_list").on("mouseenter","li",function(e){
+		var thisElement = $(this);
+		var profileElement = $("#user_profile");
+		thisElement.data('hover', setTimeout(function (){
+			profileElement.css('top', thisElement.offset().top - $(".chat").offset().top + 20);
+			//reset
+			$('#ban').data('id', "");
+			$('#kick').data('id', "");
+			$('#mute-button').data('ip', "");
+			//
+			profileElement.show();
+		}, 600));
+	});
+	$("#user_list").on("mouseout","li",function(e){
+		clearTimeout($(this).data('hover'));
+		setTimeout(function () {
+			if (!room.mouseOverBio) {
+				$('#user_profile').hide();
+			}
+		}, 50);
+	});
+	$('#user_profile').hover(function () {
+		room.mouseOverBio = true;
+	}, function () {
+		$('#user_profile').hide();
+		room.mouseOverBio = false;
 	});
 	$("#playlist").on("click","li .remove-video",function(e){
 		if (e.which == 1){ //left click
