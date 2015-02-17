@@ -154,6 +154,7 @@ function onReady(room, socket){
 		$('#user_profile_modal').modal("hide");
 	});
 	$("#user_list").on("mouseenter","li",function(e){
+		return;
 		var thisElement = $(this);
 		var profileElement = $("#user_profile");
 		thisElement.data('hover', setTimeout(function (){
@@ -167,6 +168,7 @@ function onReady(room, socket){
 		}, 600));
 	});
 	$("#user_list").on("mouseout","li",function(e){
+		return;
 		clearTimeout($(this).data('hover'));
 		setTimeout(function () {
 			if (!room.mouseOverBio) {
