@@ -1,6 +1,5 @@
 //emotes
 var $codes = {
-    //"boobies": '<spamtag><img src="http://i.imgur.com/9g6b5.gif" width="51" height="60" spam="1"></spamtag>', Disabled :3
     "weegee": '<img src="http://i.imgur.com/65QFT.png" width="51" height="60">',
     "umad": '<img src="http://i.imgur.com/kODDJ.gif" width="66" height="46">',
     "nowai": '<img src="http://i.imgur.com/XVR2I.jpg" width="46" height="40">',
@@ -21,7 +20,6 @@ var $codes = {
     "pekaface": '<img src="http://i.imgur.com/RQfvp.png" width="25" height="25">',
     "datass": '<img src="http://i.imgur.com/1awtK.png" width="30" height="30">',
     "babyseal": '<img src="http://i.imgur.com/GiBiY.png" width="30" height="21">',
-    //"meatspin": '<img src="http://i.imgur.com/nLiEm.gif" width="30" height="30">', Disabled :3
     "umaood": '<img src="http://i.imgur.com/Yk6ZV.png" width="33" height="14">',
     "bagger288": '<img src="http://i.imgur.com/sNwfW.png" width="83" height="28">',
     "facepalm": '<img src="http://i.imgur.com/FGs29.jpg" width="40" height="30">',
@@ -91,7 +89,7 @@ var $codes = {
     "bardy": '<img src="http://i.imgur.com/C7jqbVR.gif" width="50" height="65">',
     "jimmy": '<img src="http://i.imgur.com/0gRnsme.jpg" width="45" height="55">',
     "2slow": '<img src="http://i.imgur.com/eKMaWME.jpg" width="59" height="45">',
-    "feelsgoodman": '<img src="http://i.imgur.com/BZ3WF.png">',
+    "feelsgoodman": '<img width="55" height="55" src="http://i.imgur.com/BZ3WF.png">',
     "bear": '<img src="http://i.imgur.com/JVbAzkh.gif" width="35" height="58">',
     "ded": '<img src="http://i.imgur.com/3Nzl3gQ.gif" width="50" height="63">',
     "nice": '<img src="http://i.imgur.com/UsUdb.png" width="60" height="60">',
