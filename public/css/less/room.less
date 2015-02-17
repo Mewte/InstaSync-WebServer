@@ -539,3 +539,30 @@
 		}
 	}
 }
+/*
+ DarkStyle Stuff
+*/
+.transition(@duration){
+    -webkit-transition: all @duration ease;
+    -moz-transition: all @duration ease;
+    -o-transition: all @duration ease;
+    transition: all @duration ease;
+}
+body{
+    .transition(1.5s);
+}
+body.dim{
+	.transition(1.5s);
+	background-image: none;
+	background-color: rgb(83,83,83);
+	.navbar-default{
+		background-image: linear-gradient(to bottom, #ECECEC 0px, #FFFFFF 100%);
+	}
+	.footer{
+		background-image: linear-gradient(to bottom, #ECECEC 0px, #FFFFFF 100%);
+	}
+	.room-container .room-component-row .video-controls{
+		.transition(1.5s);
+		background-color: rgb(234,234,234);
+	}
+}

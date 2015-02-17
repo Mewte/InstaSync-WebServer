@@ -211,7 +211,7 @@ function onReady(room, socket){
 			}
 			else
 			{
-				addMessage({username: ""},"You must be logged in to vote on polls.","errortext");
+				room.addMessage({username: ""},"You must be logged in to vote on polls.","errortext");
 			}
 		}
 	});
@@ -317,14 +317,31 @@ function onReady(room, socket){
 	$("#toggle_greyname_chat").click(function(){
 		room.filterGreyname = !$(this).is(":checked");
 	});
-	$("#toggle_darkstyle").prop("checked", false);
-	$("#toggle_darkstyle").click(function(){
-		if ($(this).is(":checked")){
-			$("body").addClass("darkstyle");
-		}
-		else{
-			$("body").removeClass("darkstyle");
-		}
-	});
+	//------------
+	//* dark style stuff
+	$("body").addClass("dim"); //permenant dim looks nice
+//	if(typeof(Storage) !== "undefined") {
+//		var dim = localStorage.getItem("dim");
+//		if (dim == 1) {
+//			$("#toggle_dim").prop("checked", true);
+//			$("body").addClass("dim");
+//		}
+//		else
+//			$("#toggle_dim").prop("checked", false);
+//	}
+//	else
+//		$("#toggle_dim").prop("checked", false);
+//	$("#toggle_dim").click(function(){
+//		if ($(this).is(":checked")){
+//			$("body").addClass("dim");
+//			if(typeof(Storage) !== "undefined")
+//				localStorage.setItem("dim", "1");
+//		}
+//		else{
+//			$("body").removeClass("dim");
+//			if(typeof(Storage) !== "undefined")
+//				localStorage.setItem("dim", "0");
+//		}
+//	});
 	//------------
 }
