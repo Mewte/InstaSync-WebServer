@@ -386,7 +386,7 @@ room = new function(room_name){
 		{
 			if (self.userlist.users[i].ip == ip)
 			{
-				$($("#userlist li")[i]).removeClass("muted");
+				$($("#user_list li")[i]).removeClass("muted");
 			}
 		}
 	};

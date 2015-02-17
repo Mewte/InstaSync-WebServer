@@ -109,6 +109,17 @@ function onReady(room, socket){
 			$(".modal-title",modal).text(user.username);
 			bio.text("");
 			avatar.attr("src","");
+			$('#profile_modal_kick').data('id', user.id);
+			$('#profile_modal_ban').data('id', user.id);
+			$('#profile_modal_toggle_mute').data('ip', user.ip);
+			if (room.isMuted(user.ip))
+			{
+				$("#profile_modal_toggle_mute").text("Unmute");
+			}
+			else
+			{
+				$("#profile_modal_toggle_mute").text("Mute");
+			}
 			if (user.loggedin){
 				request.getUser(user.username, function(err, user){
 					if (!err){
@@ -123,6 +134,25 @@ function onReady(room, socket){
 			modal.modal('show');
 		}
 	}
+	$("#profile_modal_toggle_mute").click(function(){
+		var ip = $(this).data('ip');
+		if (room.isMuted(ip)){
+			room.unmute(ip);
+			$(this).text("Mute");
+		}
+		else{
+			room.mute(ip);
+			$(this).text("Unmute")
+		}
+	});
+	$('#profile_modal_ban').click(function () {
+		room.sendcmd('ban', {userid: $(this).data('id')});
+		$('#user_profile_modal').modal("hide");
+	});
+	$('#profile_modal_kick').click(function () {
+		room.sendcmd('kick', {userid: $(this).data('id')});
+		$('#user_profile_modal').modal("hide");
+	});
 	$("#user_list").on("mouseenter","li",function(e){
 		var thisElement = $(this);
 		var profileElement = $("#user_profile");
@@ -270,8 +300,7 @@ function onReady(room, socket){
 		$("#media").html("");
 	});
 	$("#toggle_autosync_box").prop("checked", true);
-	$("#toggle_autosync_box").on("change", function()
-	{
+	$("#toggle_autosync_box").on("change", function(){
 		var checked = $(this).is(":checked");
 		room.autosync = checked;
 		if (checked){
