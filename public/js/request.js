@@ -32,6 +32,22 @@ var request = new function(){
 			callback(false,response);
 		}).fail(errorHandler(callback));
 	};
+	this.getMods = function(room,callback){
+		//todo: if room != null, find mods for that room, else mods for users own room
+		$.get(base_url+"me/mods").done(function(response){
+			callback(false,response);
+		}).fail(errorHandler(callback));
+	};
+	this.addMod = function(username,callback){
+		$.post(base_url+"mods/add",{username: username}).done(function(response){
+			callback(false,response);
+		}).fail(errorHandler(callback));
+	};
+	this.removeMod = function(username,callback){
+		$.post(base_url+"mods/remove",{username: username}).done(function(response){
+			callback(false,response);
+		}).fail(errorHandler(callback));
+	};
 	this.changePassword = function(current,newPass,callback){
 		$.post(base_url+"me/change_password",{current: current, new: newPass}).done(function(response){
 			callback(false,response);
@@ -47,14 +63,6 @@ var request = new function(){
 			callback(false,response);
 		}).fail(errorHandler(callback));
 	};
-	function getRoom(room, callback)
-	{
-		$.get("/ajax/roominfo?room=" + room).done(function(data)
-		{
-			var result = JSON.parse(data);
-			callback(result.listing, result.description, result.info, result.error);
-		});
-	}
 	this.getUser = function(username, callback)
 	{
 		$.get(base_url+"user/"+username).done(function(response){

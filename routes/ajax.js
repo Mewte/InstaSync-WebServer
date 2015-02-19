@@ -159,6 +159,18 @@ router.get('/me/room_info', function(req,res,next){
 		});
 	}
 });
+router.get('/me/mods', function(req,res,next){
+	if (!req.user){
+		var error = new Error("You must be logged in to view this resource.");
+		error.status = 403;
+		return next(error);
+	}
+	else{
+		queries.getMods(req.user.username).then(function(rows){
+			res.json(rows);
+		}).catch(function(err){return next(err);});
+	}
+});
 router.post('/me/change_password', function(req,res,next){
 	if (!req.user){
 		var error = new Error("You must be logged in to access this resource.");

@@ -204,18 +204,12 @@
 						<p style="color: #999;">Add and remove moderators that can control your room.</p>
 						<div class="input-group">
 							<span class="input-group-btn">
-								<button id="add_mod_btn" class="btn btn-sm btn-primary" type="button">Add Mod</button>
+								<button data-id="add_mod" class="btn btn-sm btn-primary" type="button">Add Mod</button>
 							</span>
-							<input style="margin-bottom: 0px;" id="mod_username" class="form-control input-sm" placeholder="Username to mod..." type="text">
+							<input style="margin-bottom: 0px;" data-id="mod_username" class="form-control input-sm" placeholder="Username to mod..." type="text">
 						</div>
-						<ul class="mod-list list-unstyled">
-							<li>Mewte<i class="fa fa-close remove"></i></li>
-							<li>Mewte<i class="fa fa-close"></i></li>
-							<li>Mewte<i class="fa fa-close"></i></li>
-							<li>Mewte<i class="fa fa-close"></i></li>
-							<li>Mewte<i class="fa fa-close"></i></li>
-							<li>Mewte<i class="fa fa-close"></i></li>
-						</ul>
+						<ul data-id="mod_list" class="mod-list list-unstyled"></ul>
+						<div data-type="output"></div>
 					</div>
 				</div>
 			</div>

@@ -150,7 +150,7 @@ $(function() {
 					break;
 				case "room_info_panel":
 					request.getRoomInfo(function (err, data) {
-						if (err) { //err: 403 if not logged in, or user_id not set
+						if (err) { //err: 403 if not logged in
 
 						}
 						else {
@@ -161,6 +161,33 @@ $(function() {
 					});
 					break;
 				case "room_mods_panel":
+					request.getMods(null,function (err, mods) {
+						if (err) { //err: 403 if not logged in, or user_id not set
+
+						}
+						else {
+							var modList = $("#settings_modal ul[data-id='mod_list']");
+							modList.empty();
+							for (var i = 0; i < mods.length; i++){
+								modList.append($("<li/>",{
+									"text":mods[i].username,
+									"data":{username:mods[i].username}
+								}).append($("<i/>",{class:"fa fa-close remove"})));
+							}
+							var a = modList.children("li").sort(function (a, b) { //sort mods
+								var dataA = $(a).data("username").toLowerCase();
+								var dataB = $(b).data("username").toLowerCase();
+								if (dataA < dataB) {
+									return -1;
+								}
+								if (dataA > dataB) {
+									return 1;
+								}
+								return 0;
+							});
+							a.detach().appendTo(modList);
+						}
+					});
 					break;
 				default:
 					break;
@@ -276,5 +303,77 @@ $(function() {
 				outputEle.fadeOut(2500);
 			}
 		});
+	});
+	$("#settings_modal input[data-id='mod_username']").keypress(function (e) {
+		if (e.which == 13)
+			$("#settings_modal button[data-id='add_mod']").trigger("click");
+	});
+	$("#settings_modal button[data-id='add_mod']").click(function(){
+		var username = $("#settings_modal input[data-id='mod_username']").val();
+		var output = $("#settings_modal div[data-id='room_mods_panel'] .panel-body").children("div[data-type='output']");
+		output.removeClass();
+		output.text("");
+		output.stop(true,true);
+		output.show();
+		request.addMod(username, function(err,response){
+			if (err){
+				var err = err.responseJSON;
+				output.addClass("text-danger");
+				output.text(err.message);
+				output.fadeOut(2500);
+			}
+			else{
+				if (response.success == true){
+					output.addClass("text-info");
+					output.text(username+" added!");
+					output.fadeOut(2500);
+					$("#settings_modal input[data-id='mod_username']").val("");
+					var modList = $("#settings_modal ul[data-id='mod_list']");
+					modList.append($("<li/>",{
+						"text":username,
+						"data":{username:username}
+					}).append($("<i/>",{class:"fa fa-close remove"})));
+					var a = modList.children("li").sort(function (a, b) { //sort mods
+						var dataA = $(a).data("username").toLowerCase();
+						var dataB = $(b).data("username").toLowerCase();
+						if (dataA < dataB) {
+							return -1;
+						}
+						if (dataA > dataB) {
+							return 1;
+						}
+						return 0;
+					});
+					a.detach().appendTo(modList);
+				}
+			}
+		});
+	});
+	$("#settings_modal ul[data-id='mod_list']").on("click", "li .remove", function (e) {
+		var self = this;
+		if (e.which == 1){
+			var username = $(this).parent().data("username");
+			var output = $("#settings_modal div[data-id='room_mods_panel'] .panel-body").children("div[data-type='output']");
+			output.removeClass();
+			output.text("");
+			output.stop(true,true);
+			output.show();
+			request.removeMod(username,function(err,response){
+				if (err) {
+					var err = err.responseJSON;
+					output.addClass("text-danger");
+					output.text(err.message);
+					output.fadeOut(2500);
+				}
+				else{
+					if (response.success == true){
+						output.addClass("text-info");
+						output.text(username + " removed!");
+						output.fadeOut(2500);
+						$(self).parent().remove();
+					}
+				}
+			});
+		}
 	});
 });

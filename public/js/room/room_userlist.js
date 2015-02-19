@@ -44,23 +44,6 @@ function userlist(room, socket){
 		}
 		sortUserlist();
 	};
-	function makeLeader(userId){
-		$("#leaderSymbol").remove();
-		for (var i = 0; i < users.length; i++)
-		{
-			if (users[i].id == userId)
-			{
-				var leaderElement = $("<img />", {
-					"id":"leaderSymbol",
-					"src":"/images/leader.png",
-					"height":"16px",
-					"width":"16px"
-				});
-				$($("#userlist li")[i]).prepend(leaderElement);
-				break;
-			}
-		}
-	}
 	this.renameUser = function(id, username) {
 		for (var i = 0; i < self.users.length; i++)
 		{
