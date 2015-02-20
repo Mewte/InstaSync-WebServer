@@ -272,7 +272,7 @@ function onReady(room, socket){
 		var userlist = $("#user_list");
 		if (userlist.css("right") == "0px"){//already visible
 			$(this).removeClass("visible");
-			userlist.animate({right: "-145px"});
+			userlist.animate({right: "-"+userlist.width()+"px"});
 		}
 		else{
 			$(this).addClass("visible");

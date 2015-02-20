@@ -15,7 +15,8 @@ function userlist(room, socket){
 		var userElement = $('<li/>', {
 			"class": css,
 			"text":user.username,
-			"data": {user: user}
+			"data": {user: user},
+			"title":user.username
 		});
 		$('#user_list').append(userElement);
 		if (sort === true) {
