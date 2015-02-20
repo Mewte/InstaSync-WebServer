@@ -315,6 +315,9 @@ function onReady(room, socket){
 		room.video.destroy();
 		room.sendcmd('reload', null);
 	});
+	$("#clearchat_btn").click(function(){
+		$("#chat_messages").html("");
+	});
 	$("#toggle_greyname_chat").prop("checked", true);
 	$("#toggle_greyname_chat").click(function(){
 		room.filterGreyname = !$(this).is(":checked");
