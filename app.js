@@ -40,7 +40,7 @@ var routes = {
 };
 
 app.engine('ejs', engine);
-app.disable('etag')
+app.disable('etag');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -51,8 +51,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(lessMiddleware(path.join(__dirname, 'public'), {force: true}));
-app.use(express.static(path.join(__dirname, 'public'), {maxAge: 259200}));
+app.use(lessMiddleware(path.join(__dirname, 'public'), {once: true}));
+app.use(express.static(path.join(__dirname, 'public'), {maxAge: 36000000}));
 
 app.use(helpers.url_formater.removeTrailingSlashes);
 app.use(helpers.url_formater.noFileExtensions);
