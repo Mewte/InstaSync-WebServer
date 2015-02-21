@@ -61,6 +61,15 @@ app.use(function(req,res,next){ //remove after converting to helpers.queries
 	req.db = knex;
 	next();
 });
+app.use(function(req,res,next){ //domain access only
+	var host = req.headers.host;
+	if (host == "localhost" || host =="instasync.com" || host == "beta.instasync.com"){
+		next();
+	}
+	else{
+		res.status(404).send("Invalid Domain.");
+	}
+});
 app.use('/', routes.legacy); //legacy first (redirect old URLs
 app.use('/', routes.pages); //fallback to pages first
 app.use('/r/', routes.rooms);
