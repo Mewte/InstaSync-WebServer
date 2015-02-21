@@ -35,7 +35,8 @@ fs.appendFileSync("./public/css/styles.css", "");
 var routes = {
 	pages: require('./routes/pages'),
 	rooms: require('./routes/rooms'),
-	ajax: require('./routes/ajax')
+	ajax: require('./routes/ajax'),
+	legacy: require('./routes/legacy')
 };
 
 app.engine('ejs', engine);
@@ -60,6 +61,7 @@ app.use(function(req,res,next){ //remove after converting to helpers.queries
 	req.db = knex;
 	next();
 });
+app.use('/', routes.legacy); //legacy first (redirect old URLs
 app.use('/', routes.pages); //fallback to pages first
 app.use('/r/', routes.rooms);
 app.use('/rooms/', routes.rooms);
