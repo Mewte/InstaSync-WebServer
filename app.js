@@ -26,6 +26,7 @@ var knex = require('knex')({
 		max: 10
 	}
 });
+var sanitizeHtml = require('sanitize-html');
 helpers.queries.setDb(knex);
 //Automaticly create styles.css incase it doesnt exist (nessecary for .less parser)
 //because we have it gitignored since its generated at runtime.
@@ -103,5 +104,7 @@ app.locals.commaSeparateNumber = function(val){
 	}
 	return val;
  };
-
+app.locals.sanitizeRoomInfo = function(dirty){
+	return sanitizeHtml(dirty);
+};
 module.exports = app;

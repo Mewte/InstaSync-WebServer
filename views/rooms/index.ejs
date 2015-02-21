@@ -1,16 +1,5 @@
 <% layout('../layout/template') -%>
 <div class="room-container">
-	<div class='room-header' style="display: none;">
-		<div class="row room-header-row">
-			<div class="col-xs-12">
-				<div style="float:right;">
-					<div><i class="fa fa-eye">1,202,112</i></div>
-					<div><i class="fa fa-eye">43</i></div>
-					<div><i class="fa fa-eye"></i></div>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="row room-component-row">
 		<div class="col-sm-8 col-xs-12 column">
 			<div id="media"></div>
@@ -222,10 +211,25 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-4 hidden-xs column" style="padding-top: 4px; overflow-y: auto; max-height: 350px">
+		<div class="col-sm-4 hidden-xs column" style="padding-top: 4px; overflow-y: auto; max-height: 358px">
 			<div class="mod-control"><button id="create_poll_btn_column" class="btn btn-xs btn-default" style="margin-bottom: 6px; margin-left: 10px; float: left;">Create Poll</button></div>
 			<div style="clear: both;"></div>
 			<div id="poll_column"></div>
+		</div>
+		<div class="room-info-row col-xs-12"> <!-- When poll created, remove col-sm-4 and replace it when poll end  -->
+			<div class="overview">
+				<h2 class="room-name"><%- room.room_name %></h2>
+				<div class="room-stats">
+					<div><%= commaSeparateNumber(room.visits) %> visits</div>
+					<!-- <div> 0 Favorites </div>-->
+				</div>
+				<div class="about"></div>
+			</div>
+			<div>
+				<div class="room-info">
+					<%- sanitizeRoomInfo(room.info) %>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
