@@ -52,7 +52,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public'), {once: true}));
-app.use(express.static(path.join(__dirname, 'public'), {maxAge: 36000000}));
+app.use(express.static(path.join(__dirname, 'public'), {maxAge: 18000000}));
 
 app.use(helpers.url_formater.removeTrailingSlashes);
 app.use(helpers.url_formater.noFileExtensions);
