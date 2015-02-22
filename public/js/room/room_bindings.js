@@ -294,12 +294,14 @@ function onReady(room, socket){
 	$('#reload_btn').click(function () {
 		room.video.destroy();
 		socket.sendcmd('reload');
+		room.playerDisabled = false;
 	});
 	$('#resync_btn').click(function () {
 		socket.sendcmd('resynch');
 	});
 	$("#disable_player").click(function(){
 		$("#media").html("");
+		room.playerDisabled = true;
 	});
 	$("#toggle_autosync_box").prop("checked", true);
 	$("#toggle_autosync_box").on("change", function(){

@@ -47,6 +47,7 @@ room = new function(room_name){
 	this.autosync = true;
 	this.showYTcontrols = false;
 	this.mouseOverBio = true;
+	this.playerDisabled = false;
 	var messages = 0; //stores how many total messages are in the window (for cleaning up)
 	this.player = null;
 	this.user = {
@@ -316,7 +317,6 @@ room = new function(room_name){
 		}
 	};
 	this.playVideo = function(vidinfo, time, playing) {
-		//return;
 		var indexOfVid = self.playlist.indexOf(vidinfo);
 		if (indexOfVid > -1)
 		{
@@ -332,7 +332,9 @@ room = new function(room_name){
 			});
 			//$('#vidTitle').html(title + '<div class=\'via\'> via ' + addedby + '</div>');
 		}
-		self.video.play(vidinfo, time, playing);
+		if (self.playerDisabled == false){
+			self.video.play(vidinfo, time, playing);
+		}
 	};
 	this.resume = function() {
 			self.video.resume();
