@@ -35,7 +35,6 @@ function userlist(room, socket){
 			}
 		}
 		$('.user-count').text(self.users.length);
-		sortUserlist();
 	};
 	this.load = function(userlist){
 		$('#user_list').empty();
