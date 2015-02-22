@@ -175,7 +175,17 @@
 				<!-- Tab panes -->
 				<div class="tab-content">
 					<div class="tab-pane active" id="tabs_playlist">
-						<ol class="playlist" id="playlist"></ol>
+						<ol class="playlist" ondrop="drop(event)" ondragover="allowDrop(event)" id="playlist"></ol>
+						<script>
+							function allowDrop(ev) {
+								ev.preventDefault();
+							}
+							function drop(ev) {
+								ev.preventDefault();
+								var data = ev.dataTransfer.getData("text");
+								room.sendcmd("add",{URL:data});
+							}
+						</script>
 						<div class="playlist-stats">
 							<div id="playlist_duration"></div>
 							<div id="playlist_count"></div>

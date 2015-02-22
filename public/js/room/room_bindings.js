@@ -322,6 +322,16 @@ function onReady(room, socket){
 	$("#toggle_greyname_chat").click(function(){
 		room.filterGreyname = !$(this).is(":checked");
 	});
+//	$('#playlist').on('dragenter', function (event) {
+//		if (event.target === this) {
+//			console.log('dragenter');
+//		}
+//	});
+//	$('#playlist').on('dragleave', function (event) {
+//		if (event.target === this) {
+//			console.log('dragenter');
+//		}
+//	});
 	//------------
 	//* dark style stuff
 	$("body").addClass("dim"); //permenant dim looks nice
