@@ -5,24 +5,34 @@
 function userlist(room, socket){
 	var self = this;
 	this.users = new Array();
-	this.addUser = function(user, sort) {
+	this.addUser = function(user) {
+		if (user instanceof Array){
+			var users = [];
+			for (var i = 0; i < user.length; i++) {
+				users.push(createUser(user[i]));
+			}
+			$('#user_list').html(users);
+		}
+		else{
+			$('#user_list').append(createUser(user));
+		}
+		sortUserlist();
+		$('.user-count').text(self.users.length);
+	};
+	function createUser(user){
 		var css = '';
-		css += user.permissions > 0 ? "mod ":"";
-		css += user.loggedin ? "registered ":"unregistered";
+		css += user.permissions > 0 ? "mod " : "";
+		css += user.loggedin ? "registered " : "unregistered";
 		css += room.isMuted(user.ip) ? "muted" : "";
 		user.css = css;
 		self.users.push(user);
 		var userElement = $('<li/>', {
 			"class": css,
-			"text":user.username,
+			"text": user.username,
 			"data": {user: user},
-			"title":user.username
+			"title": user.username
 		});
-		$('#user_list').append(userElement);
-		if (sort === true) {
-			sortUserlist();
-		}
-		$('.user-count').text(self.users.length);
+		return userElement;
 	};
 	this.removeUser = function(id) {
 		for (var i = 0; i < self.users.length; i++)
@@ -39,10 +49,7 @@ function userlist(room, socket){
 	this.load = function(userlist){
 		$('#user_list').empty();
 		self.users = new Array();
-		for (var i = 0; i < userlist.length; i++) {
-			self.addUser(userlist[i], false);
-		}
-		sortUserlist();
+		self.addUser(userlist);
 	};
 	this.renameUser = function(id, username) {
 		for (var i = 0; i < self.users.length; i++)

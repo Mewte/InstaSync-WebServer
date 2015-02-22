@@ -39,6 +39,22 @@ function playlist(room, socket){
 		}
 	};
 	this.addVideo = function(video) {
+		if (video instanceof Array){
+			var videos = [];
+			for (var i = 0; i < video.length; i++) {
+				self.totalTime += video[i].duration;
+				videos.push(createVideo(video[i]));
+			}
+			$('#playlist').html(videos);
+		}
+		else{
+			self.totalTime += video.duration;
+			$('#playlist').append(createVideo(video));
+		}
+		$('#playlist_count').text(self.videos.length + " Videos");
+		$('#playlist_duration').text(utils.secondsToTime(self.totalTime));
+	};
+	function createVideo(video){
 		self.videos.push(video);
 		var li = $('<li/>', {"data":{video:video}});
 			li.append($('<div/>', {
@@ -63,11 +79,8 @@ function playlist(room, socket){
 					class:"duration",
 					text:utils.secondsToTime(video.duration)
 				})));
-		$('#playlist').append(li);
-		self.totalTime += video.duration;
-		$('#playlist_count').text(self.videos.length + " Videos");
-		$('#playlist_duration').text(utils.secondsToTime(self.totalTime));
-	};
+		return li;
+	}
 	this.removeVideo = function(video) {
 		var indexOfVid = self.indexOf(video);
 		if (indexOfVid > -1 && indexOfVid < self.videos.length) {
@@ -100,11 +113,7 @@ function playlist(room, socket){
 		};
 		self.totalTime = 0;
 		$('#playlist').empty();
-		if (data != undefined && data.length != 0) {
-			for (var i = 0; i < data.length; i++) {
-				self.addVideo(data[i]);
-			}
-		}
+		self.addVideo(data);
 	};
 	this.purge = function(username) {
 		for (var i = self.videos.length - 1; i >= 0; i--)
