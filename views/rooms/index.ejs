@@ -87,10 +87,9 @@
 							</div>
 							<div class="modal-body">
 								<div class="avatar">
-									<img src="http://i.imgur.com/YfyWjq4.jpg" />
+									<img src="" />
 								</div>
 								<div class="bio">
-									Hello World
 								</div>
 							</div>
 							<div class="modal-footer">
@@ -251,16 +250,16 @@
 	 */
 	var ROOM_NAME = <%- '"' + room.room_name.toLowerCase() + '"'%>;
 	var CHAT_SERVER = {
-		host:"ws-proxy.chat.instasync.com",
-		port: 8080
+		host:"https://ws-proxy.chat.instasync.com",
+		port: 8443
 	}
 	var SECURE_CHAT_SERVER = {
-		host:"ssl-chat.instasync.com",
-		port:443
+		host:"https://ws-proxy.chat.instasync.com",
+		port: 8443
 	}
 	var FAIL_OVER = {
-		host:"cf-proxy.chat.instasync.com",
-		port:8080
+		host:"ssl-chat.instasync.com",
+		port:443
 	}
 	$.ajax({
             type: "GET",

@@ -6,12 +6,12 @@
 room.setSocket(new function (room){
 	var server = "";
 	var transports = []
-	if (location.protocol.toLowerCase() == "https:"){
-		server = SECURE_CHAT_SERVER.host +":"+ SECURE_CHAT_SERVER.port;
-		transports = ['xhr-polling'];
+	if (location.protocol.toLowerCase() == "http:"){
+		server = CHAT_SERVER.host +":"+ CHAT_SERVER.port;
+		transports = ['websocket','xhr-polling'];
 	}
 	else{
-		server = CHAT_SERVER.host + ":" +CHAT_SERVER.port;
+		server = SECURE_CHAT_SERVER.host + ":" + SECURE_CHAT_SERVER.port;
 		transports = ['websocket','xhr-polling'];
 	}
 	var socket = io.connect(server,
