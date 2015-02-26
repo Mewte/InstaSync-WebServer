@@ -123,7 +123,7 @@ function onReady(room, socket){
 			if (user.loggedin){
 				request.getUser(user.username, function(err, user){
 					if (!err){
-						avatar.attr("src","//i.imgur.com/"+user.avatar+".jpg");
+						avatar.attr("src","http://i.imgur.com/"+user.avatar+".jpg");
 						bio.text(user.bio);
 					}
 				});
