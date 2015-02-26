@@ -76,7 +76,7 @@ videojs.Dailymotion = videojs.MediaTechController.extend({
             id: this.id_,
             autoplay: (this.player_.options().autoplay) ? 1 : 0,
             chromeless: (this.player_.options().dmControls) ? 0 : 1,
-            html: 1, //flash has less issues than the html5 version
+            html: 0, //flash has less issues than the html5 version
             info: 1,
             logo: 1,
             controls: 'html',
