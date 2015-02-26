@@ -101,7 +101,7 @@ videojs.Dailymotion = videojs.MediaTechController.extend({
         }
 
 
-        this.el_.src = 'http://www.dailymotion.com/services/oembed?' + videojs.Dailymotion.makeQueryString(this.params);
+        this.el_.src = 'https://www.dailymotion.com/services/oembed?' + videojs.Dailymotion.makeQueryString(this.params);
 
 
         if (videojs.Dailymotion.apiReady) {
@@ -113,7 +113,7 @@ videojs.Dailymotion = videojs.MediaTechController.extend({
             // Load the Dailymotion API if it is the first Dailymotion video
             if (!videojs.Dailymotion.apiLoading) {
                 var tag = document.createElement('script');
-                tag.src = 'http://api.dmcdn.net/all.js';
+                tag.src = 'https://api.dmcdn.net/all.js';
                 var firstScriptTag = document.getElementsByTagName('script')[0];
                 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
                 videojs.Dailymotion.apiLoading = true;

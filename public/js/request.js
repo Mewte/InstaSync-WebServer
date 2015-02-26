@@ -81,6 +81,18 @@ var request = new function(){
 			callback(false,response);
 		}).fail(errorHandler(callback));
 	};
+	this.getYoutubeSearch = function(parameters, callback){
+		var url = "http://gdata.youtube.com/feeds/api/videos?alt=json&v=2&q="
+					+encodeURIComponent(parameters.query)
+					+"&start-index="+parameters.startIndex
+					+"&max-results="+parameters.maxResults
+					+"&fields=entry(title,author,yt:statistics,yt:rating,media:group(yt:duration,yt:videoid))";
+		$.get(url).done(function(data){
+			callback(true, data.feed.entry);
+		}).fail(function(){
+			callback(false);
+		});
+	}
 	function errorHandler(callback){
 		return function(err){
 			if (err.status == 0){
