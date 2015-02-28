@@ -82,7 +82,7 @@ var request = new function(){
 		}).fail(errorHandler(callback));
 	};
 	this.getYoutubeSearch = function(parameters, callback){
-		var url = "http://gdata.youtube.com/feeds/api/videos?alt=json&v=2&q="
+		var url = "https://gdata.youtube.com/feeds/api/videos?alt=json&v=2&q="
 					+encodeURIComponent(parameters.query)
 					+"&start-index="+parameters.startIndex
 					+"&max-results="+parameters.maxResults
