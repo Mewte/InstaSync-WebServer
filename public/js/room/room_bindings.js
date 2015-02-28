@@ -324,6 +324,34 @@ function onReady(room, socket){
 	$("#toggle_greyname_chat").click(function(){
 		room.filterGreyname = !$(this).is(":checked");
 	});
+	/*
+	 * VIDEO SEARCH
+	 */
+	$("#video_search_text").keypress(function (e) {
+		if (e.which == 13) {
+			$("#search_videos").data("page", 0);
+			room.videoSearch($(this).val(), 0);
+		}
+	});
+	$("#video_search_submit").click(function () {
+		$("#search_videos").data("page", 0);
+		room.videoSearch($("#video_search_text").val(), 0);
+	});
+	$("#video_search_previous").click(function () {
+		var videoSearchEl = $("#search_videos");
+		var previousPage = Math.max(0, videoSearchEl.data("page") - 1);
+		videoSearchEl.data("page", previousPage);
+		room.videoSearch($("#video_search_text").val(), previousPage);
+	});
+	$("#video_search_next").click(function () {
+		var videoSearchEl = $("#search_videos");
+		var nextPage = videoSearchEl.data("page") + 1;
+		videoSearchEl.data("page", nextPage);
+		room.videoSearch($("#video_search_text").val(), nextPage);
+	});
+	$("#search_videos").on("click",".add",function(){
+		room.sendcmd('add', {URL: "http://youtube.com/v/"+$(this).parent().parent().data("videoID")});
+	});
 //	$('#playlist').on('dragenter', function (event) {
 //		if (event.target === this) {
 //			console.log('dragenter');

@@ -122,17 +122,6 @@ room = new function(room_name){
 
 	};
 	var queue = null; //stores resynch limiter timeout
-	function requestResynch(){
-		console.log("Resynch requested..");
-		if (queue === null && autosynch){
-			queue = setTimeout(function() //prevent to many resynchs
-			{
-				console.log("Resynch request sent.");
-				global.sendcmd("resynch", null);
-				queue = null;
-			}, 1000);
-		}
-	}
 	this.userinfo = function(userinfo){
 		if (userinfo.loggedin)
 		{
@@ -408,5 +397,66 @@ room = new function(room_name){
 		{
 			self.addMessage({username: ""},"Internet Explorer versions 9 and and older are not supported. Please upgrade to I.E. 10 or later.","errortext");
 		}
+	};
+	this.videoSearch = function(query, startIndex){
+		var maxResults = 4;
+		startIndex = Math.max(1, (startIndex*maxResults)+1); //startIndex has to be 1 or greater
+		request.getYoutubeSearch({query: query, startIndex: startIndex, maxResults: maxResults}, function(success, data){
+			if (success){
+				var videosEl = $("#search_videos");
+				videosEl.empty();
+				if (data != undefined){
+					for (var i = 0; i < data.length; i++){
+						var title = data[i].title.$t;
+						var duration = utils.secondsToTime(data[i].media$group.yt$duration.seconds);
+						var author = data[i].author[0].name.$t;
+						if (data[i].yt$statistics == undefined)
+							var views = 0;
+						else
+							var views = utils.commaSeperateNumber(data[i].yt$statistics.viewCount);
+						var videoID = data[i].media$group.yt$videoid.$t;
+
+						var videoEl = $("<div/>", {
+							class:"col-lg-3 col-sm-3 col-xs-6 search-video"
+						});
+						var thumbnailEl = $("<div/>",{
+							class:"search-thumbnail"
+							}).append($("<img/>", {
+								src:"http://i.ytimg.com/vi/"+videoID+"/1.jpg"
+							})).append($("<button/>",{
+								class:"add btn btn-default btn-xs",
+							})).append($("<div/>", {
+								class:"duration",
+								text: duration
+							})
+						);
+						var titleEl = $("<a/>",{
+							class:"title",
+							title:title,
+							text:title,
+							target:"_blank",
+							href:"https://www.youtube.com/watch?v="+videoID
+						});
+						var authorEl = $("<div/>",{
+							class:"author",
+							title:author,
+							text:author
+						});
+						var viewsEl = $("<div/>",{
+							class:"views",
+							title:views,
+							text:views+" Views"
+						});
+						videoEl.append(thumbnailEl).append(titleEl).append(authorEl).append(viewsEl);
+						videoEl.data("videoID", videoID);
+						videosEl.append(videoEl);
+					}
+				}
+				else{
+					videosEl.html("<div class='noresults'>No Results</div>");
+
+				}
+			}
+		});
 	};
 }(ROOM_NAME);

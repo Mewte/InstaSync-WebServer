@@ -137,7 +137,11 @@
 							<i class="fa fa-list-ul"></i>
 						</a>
 					</li>
-
+					<li>
+						<a class='active_tooltip' data-original-title="Search" href="#tabs_playlist_search" data-toggle="tab" rel="tooltip" data-placement="bottom">
+							<i class="fa fa-search"></i>
+						</a>
+					</li>
 					<li>
 						<a class='active_tooltip' data-original-title="Settings" href="#tabs_playlist_settings" data-toggle="tab" rel="tooltip" data-placement="bottom">
 							<i class="fa fa-cog"></i>
@@ -191,7 +195,25 @@
 							<div id="playlist_count"></div>
 						</div>
 					</div>
-
+					<div class="tab-pane" id="tabs_playlist_search">
+						<div class="row">
+							<div class="col-md-offset-3 col-md-6 col-xs-12">
+								<div class="input-group">
+									<input id="video_search_text" type="text" class="form-control" placeholder="YouTube Search...">
+									<span class="input-group-btn">
+										<button id="video_search_submit" class="btn btn-default" type="button">Search</button>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div id="search_videos" class="search-videos"></div>
+							<div class="col-xs-12">
+								<div style="text-align: center; cursor: pointer;"><span id="video_search_previous">Prev</span> | <span id="video_search_next">Next</span></div>
+								<div class="powered-by"><i class="fa fa-youtube"></i></div>
+							</div>
+						</div>
+					</div>
 					<div class="tab-pane" id="tabs_playlist_settings">
 						<button id="reload_btn" class="btn btn-xs btn-primary">Reload Video</button>
 						<button id="resync_btn" class="btn btn-xs btn-primary">Resync Video</button>
