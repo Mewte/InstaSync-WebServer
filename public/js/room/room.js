@@ -417,7 +417,7 @@ room = new function(room_name){
 						var videoID = data[i].media$group.yt$videoid.$t;
 
 						var videoEl = $("<div/>", {
-							class:"col-lg-3 col-sm-3 col-xs-6 search-video"
+							class:"col-lg-3 col-sm-3 col-xs-6 clean-break search-video"
 						});
 						var thumbnailEl = $("<div/>",{
 							class:"search-thumbnail"
