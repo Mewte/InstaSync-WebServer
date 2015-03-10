@@ -76,10 +76,11 @@
 	  this.iframeClickBlock.style.position = "absolute";
 	  this.iframeClickBlock.style.width = "100%";
 	  this.iframeClickBlock.style.height = "100%";
+	  this.iframeClickBlock.style.top = "0px";
 	  if (this.player_.options()["blockClick"] != true){
 		this.iframeClickBlock.style.display = "none";
 	  }
-	  this.iframeClickBlock.className = "leader";
+	  this.iframeClickBlock.className = "click_blocker";
 	  this.iframeClickBlock.onclick = function(event){
 		  event.stopPropagation();
 	  };	  

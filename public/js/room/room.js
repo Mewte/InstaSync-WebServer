@@ -266,6 +266,7 @@ room = new function(room_name){
 		if (userId === self.user.userinfo.id)
 		{
 			self.user.isLeader = true;
+			$(".click_blocker").show(); //only use is for the block click on youtube iframe
 			self.addMessage({username: ""},"You are now the leader. You may control the player and rearrange the playlist.","text-success");
 			$("#toggle_leader").addClass("is-leader");
 			$( "#playlist" ).sortable(
@@ -295,6 +296,7 @@ room = new function(room_name){
 			{
 				self.addMessage({username: ""},"You are no longer the leader.","text-success");
 				self.user.isLeader = false;
+				$(".click_blocker").css("display", "none");//only use is for the block click on youtube iframe
 				$("#playlist").sortable("disable");
 				/*
 				 * Disable video.js for youtube if the user has yt controls on (since leader requires the video.js controls)
