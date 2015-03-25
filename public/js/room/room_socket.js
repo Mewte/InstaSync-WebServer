@@ -121,8 +121,8 @@ room.setSocket(new function (room){
 		}
 	});
 	socket.on('userinfo', function (data) {
-		room.onJoined();
 		room.userinfo(data);
+		room.onJoined();
 	});
 	socket.on('playlist', function (data) {
 		room.playlist.load(data.playlist);
