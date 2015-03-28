@@ -41,6 +41,7 @@ function player(containerID){
 			vidContainerShown = true;
 		}
 		//triggeredByAPI = false; //to force a resynch
+		player.loadedVideo = info;
 		switch (info.provider){
 			case "youtube":
 				loadYoutube(info.id, time, playing);
@@ -57,7 +58,6 @@ function player(containerID){
 				loadTwitch(info.channel);
 				break;
 		}
-		player.loadedVideo = info;
 	};
 	this.resume = function(){
 		if (player.video != null){

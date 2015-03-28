@@ -49,7 +49,6 @@ room = new function(room_name){
 	this.mouseOverBio = true;
 	this.playerDisabled = false;
 	var messages = 0; //stores how many total messages are in the window (for cleaning up)
-	this.player = null;
 	this.user = {
 		userinfo: null,
 		isMod: false,
@@ -321,10 +320,15 @@ room = new function(room_name){
 			container.animate({
 				scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
 			});
-			//$('#vidTitle').html(title + '<div class=\'via\'> via ' + addedby + '</div>');
-		}
-		if (self.playerDisabled == false){
-			self.video.play(vidinfo, time, playing);
+			if (self.playerDisabled == false){
+				self.video.play(vidinfo, time, playing);
+				try{ //incase logobrand isn't ready or something (this has never happened, but just incase because it's not fully tested)
+					self.video.video.logobrand().setTitle(title);
+				}
+				catch (e){
+					console.log("Failed to set title, logobrand not ready.");
+				}
+			}
 		}
 	};
 	this.resume = function() {
