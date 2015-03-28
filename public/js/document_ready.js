@@ -101,7 +101,8 @@ $(function() {
 	checklogin();
 	$("#logout").click(function(){
 		request.logout(function(){
-			window.location = document.URL;
+			location.reload();
+			//window.location = document.URL;
 		});
 		return false;
 	});
