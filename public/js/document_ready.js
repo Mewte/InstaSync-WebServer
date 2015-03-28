@@ -38,7 +38,8 @@ $(function() {
 			}
 			else{
 				//register success, refresh page (In the future, login without refresh)
-				window.location = document.URL;
+				//window.location = document.URL;
+				location.reload();
 			}
 		});
 		function outputError(text){
@@ -72,7 +73,8 @@ $(function() {
 				}
 			}
 			else{
-				window.location = document.URL;
+				location.reload();
+				//window.location = document.URL;
 			}
 		});
 		function outputError(text){
