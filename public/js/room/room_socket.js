@@ -6,26 +6,21 @@
 room.setSocket(new function (room){
 	var server = "";
 	var transports = []
-	if (location.protocol.toLowerCase() == "http:"){
-		server = CHAT_SERVER.host +":"+ CHAT_SERVER.port;
-		transports = ['websocket','xhr-polling'];
-	}
-	else{
-		server = SECURE_CHAT_SERVER.host + ":" + SECURE_CHAT_SERVER.port;
-		transports = ['websocket','xhr-polling'];
-	}
-	var socket = io.connect(server,
+//	if (location.protocol.toLowerCase() == "http:"){
+//		server = CHAT_SERVER.host +":"+ CHAT_SERVER.port;
+//		transports = ['websocket','xhr-polling'];
+//	}
+//	else{
+//		server = SECURE_CHAT_SERVER.host + ":" + SECURE_CHAT_SERVER.port;
+//		transports = ['websocket','xhr-polling'];
+//	}
+	//server = "http://clients01.ext.instasync.com:8080";
+	server = "http://localhost:8080";
+	var socket = io(server,
 	{
 		query: "room="+room.roomName,
-		reconnect: true,
-		"force new connection": true,
-		"try multiple transports": true,
-		"reconnection delay": 1000,
-		"max reconnection attempts": 4,
-		"auto connect": false,
-		"connect timeout": 5000,
-		"sync disconnect on unload": true,
-		transports: transports
+		"autoConnect": false,
+		"timeout": 5000,
 	});
 	var commandList = new commands(this,room);
 	this.sendmsg = function (message) {
@@ -56,9 +51,10 @@ room.setSocket(new function (room){
 		socket.disconnect();
 	};
 	this.connect = function () {
-		socket.socket.connect();
+		socket.open();
 	};
 	function attemptFailover(){
+		return;
 		room.addMessage({username:""},"Attempting failover..","text-danger");
 		socket.socket.options.host = FAIL_OVER.host; //located in room/index.ejs
 		socket.socket.options.port = FAIL_OVER.port;
@@ -76,6 +72,7 @@ room.setSocket(new function (room){
 		room.onConnecting();
 	});
 	socket.on('connect', function () {
+		console.log('hi');
 		if ($['cookie']('username') === undefined || $['cookie']('auth_token') === undefined)
 		{
 			socket.emit('join', { username: '', cookie: '', room: room.roomName});
@@ -87,7 +84,7 @@ room.setSocket(new function (room){
 		room.onConnected();
 		room.onJoining();
 	});
-	socket.on('reconnecting', function (delay,attempt) {
+	socket.on('reconnecting', function (attempt) {
 		console.log("Attempt: "+attempt);
 		if (attempt > 3 && socket.socket.options.host != FAIL_OVER){
 			attemptFailover();
@@ -114,6 +111,7 @@ room.setSocket(new function (room){
 	});
 	socket.on('error', function(){
 		console.log("error");
+		return;
 		if (socket.socket.options.host != FAIL_OVER){
 			attemptFailover();
 		}else{
@@ -126,6 +124,22 @@ room.setSocket(new function (room){
 	});
 	socket.on('playlist', function (data) {
 		room.playlist.load(data.playlist);
+	});
+	socket.on('shuffled', function(data){ //same as playlist, but this one resets the 'active' video in the playlist
+		room.playlist.load(data.playlist);
+		if (room.video.loadedVideo){
+			var indexOfVid = room.playlist.indexOf(room.video.loadedVideo);
+			if (indexOfVid > -1){
+				$('#playlist .active').removeClass('active');
+				$($('#playlist').children('li')[indexOfVid]).addClass('active');
+				//Scroll to currently playing video
+				var container = $('#playlist');
+				var scrollTo = $("#playlist .active");
+				container.animate({
+					scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+				});
+			}
+		}
 	});
 	socket.on('userlist', function (data) {
 		room.userlist.load(data.userlist);

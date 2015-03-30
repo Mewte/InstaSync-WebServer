@@ -5,7 +5,7 @@
 
 function player(containerID){
 	var container = $("#"+containerID);
-	var player = this;
+	var self = this;
 	//var triggeredByAPI = true; //all calls are assumed to be triggered by the user unless set to false by API action
 	this.video = null;
 	this.loadedVideo = null;
@@ -41,7 +41,6 @@ function player(containerID){
 			vidContainerShown = true;
 		}
 		//triggeredByAPI = false; //to force a resynch
-		player.loadedVideo = info;
 		switch (info.provider){
 			case "youtube":
 				loadYoutube(info.id, time, playing);
@@ -58,25 +57,26 @@ function player(containerID){
 				loadTwitch(info.channel);
 				break;
 		}
+		self.loadedVideo = info;
 	};
 	this.resume = function(){
-		if (player.video != null){
+		if (self.video != null){
 			//triggeredByAPI = true;
-			player.video.play();
+			self.video.play();
 			this.on['resynchNeeded']();
 		}
 	};
 	this.pause = function(){
-		if (player.video != null){
+		if (self.video != null){
 			//triggeredByAPI = true;
-			player.video.pause();
+			self.video.pause();
 		}
 
 	};
 	this.seekTo = function(time){
-		if (player.video != null){
+		if (self.video != null){
 			//triggeredByAPI = true;
-			player.video.currentTime(time + 0.5);//compensate for buffer time
+			self.video.currentTime(time + 0.5);//compensate for buffer time
 		}
 	};
 	this.time = function(){
@@ -89,10 +89,10 @@ function player(containerID){
 		var isLeader = room.user.isLeader;
 		var showYTcontrols = room.showYTcontrols;
 		var src = "http://www.youtube.com/watch?v="+id+"";
-		if (player.video === null || player.video.mediaType != "youtube"){
+		if (self.video === null || self.video.mediaType != "youtube"){
 			removePlayer();
 			createVideoTag("youtube");
-			player.video = videojs("youtube", {
+			self.video = videojs("youtube", {
 					"techOrder": ["youtube"],
 					"src": src,
 					"blockClick":isLeader, //temporary
@@ -124,7 +124,7 @@ function player(containerID){
 								p.volume(localStorage.volume);
 							}
 
-							player.on['resynchNeeded'](); //resynch after loading
+							self.on['resynchNeeded'](); //resynch after loading
 							p.firstPlay = false;
 						}
 					});
@@ -147,26 +147,26 @@ function player(containerID){
 						p.play();
 					this.progressTips();
 			});
-			player.video.logobrand().initialize({
+			self.video.logobrand().initialize({
 				"image":"/images/icons/youtube.png",
 				"destination":src
 			});
-			player.video.mediaType = "youtube";
+			self.video.mediaType = "youtube";
 		}
 		else{
-			player.video.src(src);
-			player.video.play();
-			player.video.logobrand().loadImage("/images/icons/youtube.png");
-			player.video.logobrand().setDestination(src);
+			self.video.src(src);
+			self.video.play();
+			self.video.logobrand().loadImage("/images/icons/youtube.png");
+			self.video.logobrand().setDestination(src);
 		}
-		player.video.firstPlay = true;
+		self.video.firstPlay = true;
 	}
 	function loadDailymotion(id, time, playing){
 		var src = "http://www.dailymotion.com/video/"+id+"";
-		if (player.video === null || player.video.mediaType != "dailymotion"){
+		if (self.video === null || player.video.mediaType != "dailymotion"){
 			removePlayer();
 			createVideoTag("dailymotion");
-			player.video = videojs("dailymotion", {
+			self.video = videojs("dailymotion", {
 					"techOrder": ["dailymotion"],
 					"src": src
 				}).ready(function(){
@@ -183,7 +183,7 @@ function player(containerID){
 								p.muted(true);
 							else
 								p.volume(localStorage.volume);
-							player.on['resynchNeeded'](); //resynch after loading
+							self.on['resynchNeeded'](); //resynch after loading
 							p.firstPlay = false;
 						}
 					});
@@ -203,22 +203,22 @@ function player(containerID){
 					}
 					this.progressTips();
 			});
-			player.video.logobrand().initialize({
+			self.video.logobrand().initialize({
 				"image":"/images/icons/dailymotion.png",
 				"destination":src
 			});
-			player.video.mediaType = "dailymotion";
+			self.video.mediaType = "dailymotion";
 		}
 		else{
-			player.video.src(src);
-			player.video.play();
-			player.video.logobrand().loadImage("/images/icons/dailymotion.png");
-			player.video.logobrand().setDestination(src);
+			self.video.src(src);
+			self.video.play();
+			self.video.logobrand().loadImage("/images/icons/dailymotion.png");
+			self.video.logobrand().setDestination(src);
 		}
-		player.video.firstPlay = true;
+		self.video.firstPlay = true;
 	}
 	function loadMP4(src, time, playing, brand, destination){
-		if (player.video === null || player.video.mediaType != "mp4"){
+		if (self.video === null || self.video.mediaType != "mp4"){
 			removePlayer();
 			createVideoTag("mp4");
 			var srcEle = $("<source/>", {
@@ -227,7 +227,7 @@ function player(containerID){
 			});
 			$("#mp4").attr("src", src);
 			$("#mp4").html(srcEle);
-			player.video = videojs("mp4", {
+			self.video = videojs("mp4", {
 					"techOrder": ["html5","flash"],
 					"controls":"true"
 				}).ready(function(){
@@ -242,7 +242,7 @@ function player(containerID){
 								p.muted(true);
 							else
 								p.volume(localStorage.volume);
-							player.on['resynchNeeded'](); //resynch after loading
+							self.on['resynchNeeded'](); //resynch after loading
 							p.firstPlay = false;
 						}
 					});
@@ -266,20 +266,20 @@ function player(containerID){
 						p.play();
 					this.progressTips();
 			});
-			player.video.logobrand().initialize({
+			self.video.logobrand().initialize({
 				"image": brand,
 				"destination":destination
 			});
-			player.video.mediaType = "vimeo";
+			self.video.mediaType = "vimeo";
 		}
 		else{
-			player.video.src(src);
-			player.video.play();
-			player.video.poster("");
-			player.video.logobrand().loadImage(brand);
-			player.video.logobrand().setDestination(destination);
+			self.video.src(src);
+			self.video.play();
+			self.video.poster("");
+			self.video.logobrand().loadImage(brand);
+			self.video.logobrand().setDestination(destination);
 		}
-		player.video.firstPlay = true;
+		self.video.firstPlay = true;
 	}
 	function loadTwitch(channel){
 		removePlayer();
@@ -299,20 +299,20 @@ function player(containerID){
 		$(container).html(video);
 	}
 	function removePlayer(){
-		if (player.video !== null){
-			player.video.dispose();
+		if (self.video !== null){
+			self.video.dispose();
 		}
 		$(container).empty();
-		player.video = null;
-		player.loadedVideo = null;
+		self.video = null;
+		self.loadedVideo = null;
 	}
 	function attachGenericEvents(video){
 		video.controlBar.progressControl.seekBar.on('userSeeked', function(event){
 			var time = (Math.round(event.time));
-			player.on["userSeeked"](time);
+			self.on["userSeeked"](time);
 		});
 		video.on("volumechange", function(){
-			if (!player.video.firstPlay){//first play adjusts volume and triggers this event which resets the volume/muted
+			if (!self.video.firstPlay){//first play adjusts volume and triggers this event which resets the volume/muted
 				if (video.muted()){
 					localStorage.muted = true;
 				}
@@ -323,10 +323,10 @@ function player(containerID){
 			}
 		});
 		video.on("userPlayed", function(){
-			player.on["userPlayed"]();
+			self.on["userPlayed"]();
 		});
 		video.on("userPaused", function(){
-			player.on["userPaused"]();
+			self.on["userPaused"]();
 		});
 	}
 }
