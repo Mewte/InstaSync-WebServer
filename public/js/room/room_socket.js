@@ -14,13 +14,14 @@ room.setSocket(new function (room){
 //		server = SECURE_CHAT_SERVER.host + ":" + SECURE_CHAT_SERVER.port;
 //		transports = ['websocket','xhr-polling'];
 //	}
-	//server = "http://clients01.ext.instasync.com:8080";
-	server = "http://localhost:8080";
+	server = "http://dev.ws-proxy.chat.instasync.com:8080";
+	//server = "http://localhost:8080";
 	var socket = io(server,
 	{
-		query: "room="+room.roomName,
+		query: {room:room.roomName,seed:Math.floor((Math.random() * 2) + 1)},
 		"autoConnect": false,
 		"timeout": 5000,
+		//"transports":["polling"]
 	});
 	var commandList = new commands(this,room);
 	this.sendmsg = function (message) {
