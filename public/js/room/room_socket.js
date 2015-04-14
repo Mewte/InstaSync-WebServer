@@ -5,23 +5,18 @@
 //Use this to have the socket in a file seperate from the room file, but it's still a part of it (or rather an extension of it)
 room.setSocket(new function (room){
 	var server = "";
-	var transports = []
-//	if (location.protocol.toLowerCase() == "http:"){
-//		server = CHAT_SERVER.host +":"+ CHAT_SERVER.port;
-//		transports = ['websocket','xhr-polling'];
-//	}
-//	else{
-//		server = SECURE_CHAT_SERVER.host + ":" + SECURE_CHAT_SERVER.port;
-//		transports = ['websocket','xhr-polling'];
-//	}
-	server = "http://dev.ws-proxy.chat.instasync.com:8080";
-	//server = "http://localhost:8080";
+	var usingFailOver = false;
+	var firstConnect = true;
+	if (location.protocol.toLowerCase() == "http:"){
+		server = CHAT_SERVER.host +":"+ CHAT_SERVER.port;
+	}
+	else{
+		server = SECURE_CHAT_SERVER.host + ":" + SECURE_CHAT_SERVER.port;
+	}
 	var socket = io(server,
 	{
 		query: {room:room.roomName,seed:Math.floor((Math.random() * 2) + 1)},
-		"autoConnect": false,
-		"timeout": 5000,
-		//"transports":["polling"]
+		"autoConnect": false
 	});
 	var commandList = new commands(this,room);
 	this.sendmsg = function (message) {
@@ -54,14 +49,24 @@ room.setSocket(new function (room){
 	this.connect = function () {
 		socket.open();
 	};
-	function attemptFailover(){
-		return;
-		room.addMessage({username:""},"Attempting failover..","text-danger");
-		socket.socket.options.host = FAIL_OVER.host; //located in room/index.ejs
-		socket.socket.options.port = FAIL_OVER.port;
-		socket.socket.transports = ['xhr-polling'];
-		socket.socket.origTransports = ['xhr-polling']; //Because I'm lying to you Socket.io, baby girl, let's pretend you were xhr-polling the entire time ;)
-		socket.socket.reconnect();
+	function toggleFailOver(){
+		if (!usingFailOver){
+			room.addMessage({username:""},"Attempting failover..","text-danger");
+			socket.io.uri = FAIL_OVER.host+":"+FAIL_OVER.port; //located in room/index.ejs
+			usingFailOver = true;
+		}
+		else{
+			if (location.protocol.toLowerCase() == "http:"){
+				socket.io.uri = CHAT_SERVER.host +":"+ CHAT_SERVER.port;
+			}
+			else{
+				socket.io.uri = SECURE_CHAT_SERVER.host + ":" + SECURE_CHAT_SERVER.port;
+			}
+			room.addMessage({username:""},"Attempting failover..","text-danger");
+			socket.io.uri = FAIL_OVER.host+":"+FAIL_OVER.port;
+			usingFailOver = false;
+		}
+
 	};
 	socket.on('sys-message', function (data) {
 		room.addMessage({username: ""}, data.message, 'text-info');
@@ -69,11 +74,8 @@ room.setSocket(new function (room){
 	socket.on('rename', function (data) {
 		room.userlist.renameUser(data.id, data.username);
 	});
-	socket.on('connecting', function () {
-		room.onConnecting();
-	});
 	socket.on('connect', function () {
-		console.log('hi');
+		firstConnect = false;
 		if ($['cookie']('username') === undefined || $['cookie']('auth_token') === undefined)
 		{
 			socket.emit('join', { username: '', cookie: '', room: room.roomName});
@@ -82,46 +84,35 @@ room.setSocket(new function (room){
 		{
 			socket.emit('join', {username: $['cookie']('username'),cookie: $['cookie']('auth_token'), room: room.roomName});
 		}
-		room.onConnected();
-		room.onJoining();
+		room.e.trigger('connected');
+		room.e.trigger('joining');
 	});
-	socket.on('reconnecting', function (attempt) {
-		console.log("Attempt: "+attempt);
-		if (attempt > 3 && socket.socket.options.host != FAIL_OVER){
-			attemptFailover();
+	socket.on('reconnecting', function (attempt){
+		if (firstConnect){ //do less attemps on the first try before switching to failover
+			if (!usingFailOver){
+				toggleFailOver();
+			}
 		}
 		else{
-			room.onReconnecting(attempt);
+			room.e.trigger('reconnecting',[attempt]);
+			if (attempt > 3 && !usingFailOver){
+				toggleFailOver();
+			}
 		}
 	});
 	socket.on('reconnect', function (data) {
-		room.onReconnect();
-	});
-	socket.on('connect_failed', function(){
-		//console.log("CONNECT FAILED");
-	});
-	socket.on('reconnect_failed', function () {
-		room.onReconnectFailed();
+		room.e.trigger('reconnect');
 	});
 	socket.on('request-disconnect', function()
 	{
 		socket.disconnect();
 	});
 	socket.on('disconnect', function (data){
-		room.onDisconnect();
-	});
-	socket.on('error', function(){
-		console.log("error");
-		return;
-		if (socket.socket.options.host != FAIL_OVER){
-			attemptFailover();
-		}else{
-			room.onError();
-		}
+		room.e.trigger('disconnect');
 	});
 	socket.on('userinfo', function (data) {
 		room.userinfo(data);
-		room.onJoined();
+		room.e.trigger('joined');
 	});
 	socket.on('playlist', function (data) {
 		room.playlist.load(data.playlist);

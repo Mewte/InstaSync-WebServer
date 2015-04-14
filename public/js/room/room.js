@@ -9,35 +9,29 @@
  * be stored in this file but it's easier to seperate them so this file isn't huge (like the old core.js that was 2500 lines)
  */
 room = new function(room_name){
+	this.e = new EventEmitter();
 	var self = this; //netbeans says this is unused, but it's not. It's not a global variable either
-	/* Some default events (override these in room) */
-	this.onConnecting = function(){
-		self.addMessage({username:""},"Connecting..","text-danger");
-	};
-	this.onConnected = function(){
+
+
+	this.e.on('connected', function(){
 		self.addMessage({username:""},"Connected!","text-success");
-	};
-	this.onJoining = function(){
+	});
+	this.e.on('joining',function(){
 
-	};
-	this.onJoined = function(){
-		//self.addMessage({username:""},"Joined!","text-danger")
-	};
-	this.onReconnecting = function(attempt){
+	});
+	this.e.on('joined',function(){
+
+	});
+	this.e.on('reconnecting', function(attempt){
 		self.addMessage({username:""},"Reconnecting ("+attempt+")..","text-danger");
-	};
-	this.onReconnect = function(){
+	});
+	this.e.on('reconnect', function(){
 
-	};
-	this.onReconnectFailed = function(){
-		self.addMessage({username:""},"Failed to reconnect.","text-danger");
-	};
-	this.onError = function(){
-		self.addMessage({username:""},"Error connecting.","text-danger");
-	};
-	this.onDisconnect = function(){
+	});
+	this.e.on('disconnect',function(){
 		self.addMessage({username:""},"Connection lost.","text-danger");
-	};
+	});
+
 	this.autoscroll = true;
 	this.mutedIps = new Array();
 	this.MAXMESSAGES = 175;

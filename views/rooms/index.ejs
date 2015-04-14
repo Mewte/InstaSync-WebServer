@@ -274,15 +274,15 @@
 	 */
 	var ROOM_NAME = <%- '"' + room.room_name.toLowerCase() + '"'%>;
 	var CHAT_SERVER = {
-		host:"https://ws-proxy.chat.instasync.com",
-		port: 8443
+		host:"http://dev.ws-proxy.chat.instasync.com",
+		port: 8080
 	}
 	var SECURE_CHAT_SERVER = {
 		host:"https://ws-proxy.chat.instasync.com",
 		port: 8443
 	}
 	var FAIL_OVER = {
-		host:"ssl-chat.instasync.com",
+		host:"https://dev-ssl-chat.instasync.com",
 		port:443
 	}
 	$codes = {};
