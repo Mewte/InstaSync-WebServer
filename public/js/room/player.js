@@ -154,10 +154,16 @@ function player(containerID){
 			self.video.mediaType = "youtube";
 		}
 		else{
+			var hasFocus = $("#cin").is(":focus");
 			self.video.src(src);
 			self.video.play();
 			self.video.logobrand().loadImage("/images/icons/youtube.png");
 			self.video.logobrand().setDestination(src);
+			if (hasFocus){
+				setTimeout(function(){ //fixes chatbox losing focus when vide changes in chrome on OSX
+					document.getElementById("cin").focus();
+				},0);
+			}
 		}
 		self.video.firstPlay = true;
 	}
