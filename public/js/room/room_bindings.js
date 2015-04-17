@@ -317,6 +317,9 @@ function onReady(room, socket){
 		room.video.destroy();
 		room.sendcmd('reload', null);
 	});
+	$("#shuffle_btn").click(function(){
+		socket.sendcmd('shuffle');
+	});
 	$("#clearchat_btn").click(function(){
 		$("#chat_messages").html("");
 	});
