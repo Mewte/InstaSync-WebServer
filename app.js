@@ -116,6 +116,10 @@ app.locals.commaSeparateNumber = function(val){
 	return val;
  };
 app.locals.sanitizeRoomInfo = function(dirty){
-	return sanitizeHtml(dirty);
+	return sanitizeHtml(dirty,{
+		transformTags: {
+			'a': sanitizeHtml.simpleTransform('a', {target: '_blank'}),
+		}
+	});
 };
 module.exports = app;
