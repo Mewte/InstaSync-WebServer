@@ -15,7 +15,7 @@ room.setSocket(new function (room){
 	}
 	var socket = io(server,
 	{
-		query: {room:room.roomName,seed:Math.floor((Math.random() * 2) + 1)},
+		query: {room:room.roomName,seed:Math.floor((Math.random() * 10000) + 1)},
 		"autoConnect": false
 	});
 	var commandList = new commands(this,room);
