@@ -36,6 +36,7 @@ var routes = {
 	pages: require('./routes/pages'),
 	rooms: require('./routes/rooms'),
 	ajax: require('./routes/ajax'),
+	friends: require('./routes/friends'),
 	legacy: require('./routes/legacy')
 };
 

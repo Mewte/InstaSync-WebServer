@@ -3,6 +3,7 @@
  */
 var crypto = require('crypto');
 var moment = require('moment');
+var promise = require("bluebird");
 var queries = function(){
 	var self = this;
 	var db;
@@ -80,6 +81,7 @@ var queries = function(){
 		if (bio != undefined)
 			update.bio = bio;
 		if (Object.keys(update).length === 0){//just to return a promise
+			//NOTE, ^ IS DUMB, you can return promise.resolve to fake a return promise..
 			return db.select(db.raw("1 as one"));
 		}
 		return db('users').update(update).where({id: user_id}).limit(1);
