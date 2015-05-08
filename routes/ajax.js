@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require('body-parser');
 var validator = require('validator');
 var crypto = require('crypto');
 var moment = require('moment');

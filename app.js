@@ -76,6 +76,7 @@ app.use('/', routes.pages); //fallback to pages first
 app.use('/r/', routes.rooms);
 app.use('/rooms/', routes.rooms);
 app.use('/ajax/', routes.ajax);
+app.use('/friends/',routes.friends);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
