@@ -398,23 +398,21 @@ room = new function(room_name){
 			self.addMessage({username: ""},"Internet Explorer versions 9 and and older are not supported. Please upgrade to I.E. 10 or later.","errortext");
 		}
 	};
-	this.videoSearch = function(query, startIndex){
-		var maxResults = 4;
-		startIndex = Math.max(1, (startIndex*maxResults)+1); //startIndex has to be 1 or greater
-		request.getYoutubeSearch({query: query, startIndex: startIndex, maxResults: maxResults}, function(success, data){
-			if (success){
+	this.videoSearch = function(query, pageToken){
+		request.getYoutubeSearch({query: query, pageToken:pageToken}, function(err, data,prevToken,nextToken){
+			if (!err){
 				var videosEl = $("#search_videos");
 				videosEl.empty();
-				if (data != undefined){
+				if (data != undefined && data.length > 0){
 					for (var i = 0; i < data.length; i++){
-						var title = data[i].title.$t;
-						var duration = utils.secondsToTime(data[i].media$group.yt$duration.seconds);
-						var author = data[i].author[0].name.$t;
-						if (data[i].yt$statistics == undefined)
+						var title = data[i].snippet.title;
+						var duration = utils.secondsToTime(utils.parseYTDuration(data[i].contentDetails.duration));
+						var author = data[i].snippet.channelTitle;
+						if (data[i].statistics.viewCount == undefined)
 							var views = 0;
 						else
-							var views = utils.commaSeperateNumber(data[i].yt$statistics.viewCount);
-						var videoID = data[i].media$group.yt$videoid.$t;
+							var views = utils.commaSeperateNumber(data[i].statistics.viewCount);
+						var videoID = data[i].id;
 
 						var videoEl = $("<div/>", {
 							class:"col-lg-3 col-sm-3 col-xs-6 clean-break search-video"
@@ -450,6 +448,9 @@ room = new function(room_name){
 						videoEl.append(thumbnailEl).append(titleEl).append(authorEl).append(viewsEl);
 						videoEl.data("videoID", videoID);
 						videosEl.append(videoEl);
+						var videoSearchEl = $("#search_videos");
+						videoSearchEl.data("prevToken",prevToken);
+						videoSearchEl.data("nextToken",nextToken);
 					}
 				}
 				else{

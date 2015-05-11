@@ -338,18 +338,16 @@ function onReady(room, socket){
 	});
 	$("#video_search_submit").click(function () {
 		$("#search_videos").data("page", 0);
-		room.videoSearch($("#video_search_text").val(), 0);
+		room.videoSearch($("#video_search_text").val());
 	});
 	$("#video_search_previous").click(function () {
 		var videoSearchEl = $("#search_videos");
-		var previousPage = Math.max(0, videoSearchEl.data("page") - 1);
-		videoSearchEl.data("page", previousPage);
-		room.videoSearch($("#video_search_text").val(), previousPage);
+		var prevPage = videoSearchEl.data("prevToken");
+		room.videoSearch($("#video_search_text").val(), prevPage);
 	});
 	$("#video_search_next").click(function () {
 		var videoSearchEl = $("#search_videos");
-		var nextPage = videoSearchEl.data("page") + 1;
-		videoSearchEl.data("page", nextPage);
+		var nextPage = videoSearchEl.data("nextToken");
 		room.videoSearch($("#video_search_text").val(), nextPage);
 	});
 	$("#search_videos").on("click",".add",function(){

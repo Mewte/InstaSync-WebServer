@@ -82,15 +82,38 @@ var request = new function(){
 		}).fail(errorHandler(callback));
 	};
 	this.getYoutubeSearch = function(parameters, callback){
-		var url = "https://gdata.youtube.com/feeds/api/videos?alt=json&v=2&q="
-					+encodeURIComponent(parameters.query)
-					+"&start-index="+parameters.startIndex
-					+"&max-results="+parameters.maxResults
-					+"&fields=entry(title,author,yt:statistics,yt:rating,media:group(yt:duration,yt:videoid))";
-		$.get(url).done(function(data){
-			callback(true, data.feed.entry);
+		$.get("https://www.googleapis.com/youtube/v3/search",{
+			"key":"AIzaSyBfXyKOS32phSgIEDNbaJMNQuXAEVVFBac",
+			"part":"snippet",
+			"fields":"nextPageToken,prevPageToken,items(id)",
+			"type":"video",
+			"maxResults":4,
+			"q":parameters.query,
+			"pageToken":parameters.pageToken
+		}).done(function(data){
+			var IDs = [];
+			for (var i = 0; i < data.items.length; i++){
+				IDs.push(data.items[i].id.videoId);
+			}
+			if (IDs.length == 0){
+				return callback(false, IDs);
+			}
+			else{
+				var prevToken = data.prevPageToken;
+				var nextToken = data.nextPageToken;
+				$.get("https://www.googleapis.com/youtube/v3/videos",{
+					"key":"AIzaSyBfXyKOS32phSgIEDNbaJMNQuXAEVVFBac",
+					"id":IDs.join(),
+					"part":"id,contentDetails,snippet,statistics",
+					"fields":"items(id,contentDetails/duration,snippet/title,snippet/channelTitle,statistics/viewCount)"
+				}).done(function(data){
+					callback(false, data.items,prevToken,nextToken);
+				}).fail(function(){
+					return callback(true);
+				});
+			}
 		}).fail(function(){
-			callback(false);
+			return callback(true);
 		});
 	}
 	function errorHandler(callback){
