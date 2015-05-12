@@ -62,9 +62,20 @@ router.post('/login', function(req,res,next){
 	});
 });
 router.post('/logout', function(req,res,next){
-	res.cookie('auth_token', "", {expires: new Date(Date.now() - 60*60*24*7*1000)}); //1000 for milliseconds
-	res.cookie('username', "", {expires: new Date(Date.now() - 60*60*24*7*1000)}); //1000 for milliseconds
-	res.send("");
+	if (!req.user){
+		var error = new Error("You must be logged in to access this resource.");
+		error.status = 403;
+		return next(error);
+	}
+	else{
+		queries.logout(req.user.user_id).then(function(){
+			res.cookie('auth_token', "", {expires: new Date(Date.now() - 60*60*24*7*1000)}); //1000 for milliseconds
+			res.cookie('username', "", {expires: new Date(Date.now() - 60*60*24*7*1000)}); //1000 for milliseconds
+			res.send("");
+		}).catch(function(err){
+			return next(err);
+		});
+	}
 });
 //Todo: turn validation into a seperate function
 router.post('/register', function(req,res,next){
@@ -121,6 +132,8 @@ router.post('/register', function(req,res,next){
 	req.db('users').insert({username: username, hashpw: password, email: email, cookie: auth_token, last_login: moment().format("YYYY-MM-DD HH:mm:ss"), registered_ip: req.cf_ip}).bind({}).then(function(inserted_ids){
 		this.user_id = inserted_ids[0];
 		return req.db('rooms').insert({room_id: this.user_id, room_name: username});
+	}).then(function(){
+		return req.db('sessions').insert({user_id:this.user_id,cookie: auth_token,username: username});
 	}).then(function(){
 		res.cookie('auth_token', auth_token, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
 		res.cookie('username', username, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds

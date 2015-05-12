@@ -21,10 +21,15 @@ var queries = function(){
 				}
 				this.user = results[0];
 				this.user.auth_token = crypto.pseudoRandomBytes(20).toString('hex');
-				return db('users').update({cookie: this.user.auth_token, last_login: moment().format("YYYY-MM-DD HH:mm:ss")}).where({id: this.user.user_id});
+				db('users').update({last_login: moment().format("YYYY-MM-DD HH:mm:ss")}).where({id: this.user.user_id}).then(function(){})
+						.catch(function(err){}); //we don't care if this errors out, this just records last login with user
+				return db('sessions').insert({user_id:this.user.user_id,cookie: this.user.auth_token, username:username});
 			}).then(function(){
 				return this.user;
 			}).catch(function(err){throw err;});
+	};
+	this.logout = function(user_id){
+		return db("sessions").where({user_id:user_id}).del();
 	};
 	this.register = function(username){
 
@@ -46,11 +51,16 @@ var queries = function(){
 			}).catch(function(err){throw err;});
 	};
 	this.getLoggedInUser = function(auth_token, username){
-		return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({cookie: auth_token, username: username}).limit(1).then(function(rows){
-			if (rows.length == 0)
-				return null;
-			else
-				return rows[0];
+		return db.select(["users.id as user_id","users.username","users.avatar","users.bio","users.created","sessions.id as session_id"]).from('sessions').join("users","sessions.user_id","users.id")
+			.where({"sessions.cookie": auth_token, "sessions.username": username}).limit(1).then(function(rows){
+				if (rows.length == 0)
+					return null;
+				else{
+					db("sessions").where({id:rows[0].session_id}).update('last_used',new Date()).then(function(){}).catch(function(err){
+						//we don't care if this succeeds or not, we just want it to execute
+					});//update last used timestamp
+					return rows[0];
+				}
 		}).catch(function(err){throw err;});
 	};
 	this.getUser = function(username){
