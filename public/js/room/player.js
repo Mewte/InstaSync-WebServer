@@ -169,7 +169,7 @@ function player(containerID){
 	}
 	function loadDailymotion(id, time, playing){
 		var src = "http://www.dailymotion.com/video/"+id+"";
-		if (self.video === null || player.video.mediaType != "dailymotion"){
+		if (self.video === null || self.video.mediaType != "dailymotion"){
 			removePlayer();
 			createVideoTag("dailymotion");
 			self.video = videojs("dailymotion", {
