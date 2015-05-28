@@ -129,7 +129,7 @@ router.post('/register', function(req,res,next){
 	//so much validation, yay now we can actually do the registration portions..
 	password = crypto.createHash('sha1').update(password).digest('hex');
 	var auth_token = crypto.pseudoRandomBytes(20).toString('hex');
-	req.db('users').insert({username: username, hashpw: password, email: email, cookie: auth_token, last_login: moment().format("YYYY-MM-DD HH:mm:ss"), registered_ip: req.cf_ip}).bind({}).then(function(inserted_ids){
+	req.db('users').insert({username: username, hashpw: password, email: email, last_login: moment().format("YYYY-MM-DD HH:mm:ss"), registered_ip: req.cf_ip}).bind({}).then(function(inserted_ids){
 		this.user_id = inserted_ids[0];
 		return req.db('rooms').insert({room_id: this.user_id, room_name: username});
 	}).then(function(){
