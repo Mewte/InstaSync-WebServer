@@ -50,7 +50,7 @@ router.post('/login', function(req,res,next){
 	var username = req.body.username;
 	var password = req.body.password;
 	queries.login(username, password).then(function(user){
-		res.cookie('auth_token', this.user.auth_token, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
+		res.cookie('auth_token', this.user.auth_token, {expires: new Date(Date.now() + 60*60*24*7*52*1000)}); //1000 for milliseconds
 		res.cookie('username', username, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
 		res.json(user);
 	}).catch(function(err){
@@ -135,7 +135,7 @@ router.post('/register', function(req,res,next){
 	}).then(function(){
 		return req.db('sessions').insert({user_id:this.user_id,cookie: auth_token,username: username});
 	}).then(function(){
-		res.cookie('auth_token', auth_token, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
+		res.cookie('auth_token', auth_token, {expires: new Date(Date.now() + 60*60*24*7*52*1000)}); //1000 for milliseconds
 		res.cookie('username', username, {expires: new Date(Date.now() + 60*60*24*7*1000)}); //1000 for milliseconds
 		res.json({username: username, user_id: this.user_id});
 	}).catch(function(err){
