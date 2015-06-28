@@ -48,6 +48,7 @@ router.post('/login', function(req,res,next){
 		return next(error);
 	}
 	var username = req.body.username;
+	username = username.replace(/[^\x00-\x7F]/g, ""); //unicode injection prevention (THIS WILL NEED TO BE DONE ON THE CHAT SERVER AS WELL ZZZ)
 	var password = req.body.password;
 	queries.login(username, password).then(function(user){
 		res.cookie('auth_token', this.user.auth_token, {expires: new Date(Date.now() + 60*60*24*7*52*1000)}); //1000 for milliseconds

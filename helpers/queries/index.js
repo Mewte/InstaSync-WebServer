@@ -11,8 +11,6 @@ var queries = function(){
 	};
 	this.login = function(username, prehash){
 		var hashed = hash(prehash);
-		username = username.replace(/[^\x00-\x7F]/g, ""); //unicode injection prevention (THIS WILL NEED TO BE DONE ON THE CHAT SERVER AS WELL ZZZ)
-
 		//Note for below: .bind({}) forces 'this' to be shared among each promise resolution. Handy for passing data between promises
 		return db.select(["id as user_id","username","avatar","bio","created"]).from('users').where({username:username, hashpw: hashed}).limit(1).bind({})
 			.then(function(results){
