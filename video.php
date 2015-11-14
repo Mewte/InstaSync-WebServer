@@ -2,6 +2,10 @@
 /*
  * Vimeo Proxy to bypass Vimeo player. Redirect browser to a vimeo video URL
  */
+if (isset($_GET["errors"])){
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+}
 function createMc(){
 	if (function_exists("memcache_connect")){
 		$memcached = new Memcache;
@@ -83,10 +87,17 @@ function parseVimeo($file, $mc, $id,$type,$redirect, $quality = null){
 		$length = $end - $start;
 		$data = json_decode('{'.substr($file, $start, $length).'}');
 		$urls = array();
-		//$urls['mobile'] = $data->request->files->h264->mobile->url;
-		//$urls['hd'] = $data->request->files->h264->hd->url;
-		//echo '<pre>' . var_export($data->request->files->progressive[2]->url, true) . '</pre>';
-		$urls['sd'] = $data->request->files->progressive[2]->url;
+		//echo '<pre>' . var_export($data->request->files, true) . '</pre>';
+		$files = $data->request->files->progressive;
+		$urls['sd'] = null;
+		foreach ($files as $file) {
+			if ($file->quality == '360p'){
+				$urls['sd'] = $file->url;
+			}
+		}
+		if ($urls['sd'] == null){
+			$urls['sd'] = $data->request->files->progressive[1]->url; //if we didn't find the 360p, just serve the first URL
+		}
 		header("mc-hit: 0");
 		if ($redirect){
 			header("Location: ".$urls['sd']);
