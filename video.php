@@ -96,7 +96,7 @@ function parseVimeo($file, $mc, $id,$type,$redirect, $quality = null){
 			}
 		}
 		if ($urls['sd'] == null){
-			$urls['sd'] = $data->request->files->progressive[1]->url; //if we didn't find the 360p, just serve the first URL
+			$urls['sd'] = $data->request->files->progressive[0]->url; //if we didn't find the 360p, just serve the first URL
 		}
 		header("mc-hit: 0");
 		if ($redirect){
