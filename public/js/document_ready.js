@@ -1,3 +1,7 @@
+/*
+ * Todo: pull out bindings that are for specific pages and put them in their own
+ * .js file. Only stuff that fires for every page should be in here.
+ */
 $(function() {
 	$("#register").click(function(){register();});
 	var pendingRegistration = false;
@@ -379,4 +383,89 @@ $(function() {
 			});
 		}
 	});
+	buildRoomList(0,"random"); //build the front page on page load
+	$("#sort_by").change(function(){
+		buildRoomList(0,$("#sort_by").val());
+	});
+	$("#roomlist_pagination_pages").on("click",".page",function(e){
+		buildRoomList($(this).data('page'),$("#sort_by").val());
+	});
+	function buildPagination(currentPage,total,limit){
+		$("#roomlist_pagination_pages").empty();
+		var outputArray = [];
+		var numPages = Math.ceil(total / limit);
+		for (var i = 0; i < numPages; i++){
+			outputArray.push($("<li/>",{
+				class: currentPage == i ? "page active" : "page",
+				data:{
+					page:i
+				},
+				html:$("<a/>",{
+					href:"javascript:void(0)",
+					text: i+1,
+				})
+			}));
+		}
+		$("#roomlist_pagination_pages").append(outputArray);
+	};
+	function buildRoomList(page,sortBy){
+		$("#room_list").empty();
+		$("#room_list_loading").show();
+		request.roomList(page, sortBy,function(err,data){
+			if (err){
+
+			}
+			else{
+				$("#room_list_loading").hide();
+				var roomsArray = [];
+				for (var i = 0; i < data.rooms.length; i++){
+					var room = data.rooms[i];
+					var roomEle = $("<div/>",{
+						class:"col-lg-2 col-md-3 col-sm-4 col-xs-6 clean-break room"
+					}).append([
+						$("<div/>",{
+							class:"room-thumbnail",
+							html:$("<a/>",{
+									href:"/r/"+room.room_name
+								}).append($("<img>",{
+									class:"img-responsive",
+									css: {
+										width:"100%",
+										height:"100%"
+									},
+									src:room.thumbnail
+								}))
+						}),
+						$("<div/>",{
+							class:"title",
+							html:$("<a/>",{
+								href:"/r/"+room.room_name,
+								text:room.title.substring(0,64)
+							})
+						}),
+						$("<div/>",{
+							class:"room-name",
+							html:$("<a/>",{
+								href:"/r/"+room.room_name,
+								html:$("<strong/>",{
+									text:room.room_name
+								})
+							})
+						}).prepend("in "),
+						$("<div/>",{
+							class:"watching",
+							html:$("<strong/>",{
+								text:room.users
+							})
+						}).append(" watching")
+					]);
+					roomsArray.push(roomEle);
+				}
+				$("#room_list").append(roomsArray);
+				buildPagination(page,data.total,data.limit);
+				$("#users_online").text(data.stats.users)
+				$("#rooms_online").text(data.stats.rooms);
+			}
+		});
+	}
 });

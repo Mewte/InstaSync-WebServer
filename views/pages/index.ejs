@@ -39,9 +39,44 @@
 	</div>
 	<div>
 		<h3 class='public-rooms-h'>Public Rooms</h3>
-		<div class='users-online'><%= numUsers %> Users in <%= numRooms %> rooms</div>
+		<div class='users-online'>
+			<span id="users_online">?</span> Users Online in <span id="rooms_online">?</span> rooms
+			<div>
+				<label for="sort_by">Sort by:</label>
+				<select id="sort_by">
+				  <option value="random">Default</option>
+				  <option value="users">Users</option>
+				  <option value="visits">Visits</option>
+				</select>
+			</div>
+		</div>
+		<div id="room_list_loading" style="display: none;">
+			<span class="fa fa-circle-o-notch fa-spin"></span>
+		</div>
 	</div>
-	<div class="row rooms">
-		<%- partial('partials/room', rooms) %>
+	<div id="room_list" class="row rooms"></div>
+	<div class="text-center">
+		<nav>
+			<!--
+			<ul class="pagination">
+				<li>
+					<a href="javascript:void(0)" id="roomlist_prev" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+			</ul>
+			-->
+			<ul class="pagination" id="roomlist_pagination_pages"></ul>
+			<!--
+			<ul class="pagination">
+				<li>
+					<a href="javascript:void(0)" id="roomlist_next" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+			-->
+			<!--<div>Showing <span id="pagination_totals">0 of 0</span></div> -->
+		</nav>
 	</div>
 </div>

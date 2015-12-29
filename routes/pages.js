@@ -44,7 +44,6 @@ router.get('/pages/password_reset', function(req,res,next){
 			return next(err);
 	});
 });
-var room_list_cache = {rooms: [], cached: 0}; //repalces memcache for intensive front page query
 router.get('/pages/:page', function(req, res, next) {
 	res.render('pages/'+req.param('page'), {
 		title: 'InstaSync - '+ (meta[req.param('page')] && meta[req.param('page')].title)
@@ -57,26 +56,14 @@ router.get('/pages/:page', function(req, res, next) {
 	});
 });
 function indexRoute(req,res,next){
-	//WARNING: If you modify this for user allowed inputs: remember to sanitize it!
-	req.db.raw("SELECT room.*, least(room.users, 30) * rand() as result FROM rooms as room where users > 0 and listing = 'public' and title <> 'No Videos' and (NSFW = 0 or NSFW = 1)order by result desc limit 24")
-	.bind({}).then(function(resp) {
-		this.rooms = resp[0]; //first element of the array is an array of records I guess
-		return req.db.select(req.db.raw("sum(users) as users, count(room_id) as rooms")).from("rooms").where("users",">", 0);
-	}).then(function(online_count){
-		res.render('pages/index', {
-			title: 'InstaSync - '+meta['index'].title,
-			rooms: this.rooms,
-			numUsers: online_count[0].users,
-			numRooms: online_count[0].rooms
-		}, function(err,html){
-			if(err) {
-				throw err;
-			} else {
-				res.end(html);
-			}
-		});
-	}).catch(function(err){
-		next(err);
+	res.render('pages/index', {
+		title: 'InstaSync - '+meta['index'].title,
+	}, function(err,html){
+		if(err) {
+			throw err;
+		} else {
+			res.end(html);
+		}
 	});
 }
 module.exports = router;

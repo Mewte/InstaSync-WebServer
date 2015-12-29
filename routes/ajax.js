@@ -338,6 +338,60 @@ router.get('/user/:username', function(req,res,next){
 		res.json(user);
 	}).catch(function(err){return next(err);});
 });
+router.get('/rooms', function(req,res,next){
+	var page = req.query.page;
+	var limit = 24;
+	if (!(!isNaN(parseFloat(page)) && isFinite(page))){
+		page = 0;
+	}
+	switch (req.query.sortBy){
+		case "random":
+			var promise = req.db.select(req.db.raw("room.room_id,room.room_name,room.thumbnail,room.visits,room.title,room.users, least(room.users, 30) * rand() as result FROM rooms as room"))
+					.where(req.db.raw("users > 0 and listing = 'public' and title <> 'No Videos' and (NSFW = 0 or NSFW = 1)"))
+					.orderBy("result","desc")
+					.limit(limit)
+					.offset(limit * page);
+			break;
+		case "users":
+			var promise = req.db.select(['room_id','room_name','thumbnail','visits','title','users']).from('rooms')
+					.where(req.db.raw("users > 0 and listing = 'public' and title <> 'No Videos' and (NSFW = 0 or NSFW = 1)"))
+					.orderBy("users","desc")
+					.limit(limit)
+					.offset(limit * page);
+			break;
+		case "visits":
+			var promise = req.db.select(['room_id','room_name','thumbnail','visits','title','users']).from('rooms')
+					.where(req.db.raw("users > 0 and listing = 'public' and title <> 'No Videos' and (NSFW = 0 or NSFW = 1)"))
+					.orderBy("visits","desc")
+					.limit(limit)
+					.offset(limit * page);
+			break;
+		default:
+			var error = new Error("Invalid sortBy property.");
+			error.status = 400;
+			return next(error);
+	}
+	promise.bind({}).then(function(resp) {
+		this.rooms = resp; //first element of the array is an array of records I guess
+		return [
+			req.db.select(req.db.raw("sum(users) as users, count(room_id) as rooms")).from("rooms").where("users",">", 0),
+			req.db.select(req.db.raw("count(*) as count")).from("rooms").where(req.db.raw("users > 0 and listing = 'public' and title <> 'No Videos' and (NSFW = 0 or NSFW = 1)"))
+		];
+	}).spread(function(online_count,num){
+			res.json({
+				rooms: this.rooms,
+				total: num[0].count,
+				limit: limit,
+				page: page,
+				stats:{
+					users: online_count[0].users,
+					rooms: online_count[0].rooms
+				}
+			});
+	}).catch(function(err){
+		next(err);
+	});
+});
 router.get('/room/:room_name', function(req,res,next){
 	var room_name = req.param('room_name');
 	queries.getRoom(room_name).then(function(room){

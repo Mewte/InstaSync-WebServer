@@ -81,6 +81,11 @@ var request = new function(){
 			callback(false,response);
 		}).fail(errorHandler(callback));
 	};
+	this.roomList = function(page,sortBy,callback){
+		$.get("/ajax/rooms", {sortBy: sortBy, page: page}).done(function(response){
+			callback(false,response);
+		}).fail(errorHandler(callback));
+	};
 	this.getYoutubeSearch = function(parameters, callback){
 		$.get("https://www.googleapis.com/youtube/v3/search",{
 			"key":"AIzaSyBfXyKOS32phSgIEDNbaJMNQuXAEVVFBac",

@@ -63,7 +63,8 @@ app.use(function(req,res,next){ //remove after converting to helpers.queries
 });
 app.use(function(req,res,next){ //domain access only
 	var host = req.headers.host;
-	if (host == "localhost" || host =="instasync.com" || host == "dev.instasync.com"){
+	var hostname = ( req.headers.host.match(/:/g) ) ? req.headers.host.slice( 0, req.headers.host.indexOf(":") ) : req.headers.host;
+	if (hostname == "localhost" || host =="instasync.com" || host == "dev.instasync.com"){
 		next();
 	}
 	else{
