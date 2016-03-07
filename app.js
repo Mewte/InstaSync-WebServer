@@ -91,7 +91,7 @@ var error_handler = function(err, req, res, next){
 		err.stack = "URL : "+req.url+" could not be located on this server.";
 		pageTitle = "InstaSync - Page not found";
 	}
-	else if(status = 500){
+	else if(status == 500){
 		pageTitle = "InstaSync - Server Error";
 		if (config.environment != "dev"){
 			err.message = "A server error has occured. Please try again later.";
