@@ -95,8 +95,9 @@ $(function() {
 				$("#register_dropdown").fadeIn(500);
 			}
 			else{
-				$("#logged_in_as").text($.cookie("username"));
-				$("#settings_username").text($.cookie("username"));
+				$("#logged_in_as").text($.cookie("username"));//--
+				$("#settings_username").text($.cookie("username")); //we should really just make a .who-dis-is class to set the username across the board
+				$("#friends_modal_username").text($.cookie("username")); //--
 				$("#my_room_link").attr("href", "/r/"+$.cookie("username"));
 				$("#user_dropdown").show();
 			}

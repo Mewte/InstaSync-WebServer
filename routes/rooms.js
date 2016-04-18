@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-var helpers = require('../helpers');
+var helpers = require('../modules/helpers');
 var queries = helpers.queries;
 
 //set Content type

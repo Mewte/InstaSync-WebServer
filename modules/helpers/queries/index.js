@@ -3,12 +3,10 @@
  */
 var crypto = require('crypto');
 var moment = require('moment');
+var db = require('../../db');
+
 var queries = function(){
 	var self = this;
-	var db;
-	this.setDb = function(DB){
-		db = DB;
-	};
 	this.login = function(username, prehash){
 		var hashed = hash(prehash);
 		//Note for below: .bind({}) forces 'this' to be shared among each promise resolution. Handy for passing data between promises

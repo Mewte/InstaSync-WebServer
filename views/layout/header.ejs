@@ -38,6 +38,12 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+				<li>
+					<button onclick="$('#friends_modal').modal('show');" id="open_friends_overlay" class="btn btn-default friends-status-btn">
+						<span class="friends-online"><span id="friends_online">0</span> <i class="fa fa-users"></i></span>
+						<span class="unread-messages">0 <i class="fa fa-envelope"></i></span>
+					</button>
+				</li>
 				<li id="user_dropdown" class="dropdown" style="display: none;">
 					<a class="dropdown-toggle" href="" data-toggle="dropdown"><span class="fa fa-user"></span> <span id="logged_in_as"></span> <strong class="caret"></strong></a>
 					<ul class="dropdown-menu">
@@ -215,6 +221,76 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default btn-sm" onclick="$('#settings_modal').modal('hide')">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Friends Modal -->
+<div class="modal fade" id="friends_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Friends - <span id="friends_modal_username"></span></h4>
+			</div>
+			<div class="modal-body">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="active">
+						<a class='active_tooltip' data-original-title="Friends" href="#tabs_friendslist_friends" data-toggle="tab" rel="tooltip" data-placement="top">
+							<i class="fa fa-users"></i>
+						</a>
+					</li>
+					<li>
+						<a id="message_tab" class='active_tooltip' data-original-title="Conversations" href="#tabs_friendslist_conversations" data-toggle="tab" rel="tooltip" data-placement="top">
+							<span style="display: none;" id="unread_messages" class="badge"></span>
+							<i class="fa fa-envelope"></i>
+						</a>
+					</li>
+					<li>
+						<a class='active_tooltip' data-original-title="Friend Requests" href="#tabs_friendslist__friendrequests" data-toggle="tab" rel="tooltip" data-placement="top">
+							<i class="fa fa-user-plus"></i>
+						</a>
+					</li>
+					<li>
+						<a class='active_tooltip' data-original-title="Add Friends" href="#tabs_friendslist_addfriends" data-toggle="tab" rel="tooltip" data-placement="top">
+							<i class="fa fa-plus"></i>
+						</a>
+					</li>
+					<li>
+						<a class='active_tooltip' data-original-title="Remove Friends" href="#tabs_friendslist_removefriends" data-toggle="tab" rel="tooltip" data-placement="top">
+							<i class="fa fa-minus"></i>
+						</a>
+					</li>
+				</ul>
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="tabs_friendslist_friends">
+						<div class="friends-filter">
+							
+						</div>
+						<ul class="friends-list no-list-style" id="friends_list"></ul>
+					</div>
+					<div class="tab-pane" id="tabs_friendslist_conversations">
+						<ul class="conversations no-list-style" id="conversation_list"></ul>
+					</div>
+					<div class="tab-pane" id="tabs_friendslist__friendrequests">
+
+					</div>
+					<div class="tab-pane" id="tabs_friendslist_addfriends">
+
+					</div>
+					<div class="tab-pane" id="tabs_friendslist_removefriends">
+
+					</div>
+					<div class="loading">
+						<i class="fa fa-spinner fa-pulse"></i>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button data-name="submit" type="button" class="btn btn-primary btn-sm">Unlock</button>
+				<button type="button" class="btn btn-default btn-sm" onclick="$('#friends_modal').modal('hide')">Close</button>
 			</div>
 		</div>
 	</div>

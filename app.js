@@ -1,7 +1,5 @@
-/* Custom Helpers */
 var config = require('./config');
-var helpers = require('./helpers');
-/* Third party helpers */
+var helpers = require('./modules/helpers');
 var cloudflare = require('cloudflare-express');
 var express = require('express');
 var engine = require('ejs-locals');
@@ -13,21 +11,10 @@ var bodyParser = require('body-parser');
 var lessMiddleware = require('less-middleware');
 var fs = require('fs');
 var app = express();
-var knex = require('knex')({
-	client: 'mysql',
-	connection: {
-		host     : config.db_host,
-		user     : config.db_user,
-		password : config.db_pass,
-		database : config.db_name
-	},
-	pool:{
-		min: 2,
-		max: 10
-	}
-});
+
+var db = require('./modules/db');
 var sanitizeHtml = require('sanitize-html');
-helpers.queries.setDb(knex);
+
 //Automaticly create styles.css incase it doesnt exist (nessecary for .less parser)
 //because we have it gitignored since its generated at runtime.
 fs.appendFileSync("./public/css/styles.css", "");
@@ -51,14 +38,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(lessMiddleware(path.join(__dirname, 'public'), {once: true}));
+app.use(lessMiddleware(path.join(__dirname, 'public'), {once: config.environment != "dev"}));
 app.use(express.static(path.join(__dirname, 'public'), {maxAge: 18000000}));
 
 app.use(helpers.url_formater.removeTrailingSlashes);
 app.use(helpers.url_formater.noFileExtensions);
 
 app.use(function(req,res,next){ //remove after converting to helpers.queries
-	req.db = knex;
+	req.db = db;
 	next();
 });
 app.use(function(req,res,next){ //domain access only

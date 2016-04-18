@@ -1,0 +1,149 @@
+.friends-status-btn{
+	margin: 8px 4px 0px 12px;
+	i{
+		color: rgb(64,64,64);
+		font-size: 16px;
+	}
+}
+.friend-avatar{
+	border-radius: 100px;
+	width: 35px;
+	height: 35px;
+}
+.friend-username{
+	font-size: 16px;
+	font-weight: bold;
+	margin-left: 4px;
+}
+#friends_modal{
+	.loading{
+		position: absolute;
+		font-size: 35px;
+		display: inline-block;
+		left: 50%;
+		top: 50%;
+	}
+}
+.friends-list, .conversations{
+	border: 1px solid #ddd;
+	border-top: none;
+	max-height: 225px;
+	overflow: auto;
+	box-shadow: 10px 10px 5px rgba(234,234,234,0.5);
+	li{
+		&:hover{
+			background-color: rgb(240,240,240);
+		}
+		&.unread{
+			background-color: #fabf52;
+		}
+		&.unread:hover{
+			background-color: #EB9C09;
+		}
+		cursor: pointer;
+		padding: 4px;
+		border-bottom: 1px solid #ddd;
+		border-top: none;
+		.friend-user-controls{
+			float: right;
+			margin-top: 10px;
+			.status{
+				width: 16px;
+				height: 16px;
+				border-radius: 50px;
+				&.online{
+					background-color: rgb(34,177,76);
+				}
+				&.offline{
+					background-color: rgb(104,104,104);
+				}
+			}
+		}
+		.conversation-user-info{
+			overflow: auto;
+			.friend-avatar, .friend-username{
+				float: left;
+			}
+			.friend-username{
+				margin-top: 6px;
+				margin-left: 8px;
+			}
+		}
+		.conversation-info{
+			overflow: auto;
+			.type{
+				float: left;
+				i{
+					color: rgb(64,64,64);
+				}
+			}
+			.message{
+				float: left;
+				margin-left: 6px;
+				width: 380px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		}
+		.timestamp{
+			float: right;
+		}
+	}
+}
+.opened-conversation{
+	.header-bar{
+		text-align: center;
+		padding: 4px;
+		border: 1px solid #ddd;
+		border-top: none;
+		.back{
+			float: left;
+			button{
+				padding-top: 0px;
+				padding-bottom: 0px;
+			}
+		}
+	}
+	.conversation-chat-box{
+		border: 1px solid #ddd;
+		height: 225px;
+		position: relative;
+		.friend-messages{
+			height: calc(~"100% - 34px");
+			overflow: auto;
+			.friend-message{
+				padding: 4px;
+				border-radius: 4px;
+				margin: 4px 0px 4px 0px;
+				display: inline-block;
+				max-width: 80%;
+				clear: both;
+				word-wrap: break-word;
+				&.from{
+					margin-left: 4px;
+					color:#fff;
+					background-color: #329fd9;
+					float: left;
+				}
+				&.to{
+					margin-right: 4px;
+					float: right;
+					background-color: rgb(230,230,230);
+				}
+			}
+		}
+		.whisper-input{
+			position: absolute;
+			bottom: 0px;
+			margin-right: -2px;
+			margin-left: -1px;
+		};
+	}
+	.message-expiration-notice{
+		font-size: 12px;
+		text-align: center;
+		margin-top: 4px;
+		margin-bottom: -12px;
+	}
+}
