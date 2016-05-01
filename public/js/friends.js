@@ -252,6 +252,31 @@ $(function() {
 					$(this).val("");
 				}
 			});
+			var searchUser = function(){
+				var username = $("#search_user_text").val();
+				request.getUser(username,function(err,user){
+					if (err && err.responseJSON){
+						$("#ERROR_ID_GOES_HERE").text(err.responseJSON.message);
+						$("#search_send_request").hide();
+					}
+					else{
+						console.log(user);
+						$("#search_bio").text(user.bio);
+						$("#search_send_request").show();
+					}
+				})
+			}
+			$("#search_user_btn").click(searchUser);
+			$("#search_user_text").keypress(function (e) {
+				if (e.which == 13){
+					searchUser();
+				}
+
+			});
+			$("#search_send_request").click(function(){
+				var username = $("search_user_text");
+
+			});
 		})();
 	}();
 
@@ -303,6 +328,9 @@ $(function() {
 
 			});
 		};
+		this.sendFriendRequest = function(username, callback){
+
+		}
 		window.dev_socket = socket;
 	}
 	window.dev_interface = friend_interface;

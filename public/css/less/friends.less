@@ -38,7 +38,7 @@
 			background-color: #fabf52;
 		}
 		&.unread:hover{
-			background-color: #EB9C09;
+			background-color: #FABA3A;
 		}
 		cursor: pointer;
 		padding: 4px;
@@ -68,12 +68,17 @@
 				margin-top: 6px;
 				margin-left: 8px;
 			}
+			.timestamp{
+				font-weight: bold;
+				font-style: italic;
+			}
 		}
 		.conversation-info{
 			overflow: auto;
 			.type{
 				float: left;
 				i{
+
 					color: rgb(64,64,64);
 				}
 			}
@@ -90,6 +95,12 @@
 			float: right;
 		}
 	}
+}
+.search-box{
+	margin-top: 8px;
+}
+.search-user{
+	text-align: center;
 }
 .opened-conversation{
 	.header-bar{
