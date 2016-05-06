@@ -260,7 +260,7 @@ $(function() {
 						$("#search_send_request").hide();
 					}
 					else{
-						console.log(user);
+						$("#search_avatar").attr("src","https://i.imgur.com/"+user.avatar+"b.jpg");
 						$("#search_bio").text(user.bio);
 						$("#search_send_request").show();
 					}
